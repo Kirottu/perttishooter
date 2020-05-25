@@ -38,7 +38,7 @@ func move_along_path(distance : float):
 		path.remove(0)
 	
 
-func set_pertti_pos(value):
+func set_pertti_pos(value) -> void:
 	if value == Vector2():
 		print("no data provided")
 		return
