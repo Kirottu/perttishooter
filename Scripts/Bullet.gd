@@ -1,5 +1,5 @@
 extends RigidBody2D
 
 func _on_Bullet_body_entered(body):
-	if "Enemy" in body.name:
+	if "Enemy" in body.name or body.name == "TileMap":
 		queue_free()
