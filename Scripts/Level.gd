@@ -6,22 +6,21 @@ onready var nav_2d = $Navigation2D
 
 var enemy_scene = preload("res://Scenes/Enemy.tscn")
 var path
-var move_timer = 1
+var spawn_timer = Settings.spawn_timer
 
 func _ready():
 	$HUD/ColorRect.set_size(Vector2(get_viewport().size.x, get_viewport().size.y))
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 
 func _physics_process(delta):
-	if Settings.spawn_timer > 0:
-		Settings.spawn_timer -= 1
-	if Settings.spawn_timer == 0:
-		Settings.spawn_timer = 300
-		for i in range(8):
-			_spawn_enemy(i)
+	if spawn_timer > 0:
+		spawn_timer -= 1
+	if spawn_timer == 0:
+		spawn_timer = Settings.spawn_timer
+  for i in range(8):
+    _spawn_enemy(i)
 	if move_timer > 0:
-		move_timer -= 1
-	
+		move_timer -= 1	
 
 func _on_viewport_size_changed():
 	$HUD/ColorRect.set_size(Vector2(get_viewport().size.x, get_viewport().size.y))

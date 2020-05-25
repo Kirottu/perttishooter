@@ -11,6 +11,7 @@ func _ready():
 
 func _process(delta):
 	var move_distance = Settings.enemy_speed * delta
+	
 	move_along_path(move_distance)
 	
 
@@ -21,14 +22,16 @@ func _on_Area2D_body_entered(body):
 
 func move_along_path(distance : float):
 	var start_point = position
+	
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
 		if distance <= distance_to_next and distance > 0.0:
 			position = start_point.linear_interpolate(path[0], distance / distance_to_next)
 			break
-		elif distance < 0.0:
+		elif distance <= 0.0:
 			position = path[0]
 			set_process(false)
+			path = nav_2d.get_simple_path(position, pertti_pos)
 			break
 		distance -= distance_to_next
 		start_point = path[0]
