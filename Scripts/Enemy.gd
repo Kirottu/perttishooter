@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-"""onready var nav_2d = get_node("Navigation2D")
+onready var nav_2d = get_node("Navigation2D")
 onready var line_2d = get_node("Line2D")
 
 var path
@@ -11,7 +11,7 @@ func _ready():
 
 func _process(delta):
 	var move_distance = Settings.enemy_speed * delta
-	move_along_path(move_distance)"""
+	move_along_path(move_distance)
 	
 
 func _on_Area2D_body_entered(body):
@@ -19,7 +19,7 @@ func _on_Area2D_body_entered(body):
 	if "Bullet" in body.name:
 		queue_free()
 
-"""func move_along_path(distance : float):
+func move_along_path(distance : float):
 	var start_point = position
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
@@ -47,7 +47,7 @@ func set_pertti_pos(value) -> void:
 	if path.size() == 0:
 		return
 	set_process(true)
-	print("processing")"""
+	print("processing")
 
 	
 	

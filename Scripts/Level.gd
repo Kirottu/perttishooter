@@ -37,34 +37,4 @@ func _spawn_enemy(spawn_point):
 	var sel_spawn_point = spawn_points[spawn_point]
 	enemy.position = sel_spawn_point.position
 	add_child(enemy)
-	enemy_loop(enemy)
-	
-func enemy_loop(enemy):
-	print(path)
-	print("move func called")
-	
-	while true:
-		path = nav_2d.get_simple_path(enemy.position, pertti.position)
-		if path.size() == 0:
-			break
-		move_along_path(Settings.enemy_speed, enemy)
-		while move_timer > 0:
-			pass
-		
-	print("loop broken")
-	
-func move_along_path(distance : float, enemy):
-	var start_point = enemy.position
-	for i in range(path.size()):
-		var distance_to_next = start_point.distance_to(path[0])
-		if distance <= distance_to_next and distance > 0.0:
-			enemy.position = start_point.linear_interpolate(path[0], distance / distance_to_next)
-			break
-		elif distance < 0.0:
-			enemy.position = path[0]
-			set_process(false)
-			break
-		distance -= distance_to_next
-		start_point = path[0]
-		path.remove(0)
-	
+	enemy.pertti_pos = pertti.position
