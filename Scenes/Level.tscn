@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/Pertti.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/Level.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Enemy.tscn" type="PackedScene" id=3]
+
+[sub_resource type="Shader" id=1]
+code = "    shader_type canvas_item;
+
+uniform float amount : hint_range(0,0.5);
+
+vec4 sample_glow_pixel(sampler2D tex, vec2 uv) {
+   float hdr_threshold = amount; 
+    return max(textureLod(tex, uv, 2.0) - hdr_threshold, vec4(0.0));
+}
+
+void fragment() {
+    vec2 ps = SCREEN_PIXEL_SIZE;
+    // Get blurred color from pixels considered glowing
+    vec4 col0 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(-ps.x, 0));
+    vec4 col1 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(ps.x, 0));
+    vec4 col2 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(0, -ps.y));
+    vec4 col3 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(0, ps.y));
+
+    vec4 col = texture(SCREEN_TEXTURE, SCREEN_UV);
+    vec4 glowing_col = 0.25 * (col0 + col1 + col2 + col3);
+
+    COLOR = vec4(col.rgb + glowing_col.rgb, col.a);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/amount = null
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Pertti" parent="." instance=ExtResource( 1 )]
+position = Vector2( 957.015, 651.371 )
+
+[node name="Enemy" parent="." instance=ExtResource( 3 )]
+position = Vector2( 605.834, 675.963 )
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="HUD"]
+material = SubResource( 2 )
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
