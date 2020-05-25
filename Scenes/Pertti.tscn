@@ -21,6 +21,4 @@ scale = Vector2( 0.06, 0.06 )
 texture = ExtResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
-current = true
-limit_smoothed = true
 smoothing_enabled = true
