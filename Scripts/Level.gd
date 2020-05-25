@@ -17,15 +17,10 @@ func _physics_process(delta):
 		spawn_timer -= 1
 	if spawn_timer == 0:
 		spawn_timer = Settings.spawn_timer
-		_spawn_enemy(0)
-		_spawn_enemy(1)
-		_spawn_enemy(2)
-		_spawn_enemy(3)
-		_spawn_enemy(4)
-		_spawn_enemy(5)
-		_spawn_enemy(6)
-		_spawn_enemy(7)
-	
+  for i in range(8):
+    _spawn_enemy(i)
+	if move_timer > 0:
+		move_timer -= 1	
 
 func _on_viewport_size_changed():
 	$HUD/ColorRect.set_size(Vector2(get_viewport().size.x, get_viewport().size.y))
