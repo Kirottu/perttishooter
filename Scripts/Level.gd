@@ -20,7 +20,7 @@ func _ready():
 
 func _physics_process(delta):
 	if !gameover:
-		# OPerate the timer between spawns
+		# Operate the timer between spawns
 		if spawn_timer > 0:
 			spawn_timer -= 1
 		if spawn_timer == 0:
