@@ -4,29 +4,36 @@ onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
 
+var rng = RandomNumberGenerator.new()
 var health = Settings.enemy_health
 var path
 var pertti
-var path_update_timer = 30
+var path_update_timer
 var can_update = false
 var pertti_in_sight = false
+var path_length_to_pertti = 0 #set to 0 to force path calculation at start and because it crashes otherwise
 
 func _ready():
-	# Do not process right away as that would cause problems
+	# Do not process right away as that would cause problems, randomize to unsync the calculation, and hopefully unstrain the cpu
 	set_process(false)
+	rng.randomize()
+	path_update_timer = rng.randf_range(0, Settings.max_first_path_delay)
+	
 
 func _process(delta):
-	# Look at pertti, looks funny
+	# Look at pertti, looks  t h i c c
 	look_at(pertti.position)
-	
-	
 	
 func _physics_process(delta):
 	# Operate path update timer
-	if path_update_timer == 0:
-		can_update = true
-		path_update_timer = 60
-	if path_update_timer > 0 and !can_update:
+	if path_update_timer <= 0:
+		#can_update = true
+		if can_update:
+			update_path()
+		#can_update = false
+		path_update_timer = ceil(Settings.update_delay_factor * path_length_to_pertti)
+		print(path_update_timer)
+	else:
 		path_update_timer -= 1
 	
 	if !pertti_in_sight and health != 0:
@@ -56,6 +63,9 @@ func move_along_path(distance : float):
 	# Set the start point of the path
 	var start_point = position
 	
+	#updates length of route to pertti
+	path_length_to_pertti -= distance
+	
 	# Loop trough the path array to move the enemy
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
@@ -69,35 +79,46 @@ func move_along_path(distance : float):
 		distance -= distance_to_next
 		start_point = path[0]
 		path.remove(0)
-	
 
-func set_pertti_ref(value) -> void:
+func set_pertti_ref(value):
 	# Check if nothing was passed
 	if value == null:
 		print("no data provided")
 		return
 	# Debug messages
-	print(value)
-	print(position)
+	#print(value)
+	#print(position)
 	pertti = value
 	# Connect a signal to notify enemy to update path
-	pertti.connect("moved", self, "update_path")
+	pertti.connect("moved", self, "pertti_moved_listener")
 	path = nav_2d.get_simple_path(position, pertti.position)
 	# Check if pathfinding was unsuccessful
 	if path.size() == 0:
 		return
 	# Start _process function and start moving on the path
 	set_process(true)
-	print("processing")
+	#print("processing")
+
+func pertti_moved_listener():
+	can_update = true
 
 func update_path():
 	# Check if the can update timer has expired, as if this didnt exist the performance would be horrible all time pertto moves
-	if can_update:
-		# Restart the timer
-		can_update = false
-		print("Path updated")
-		# Recreate the path
-		path = nav_2d.get_simple_path(position, pertti.position)
+	#if can_update:
+	# Restart the timer
+	#print("Path updating")
+	# Recalculate the path
+	path = nav_2d.get_simple_path(position, pertti.position)
+	
+	
+	#recalculate the length of the route to pertti
+	path_length_to_pertti = 0
+	var last = pertti.position
+	for i in range(1, path.size()):
+		path_length_to_pertti += last.distance_to(path[i])
+	if path_length_to_pertti * Settings.update_delay_factor <= Settings.minimum_path_delay:
+		path_length_to_pertti =  Settings.minimum_path_delay / Settings.update_delay_factor
+	print(path_length_to_pertti * Settings.update_delay_factor)
 
 func _on_PerttiDetector_body_entered(body):
 	if body.name == "Pertti":

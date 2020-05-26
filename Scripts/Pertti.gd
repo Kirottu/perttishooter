@@ -55,20 +55,22 @@ func _move():
 		movement.y = -Settings.pertti_speed
 	if Input.is_action_pressed("down"):
 		movement.y = Settings.pertti_speed
+		
+	var sqrt2 = sqrt(2)
 	
 	# Make sure that while moving diagonally the speed will not exceed Settings.pertti_speed
 	if movement.x == Settings.pertti_speed and movement.y == Settings.pertti_speed:
-		movement.x /= 2
-		movement.y /= 2
+		movement.x /= sqrt2
+		movement.y /= sqrt2
 	elif movement.x == -Settings.pertti_speed and movement.y == -Settings.pertti_speed:
-		movement.x /= 2
-		movement.y /= 2
+		movement.x /= sqrt2
+		movement.y /= sqrt2
 	elif movement.x == Settings.pertti_speed and movement.y == -Settings.pertti_speed:
-		movement.x /= 2
-		movement.y /= 2
+		movement.x /= sqrt2
+		movement.y /= sqrt2
 	elif movement.x == -Settings.pertti_speed and movement.y == Settings.pertti_speed:
-		movement.x /= 2
-		movement.y /= 2
+		movement.x /= sqrt2
+		movement.y /= sqrt2
 	# Tell enemies that Pertti has moved
 	if movement != Vector2(0,0):
 		emit_signal("moved")
