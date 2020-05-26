@@ -4,7 +4,7 @@ onready var nav_2d = get_node("Navigation2D")
 onready var line_2d = get_node("Line2D")
 
 var path
-var pertti_pos = Vector2() setget set_pertti_pos
+var pertti
 
 func _ready():
 	set_process(false)
@@ -31,21 +31,21 @@ func move_along_path(distance : float):
 		elif distance <= 0.0:
 			position = path[0]
 			set_process(false)
-			path = nav_2d.get_simple_path(position, pertti_pos)
+			path = nav_2d.get_simple_path(position, pertti.position)
 			break
 		distance -= distance_to_next
 		start_point = path[0]
 		path.remove(0)
 	
 
-func set_pertti_pos(value) -> void:
-	if value == Vector2():
+func set_pertti_ref(value) -> void:
+	if value == null:
 		print("no data provided")
 		return
 	print(value)
 	print(position)
-	pertti_pos = value
-	path = nav_2d.get_simple_path(position, pertti_pos)
+	var pertti = value
+	path = nav_2d.get_simple_path(position, pertti.position)
 	print(path)
 	if path.size() == 0:
 		return

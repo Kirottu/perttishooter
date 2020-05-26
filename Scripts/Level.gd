@@ -17,14 +17,8 @@ func _physics_process(delta):
 		spawn_timer -= 1
 	if spawn_timer == 0:
 		spawn_timer = Settings.spawn_timer
-		_spawn_enemy(0)
-		_spawn_enemy(1)
-		_spawn_enemy(2)
-		_spawn_enemy(3)
-		_spawn_enemy(4)
-		_spawn_enemy(5)
-		_spawn_enemy(6)
-		_spawn_enemy(7)
+		for i in range(8)
+			_spawn_enemy(i)
 	
 
 func _on_viewport_size_changed():
@@ -35,4 +29,4 @@ func _spawn_enemy(spawn_point):
 	var sel_spawn_point = spawn_points[spawn_point]
 	enemy.position = sel_spawn_point.position
 	add_child(enemy)
-	enemy.pertti_pos = pertti.position
+	enemy.set_pertti_ref(pertti)
