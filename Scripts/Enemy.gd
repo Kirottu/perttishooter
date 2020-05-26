@@ -3,6 +3,7 @@ extends KinematicBody2D
 onready var nav_2d = get_node("Navigation2D")
 onready var line_2d = get_node("Line2D")
 
+var health = Settings.enemy_health
 var path
 var pertti
 var path_update_timer = 30
@@ -12,6 +13,8 @@ func _ready():
 	set_process(false)
 
 func _process(delta):
+	look_at(pertti.position)
+	
 	var move_distance = Settings.enemy_speed * delta
 	
 	move_along_path(move_distance)
@@ -27,7 +30,9 @@ func _physics_process(delta):
 func _on_Area2D_body_entered(body):
 	
 	if "Bullet" in body.name:
-		queue_free()
+		health -= 1
+		if health == 0:
+			queue_free()
 
 func move_along_path(distance : float):
 	var start_point = position

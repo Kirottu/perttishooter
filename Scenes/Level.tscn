@@ -99,6 +99,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label" type="Label" parent="HUD"]
+margin_right = 40.0
+margin_bottom = 14.0
+rect_scale = Vector2( 5, 5 )
+text = "Health: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="SpawnPoint1" type="Node2D" parent="SpawnPoints"]
@@ -150,3 +159,5 @@ position = Vector2( -215, 200 )
 
 [node name="SpawnPoint8" type="Node2D" parent="SpawnPoints2"]
 position = Vector2( 2143.92, 1077.85 )
+[connection signal="damage_taken" from="Pertti" to="." method="_on_Pertti_damage_taken"]
+[connection signal="gameover" from="Pertti" to="." method="_on_Pertti_gameover"]
