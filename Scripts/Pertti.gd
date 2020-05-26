@@ -50,7 +50,7 @@ func _move():
 	movement.y = 0
 
 func _on_Area2D_body_entered(body):
-	if "Enemy" in body.name: 
+	if "Enemy" in body.name and !gameover: 
 		health -= 1
 		emit_signal("damage_taken", health)
 		if health == 0:

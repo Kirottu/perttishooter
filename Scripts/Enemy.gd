@@ -44,13 +44,10 @@ func move_along_path(distance : float):
 			break
 		elif distance <= 0.0:
 			position = path[0]
-			
-			print(is_processing())
 			break
 		distance -= distance_to_next
 		start_point = path[0]
 		path.remove(0)
-		print(pertti.position)
 	
 
 func set_pertti_ref(value) -> void:
@@ -62,7 +59,6 @@ func set_pertti_ref(value) -> void:
 	pertti = value
 	pertti.connect("moved", self, "update_path")
 	path = nav_2d.get_simple_path(position, pertti.position)
-	print(path)
 	if path.size() == 0:
 		return
 	set_process(true)
