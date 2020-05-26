@@ -16,7 +16,7 @@ func _ready():
 	# Set bloom overlay size correctly and connect a signal when the scene is ready
 	$HUD/ColorRect.set_size(Vector2(get_viewport().size.x, get_viewport().size.y))
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
-	health_label.text = "Health: " + str(Settings.pertti_health)
+	health_label.text = "Health:" + str(Settings.pertti_health)
 
 func _physics_process(delta):
 	if !gameover:
@@ -49,7 +49,7 @@ func _spawn_enemy(spawn_point):
 
 
 func _on_Pertti_damage_taken(health):
-	health_label.text = "Health: " + str(health)
+	health_label.text = "Health:" + str(health)
 
 
 func _on_Pertti_gameover():

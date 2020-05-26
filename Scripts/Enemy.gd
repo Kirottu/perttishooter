@@ -1,13 +1,15 @@
-extends KinematicBody2D
+extends RigidBody2D
 
-onready var nav_2d = get_node("Navigation2D")
-onready var line_2d = get_node("Line2D")
+onready var nav_2d = $Navigation2D
+onready var hurt_sound = $Hurt
+onready var explosion = $Explosion
 
 var health = Settings.enemy_health
 var path
 var pertti
 var path_update_timer = 30
 var can_update = false
+var pertti_in_sight = false
 
 func _ready():
 	# Do not process right away as that would cause problems
@@ -19,8 +21,11 @@ func _process(delta):
 	
 	# Set the enemy speed for the move_along_path function
 	var move_distance = Settings.enemy_speed * delta
-	
-	move_along_path(move_distance)
+	if !pertti_in_sight:
+		move_along_path(move_distance)
+	else:
+		var start_point = position
+		position = start_point.linear_interpolate(pertti.position, move_distance * 0.005)
 	
 func _physics_process(delta):
 	# Operate path update timer
@@ -34,8 +39,13 @@ func _physics_process(delta):
 func _on_Area2D_body_entered(body):
 	# Check if a bullet has entered area, if so reduce health
 	if "Bullet" in body.name:
+		if health > 1:
+			hurt_sound.play()
 		health -= 1
 		if health == 0:
+			explosion.play()
+			set_process(false)
+			yield(get_tree().create_timer(1.5), "timeout")
 			# Queue for deletion in the next frame when health == 0
 			queue_free()
 
@@ -85,5 +95,11 @@ func update_path():
 		print("Path updated")
 		# Recreate the path
 		path = nav_2d.get_simple_path(position, pertti.position)
+
+func _on_PerttiDetector_body_entered(body):
+	if body.name == "Pertti":
+		pertti_in_sight = true
 	
-	
+func _on_PerttiDetector_body_exited(body):
+	if body.name == "Pertti":
+		pertti_in_sight = false
