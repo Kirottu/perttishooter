@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal moved
+
 var bullet = preload("res://Scenes/Bullet.tscn")
 var movement = Vector2()
 
@@ -33,7 +35,10 @@ func _move():
 		movement.y = -Settings.pertti_speed
 	if Input.is_action_pressed("down"):
 		movement.y = Settings.pertti_speed
-		
+	
+	if movement != Vector2(0,0):
+		emit_signal("moved")
+	
 	move_and_slide(movement)
 	movement.x = 0
 	movement.y = 0

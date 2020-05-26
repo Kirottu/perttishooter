@@ -5,6 +5,8 @@ onready var line_2d = get_node("Line2D")
 
 var path
 var pertti
+var path_update_timer = 30
+var can_update = false
 
 func _ready():
 	set_process(false)
@@ -14,6 +16,13 @@ func _process(delta):
 	
 	move_along_path(move_distance)
 	
+func _physics_process(delta):
+	if path_update_timer == 0:
+		can_update = true
+		path_update_timer = 30
+	if path_update_timer > 0:
+		path_update_timer -= 1
+
 
 func _on_Area2D_body_entered(body):
 	
@@ -30,12 +39,13 @@ func move_along_path(distance : float):
 			break
 		elif distance <= 0.0:
 			position = path[0]
-			set_process(false)
-			path = nav_2d.get_simple_path(position, pertti.position)
+			
+			print(is_processing())
 			break
 		distance -= distance_to_next
 		start_point = path[0]
 		path.remove(0)
+		print(pertti.position)
 	
 
 func set_pertti_ref(value) -> void:
@@ -44,7 +54,8 @@ func set_pertti_ref(value) -> void:
 		return
 	print(value)
 	print(position)
-	var pertti = value
+	pertti = value
+	pertti.connect("moved", self, "update_path")
 	path = nav_2d.get_simple_path(position, pertti.position)
 	print(path)
 	if path.size() == 0:
@@ -52,5 +63,10 @@ func set_pertti_ref(value) -> void:
 	set_process(true)
 	print("processing")
 
+func update_path():
+	if can_update:
+		can_update = false
+		print("Path updated")
+		path = nav_2d.get_simple_path(position, pertti.position)
 	
 	
