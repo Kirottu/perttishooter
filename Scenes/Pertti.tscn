@@ -45,6 +45,7 @@ texture = ExtResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+smoothing_enabled = true
 
 [node name="Area2D" type="Area2D" parent="."]
 

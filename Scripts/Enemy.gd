@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends KinematicBody2D
 
 onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
@@ -19,21 +19,24 @@ func _process(delta):
 	# Look at pertti, looks funny
 	look_at(pertti.position)
 	
-	# Set the enemy speed for the move_along_path function
-	var move_distance = Settings.enemy_speed * delta
-	if !pertti_in_sight:
-		move_along_path(move_distance)
-	else:
-		var start_point = position
-		position = start_point.linear_interpolate(pertti.position, move_distance * 0.005)
+	
 	
 func _physics_process(delta):
 	# Operate path update timer
 	if path_update_timer == 0:
 		can_update = true
-		path_update_timer = 30
-	if path_update_timer > 0:
+		path_update_timer = 60
+	if path_update_timer > 0 and !can_update:
 		path_update_timer -= 1
+	
+	if !pertti_in_sight and health != 0:
+		move_along_path(Settings.enemy_speed * 0.01)
+	# Switch to close proximity follow for better close quarters following
+	elif health != 0:
+		var start_point = position
+		var direction = ( pertti.position - self.position).normalized()
+		move_and_slide(direction * 500)
+		# position = start_point.linear_interpolate(pertti.position, Settings.enemy_speed * 0.001 * delta)
 
 
 func _on_Area2D_body_entered(body):

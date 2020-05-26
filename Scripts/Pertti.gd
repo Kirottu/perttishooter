@@ -5,6 +5,7 @@ onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
 onready var sprite = $Sprite
 onready var animation = $Invinsibility
+onready var camera = $Camera2D
 
 signal gameover
 signal damage_taken
@@ -21,14 +22,10 @@ var health = Settings.pertti_health
 func _ready():
 	sprite.visible = true
 
-func _process(delta):
-	# Look at mouse pointer for aiming purposes
-	if !gameover:
-		look_at(get_global_mouse_position())
-	
-
 func _physics_process(delta):
 	# Run _move if !gameover
+	if !gameover:
+		look_at(get_global_mouse_position())
 	if !gameover:
 		_move()
 	# Run _fire if !gameover
