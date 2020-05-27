@@ -4,6 +4,7 @@ extends Node2D
 onready var pertti : KinematicBody2D = $Pertti
 onready var spawn_points = [$SpawnPoints/SpawnPoint1, $SpawnPoints/SpawnPoint2, $SpawnPoints/SpawnPoint3, $SpawnPoints/SpawnPoint4, $SpawnPoints/SpawnPoint5, $SpawnPoints/SpawnPoint6, $SpawnPoints/SpawnPoint7, $SpawnPoints/SpawnPoint8]
 onready var health_label = $HUD/Label
+onready var score_label = $HUD/Score
 
 onready var game_over_label = $HUD/GameOverMenu/GameOverLabel
 onready var quit_button = $HUD/GameOverMenu/QuitButton
@@ -16,6 +17,7 @@ var rng = RandomNumberGenerator.new()
 var enemy_scene = preload("res://Scenes/Enemy.tscn")
 var path
 var spawn_timer = Settings.spawn_timer
+var score_timer
 
 func _ready():
 	game_over_label.visible = false
@@ -28,6 +30,14 @@ func _ready():
 	# Set bloom overlay size correctly and connect a signal when the scene is ready
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	health_label.text = "Health:" + str(Settings.pertti_health)
+	
+	Settings.score = 0
+	score_timer = Timer.new()
+	add_child(score_timer)
+	score_timer.connect("timeout", self, "_increase_score")
+	score_timer.set_wait_time(1.0)
+	score_timer.set_one_shot(false) # Make sure it loops
+	score_timer.start()
 
 func _physics_process(delta):
 	if !gameover:
@@ -45,7 +55,6 @@ func _physics_process(delta):
 
 func _on_viewport_size_changed():
 	set_positions()
-	
 
 func set_positions():
 	$HUD/ColorRect.set_size(Vector2(get_viewport().size.x, get_viewport().size.y))
@@ -76,6 +85,11 @@ func _on_Pertti_gameover():
 	restart_button.visible = true
 	yield(get_tree().create_timer(1.5), "timeout")
 	get_tree().paused = true
+	
+func _increase_score():
+	if !gameover:
+		Settings.score += 1
+		score_label.text = "Score:" + String(Settings.score)
 
 
 func _on_MainMenuButton_pressed():
