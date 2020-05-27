@@ -46,32 +46,19 @@ func _fire():
 	can_fire = true
 
 func _move():
-	# Check for directional inputs
-	var inputs_pressed = 0
-	if Input.is_action_pressed("right"):
-		movement.x = Settings.pertti_speed
-		inputs_pressed += 1
-	if Input.is_action_pressed("left"):
-		movement.x = -Settings.pertti_speed
-		inputs_pressed += 1
-	if Input.is_action_pressed("up"):
-		movement.y = -Settings.pertti_speed
-		inputs_pressed += 1
-	if Input.is_action_pressed("down"):
-		movement.y = Settings.pertti_speed
-		inputs_pressed += 1
-		
-	if inputs_pressed >= 2:
-		movement.x /= sqrt(2)
-		movement.y /= sqrt(2)
-		
+	movement.x += int(Input.is_action_pressed("right"))
+	movement.x -= int(Input.is_action_pressed("left"))
+	movement.y += int(Input.is_action_pressed("down"))
+	movement.y -= int(Input.is_action_pressed("up"))
+	
+	movement = movement.normalized() * Settings.pertti_speed
+	
 	if movement != Vector2(0,0):
 		emit_signal("moved")
 	
 	# Move Pertti
 	move_and_slide(movement)
-	movement.x = 0
-	movement.y = 0
+	movement = Vector2(0,0)
 
 func _on_Area2D_body_entered(body):
 	# Check for collisions with Enemies
