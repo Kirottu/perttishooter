@@ -2,4 +2,5 @@ This is the repository for PerttiShooter(placeholder)
 
 **Install:**
 
-Clone or download the repository and import it in godot 3.2.1
+Download the most recent build from releases or clone the repository and import it in godot 3.2.1
+
