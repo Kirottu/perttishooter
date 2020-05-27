@@ -32,7 +32,7 @@ tracks/0/keys = {
 script = ExtResource( 2 )
 
 [node name="BulletPoint" type="Node2D" parent="."]
-position = Vector2( 30, 0 )
+position = Vector2( 48.9998, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708

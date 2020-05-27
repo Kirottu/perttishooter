@@ -74,13 +74,17 @@ func _on_Pertti_gameover():
 	quit_button.visible = true
 	main_menu_button.visible = true
 	restart_button.visible = true
+	yield(get_tree().create_timer(1.5), "timeout")
+	get_tree().paused = true
 
 
 func _on_MainMenuButton_pressed():
+	get_tree().paused = false
 	get_tree().change_scene("res://Scenes/MainMenu.tscn")
 
 func _on_QuitButton_pressed():
 	get_tree().quit()
 
 func _on_RestartButton_pressed():
+	get_tree().paused = false
 	get_tree().reload_current_scene()

@@ -52,7 +52,7 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 1/shapes = [  ]
 1/z_index = 0
 
-[sub_resource type="Shader" id=5]
+[sub_resource type="Shader" id=4]
 code = "    shader_type canvas_item;
 
 uniform float amount : hint_range(0,0.5);
@@ -76,8 +76,8 @@ void fragment() {
     COLOR = vec4(col.rgb + glowing_col.rgb, col.a);
 }"
 
-[sub_resource type="ShaderMaterial" id=6]
-shader = SubResource( 5 )
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 4 )
 shader_param/amount = null
 
 [node name="Level" type="Node2D"]
@@ -220,7 +220,7 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="HUD"]
-material = SubResource( 6 )
+material = SubResource( 5 )
 margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 2
