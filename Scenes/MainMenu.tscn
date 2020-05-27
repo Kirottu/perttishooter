@@ -1,0 +1,87 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Fonts/font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Scripts/MainMenu.gd" type="Script" id=2]
+
+[sub_resource type="Shader" id=5]
+code = "    shader_type canvas_item;
+
+uniform float amount : hint_range(0,0.5);
+
+vec4 sample_glow_pixel(sampler2D tex, vec2 uv) {
+   float hdr_threshold = amount; 
+    return max(textureLod(tex, uv, 2.0) - hdr_threshold, vec4(0.0));
+}
+
+void fragment() {
+    vec2 ps = SCREEN_PIXEL_SIZE;
+    // Get blurred color from pixels considered glowing
+    vec4 col0 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(-ps.x, 0));
+    vec4 col1 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(ps.x, 0));
+    vec4 col2 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(0, -ps.y));
+    vec4 col3 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(0, ps.y));
+
+    vec4 col = texture(SCREEN_TEXTURE, SCREEN_UV);
+    vec4 glowing_col = 0.25 * (col0 + col1 + col2 + col3);
+
+    COLOR = vec4(col.rgb + glowing_col.rgb, col.a);
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+shader_param/amount = null
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 660.0
+margin_bottom = 61.0
+custom_fonts/font = ExtResource( 1 )
+text = "PerttiShooter"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayButton" type="ToolButton" parent="."]
+margin_left = 10.0
+margin_top = 150.0
+margin_right = 222.0
+margin_bottom = 209.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.137255, 1, 0.231373, 1 )
+custom_colors/font_color_pressed = Color( 0.0901961, 0.627451, 0.14902, 1 )
+text = "Play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="QuitButton" type="ToolButton" parent="."]
+margin_left = 10.0
+margin_top = 225.0
+margin_right = 222.0
+margin_bottom = 284.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 1, 0.0588235, 0.0588235, 1 )
+custom_colors/font_color_pressed = Color( 0.721569, 0.0745098, 0.0745098, 1 )
+text = "Quit"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource( 6 )
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_QuitButton_pressed"]

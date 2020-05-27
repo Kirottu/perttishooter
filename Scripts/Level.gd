@@ -5,6 +5,11 @@ onready var pertti : KinematicBody2D = $Pertti
 onready var spawn_points = [$SpawnPoints/SpawnPoint1, $SpawnPoints/SpawnPoint2, $SpawnPoints/SpawnPoint3, $SpawnPoints/SpawnPoint4, $SpawnPoints/SpawnPoint5, $SpawnPoints/SpawnPoint6, $SpawnPoints/SpawnPoint7, $SpawnPoints/SpawnPoint8]
 onready var health_label = $HUD/Label
 
+onready var game_over_label = $HUD/GameOverMenu/GameOverLabel
+onready var quit_button = $HUD/GameOverMenu/QuitButton
+onready var main_menu_button = $HUD/GameOverMenu/MainMenuButton
+onready var restart_button = $HUD/GameOverMenu/RestartButton
+
 # Other variables
 var gameover = false
 var rng = RandomNumberGenerator.new()
@@ -13,8 +18,14 @@ var path
 var spawn_timer = Settings.spawn_timer
 
 func _ready():
+	game_over_label.visible = false
+	quit_button.visible = false
+	main_menu_button.visible = false
+	restart_button.visible = false
+	
+	set_positions()
+	
 	# Set bloom overlay size correctly and connect a signal when the scene is ready
-	$HUD/ColorRect.set_size(Vector2(get_viewport().size.x, get_viewport().size.y))
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	health_label.text = "Health:" + str(Settings.pertti_health)
 
@@ -33,8 +44,15 @@ func _physics_process(delta):
 	
 
 func _on_viewport_size_changed():
-	# Set the bloom overlay size correctly when viewport size changes
+	set_positions()
+	
+
+func set_positions():
 	$HUD/ColorRect.set_size(Vector2(get_viewport().size.x, get_viewport().size.y))
+	game_over_label.rect_position = Vector2((get_viewport().size.x - game_over_label.get_rect().size.x) / 2, get_viewport().size.y / 4)
+	quit_button.rect_position = Vector2((get_viewport().size.x - quit_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 250)
+	main_menu_button.rect_position = Vector2((get_viewport().size.x - main_menu_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 175)
+	restart_button.rect_position = Vector2((get_viewport().size.x - restart_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 100)
 
 func _spawn_enemy(spawn_point):
 	# Instance the enemy from preloaded scene
@@ -54,3 +72,17 @@ func _on_Pertti_damage_taken(health):
 
 func _on_Pertti_gameover():
 	gameover = true
+	game_over_label.visible = true
+	quit_button.visible = true
+	main_menu_button.visible = true
+	restart_button.visible = true
+
+
+func _on_MainMenuButton_pressed():
+	get_tree().change_scene("res://Scenes/MainMenu.tscn")
+
+func _on_QuitButton_pressed():
+	get_tree().quit()
+
+func _on_RestartButton_pressed():
+	get_tree().reload_current_scene()

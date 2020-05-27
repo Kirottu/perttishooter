@@ -12,6 +12,7 @@ var path_update_timer
 var can_update = false
 var pertti_in_sight = false
 var path_length_to_pertti = 0 #set to 0 to force path calculation at start and because it crashes otherwise
+var destroyed = false
 
 func _ready():
 	# Do not process right away as that would cause problems, randomize to unsync the calculation, and hopefully unstrain the cpu
@@ -26,7 +27,7 @@ func _process(delta):
 	
 func _physics_process(delta):
 	# Operate path update timer
-	if path_update_timer <= 0 and !pertti_in_sight:
+	if path_update_timer <= 0 and !pertti_in_sight and health != 0:
 		#can_update = true
 		if can_update:
 			update_path()
@@ -37,7 +38,7 @@ func _physics_process(delta):
 		path_update_timer -= 1
 	
 	if !pertti_in_sight and health != 0:
-		move_along_path(Settings.enemy_speed * 0.01)
+		move_along_path(Settings.enemy_speed * 0.02)
 	# Switch to close proximity follow for better close quarters following
 	elif health != 0:
 		var start_point = position
@@ -48,11 +49,13 @@ func _physics_process(delta):
 
 func _on_Area2D_body_entered(body):
 	# Check if a bullet has entered area, if so reduce health
-	if "Bullet" in body.name:
+	if "Bullet" in body.name and !destroyed:
 		if health > 1:
 			hurt_sound.play()
-		health -= 1
+		if health > 0:
+			health -= 1
 		if health == 0:
+			destroyed = true
 			explosion.play()
 			set_process(false)
 			yield(get_tree().create_timer(1.5), "timeout")
