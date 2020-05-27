@@ -27,7 +27,7 @@ func _process(delta):
 	
 func _physics_process(delta):
 	# Operate path update timer
-	if path_update_timer <= 0 and !pertti_in_sight and health != 0:
+	if path_update_timer <= 0 and !pertti_in_sight and health > 0:
 		#can_update = true
 		if can_update:
 			update_path()

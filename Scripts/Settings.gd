@@ -19,5 +19,9 @@ var max_first_path_delay = 30
 #minimum amount of phyisics frames before the path is update, if in really close proximity
 var minimum_path_delay = 60
 
+# in %
+var tower_enemy_probability = 50
+
+var tower_position = Vector2(1000,600)
 
 var score = 0
