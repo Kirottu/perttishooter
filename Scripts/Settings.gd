@@ -19,3 +19,5 @@ var max_first_path_delay = 30
 #minimum amount of phyisics frames before the path is update, if in really close proximity
 var minimum_path_delay = 60
 
+
+var score = 0
