@@ -47,31 +47,24 @@ func _fire():
 
 func _move():
 	# Check for directional inputs
+	var inputs_pressed = 0
 	if Input.is_action_pressed("right"):
 		movement.x = Settings.pertti_speed
+		inputs_pressed += 1
 	if Input.is_action_pressed("left"):
 		movement.x = -Settings.pertti_speed
+		inputs_pressed += 1
 	if Input.is_action_pressed("up"):
 		movement.y = -Settings.pertti_speed
+		inputs_pressed += 1
 	if Input.is_action_pressed("down"):
 		movement.y = Settings.pertti_speed
+		inputs_pressed += 1
 		
-	var sqrt2 = sqrt(2)
-	
-	# Make sure that while moving diagonally the speed will not exceed Settings.pertti_speed
-	if movement.x == Settings.pertti_speed and movement.y == Settings.pertti_speed:
-		movement.x /= sqrt2
-		movement.y /= sqrt2
-	elif movement.x == -Settings.pertti_speed and movement.y == -Settings.pertti_speed:
-		movement.x /= sqrt2
-		movement.y /= sqrt2
-	elif movement.x == Settings.pertti_speed and movement.y == -Settings.pertti_speed:
-		movement.x /= sqrt2
-		movement.y /= sqrt2
-	elif movement.x == -Settings.pertti_speed and movement.y == Settings.pertti_speed:
-		movement.x /= sqrt2
-		movement.y /= sqrt2
-	# Tell enemies that Pertti has moved
+	if inputs_pressed >= 2:
+		movement.x /= sqrt(2)
+		movement.y /= sqrt(2)
+		
 	if movement != Vector2(0,0):
 		emit_signal("moved")
 	
