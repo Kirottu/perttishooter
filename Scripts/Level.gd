@@ -65,10 +65,8 @@ func _spawn_enemy(spawn_point):
 	# Pass reference to pertti to the enemy
 	enemy.set_pertti_ref(pertti)
 
-
 func _on_Pertti_damage_taken(health):
 	health_label.text = "Health:" + str(health)
-
 
 func _on_Pertti_gameover():
 	gameover = true

@@ -33,7 +33,6 @@ func _physics_process(delta):
 			update_path()
 		#can_update = false
 		path_update_timer = Settings.update_delay_factor * path_length_to_pertti
-		print(path_update_timer)
 	else:
 		path_update_timer -= 1
 	

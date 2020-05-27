@@ -3,7 +3,7 @@
 [ext_resource path="res://Assets/Fonts/font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Scripts/MainMenu.gd" type="Script" id=2]
 
-[sub_resource type="Shader" id=5]
+[sub_resource type="Shader" id=1]
 code = "    shader_type canvas_item;
 
 uniform float amount : hint_range(0,0.5);
@@ -27,8 +27,8 @@ void fragment() {
     COLOR = vec4(col.rgb + glowing_col.rgb, col.a);
 }"
 
-[sub_resource type="ShaderMaterial" id=6]
-shader = SubResource( 5 )
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
 shader_param/amount = null
 
 [node name="MainMenu" type="Control"]
@@ -76,7 +76,7 @@ custom_colors/font_color_pressed = Color( 0.721569, 0.0745098, 0.0745098, 1 )
 text = "Quit"
 
 [node name="ColorRect" type="ColorRect" parent="."]
-material = SubResource( 6 )
+material = SubResource( 2 )
 margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 2
