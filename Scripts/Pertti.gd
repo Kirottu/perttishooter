@@ -61,7 +61,7 @@ func _move():
 		movement.y = Settings.pertti_speed
 		inputs_pressed += 1
 		
-	if inputs_pressed == 2:
+	if inputs_pressed >= 2:
 		movement.x /= sqrt(2)
 		movement.y /= sqrt(2)
 		
