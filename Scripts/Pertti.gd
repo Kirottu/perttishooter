@@ -10,6 +10,7 @@ onready var camera = $Camera2D
 signal gameover
 signal damage_taken
 signal moved
+signal respawn
 
 var bullet = preload("res://Scenes/Bullet.tscn")
 var movement = Vector2()
@@ -20,7 +21,14 @@ var can_fire = true
 var health = Settings.pertti_health
 
 func _ready():
+	invinsibility = true
+	animation.play("Invinsibility")
+	yield(get_tree().create_timer(Settings.invinsibility), "timeout")
+	invinsibility = false
 	sprite.visible = true
+	connect("damage_taken", get_parent(), "_on_Pertti_damage_taken")
+	connect("gameover", get_parent(), "_on_Pertti_gameover")
+	connect("respawn", get_parent(), "_on_Pertti_respawn")
 
 func _physics_process(delta):
 	# Run _move if !gameover
@@ -62,7 +70,7 @@ func _move():
 
 func _on_Area2D_body_entered(body):
 	# Check for collisions with Enemies
-	if "Enemy" in body.name and !gameover and !invinsibility: 
+	if "Enemy" in body.name and !gameover and !invinsibility and !("Tower" in body.name): 
 		if health != 1:
 			hurt_sound.play()
 		health -= 1
@@ -71,6 +79,9 @@ func _on_Area2D_body_entered(body):
 			explosion.play()
 			gameover = true
 			emit_signal("gameover")
+			yield(get_tree().create_timer(5), "timeout")
+			emit_signal("respawn")
+			queue_free()
 		invinsibility = true
 		animation.play("Invinsibility")
 		yield(get_tree().create_timer(Settings.invinsibility), "timeout")

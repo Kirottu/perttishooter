@@ -23,6 +23,7 @@ func _ready():
 
 func _process(delta):
 	# Look at pertti, looks  t h i c c
+	# I see what you did arte, this incident will be reported
 	look_at(pertti.position)
 	
 func _physics_process(delta):
@@ -91,6 +92,7 @@ func set_pertti_ref(value):
 	#print(value)
 	#print(position)
 	pertti = value
+	pertti.connect("gameover", self, "_on_Pertti_gameover")
 	# Connect a signal to notify enemy to update path
 	pertti.connect("moved", self, "pertti_moved_listener")
 	path = nav_2d.get_simple_path(position, pertti.position)
@@ -120,7 +122,7 @@ func update_path():
 		path_length_to_pertti += last.distance_to(path[i])
 	if path_length_to_pertti * Settings.update_delay_factor <= Settings.minimum_path_delay:
 		path_length_to_pertti =  Settings.minimum_path_delay / Settings.update_delay_factor
-	print(path_length_to_pertti * Settings.update_delay_factor)
+	# print(path_length_to_pertti * Settings.update_delay_factor)
 
 func _on_PerttiDetector_body_entered(body):
 	if body.name == "Pertti":
@@ -129,3 +131,6 @@ func _on_PerttiDetector_body_entered(body):
 func _on_PerttiDetector_body_exited(body):
 	if body.name == "Pertti":
 		pertti_in_sight = false
+
+func _on_Pertti_gameover():
+	queue_free()

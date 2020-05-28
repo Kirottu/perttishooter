@@ -3,21 +3,25 @@ extends KinematicBody2D
 onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
+onready var tower = get_tree().get_root().get_node("Level/Tower")
 
-var health = Settings.enemy_health
+var health = Settings.tower_enemy_health
 var path
 var pertti
 var destroyed = false
 
+signal exited
+
 func _ready():
-	path = nav_2d.get_simple_path(position, Settings.tower_position)
-#
+	path = nav_2d.get_simple_path(position, tower.position)
+	connect("exited", get_parent(), "_on_Tower_Enemy_exited")
+
 func _process(delta):
-	look_at(Settings.tower_position)
-	
+	look_at(tower.position)
+
 func _physics_process(delta):
-	if  health > 0:
-		move_along_path(Settings.enemy_speed * 0.02)
+	if health > 0 and position.distance_to(tower.position) > 70:
+		move_along_path(Settings.tower_enemy_speed * 0.02)
 		# TODO: add case for when it's arrived, to optimize and stuff
 
 
@@ -32,6 +36,8 @@ func _on_Area2D_body_entered(body):
 			destroyed = true
 			explosion.play()
 			set_process(false)
+			if position.distance_to(tower.position) < 90:
+				emit_signal("exited")
 			yield(get_tree().create_timer(1.5), "timeout")
 			# Queue for deletion in the next frame when health == 0
 			queue_free()
