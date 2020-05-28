@@ -131,9 +131,12 @@ func _on_Pertti_gameover():
 	if !tower_destroyed:
 		enemies_spawnable = false
 		respawn_label.visible = true
-		for i in range(5):
-			respawn_label.text = "Respawning In:" + str(5-i)
+		for i in range(Settings.respawn_delay):
+			respawn_label.text = "Respawning In:" + str(Settings.respawn_delay-i)
 			yield(get_tree().create_timer(1), "timeout")
+
+		
+		#pertti.animation.play("Invinsibility")
 	elif tower_destroyed:
 		gameover = true
 		game_over_label.visible = true

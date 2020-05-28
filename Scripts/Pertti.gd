@@ -79,7 +79,7 @@ func _on_Area2D_body_entered(body):
 			explosion.play()
 			gameover = true
 			emit_signal("gameover")
-			yield(get_tree().create_timer(5), "timeout")
+			yield(get_tree().create_timer(Settings.respawn_delay), "timeout")
 			emit_signal("respawn")
 			queue_free()
 		invinsibility = true
