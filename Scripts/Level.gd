@@ -78,7 +78,7 @@ func _physics_process(delta):
 		if spawn_timer == 0:
 			rng.randomize()
 			# Set a random time for when the next enemy spawns
-			spawn_timer = rng.randi_range(90, 240)
+			spawn_timer = rng.randi_range(60, 200)
 			rng.randomize()
 			# Spawn an enemy to a random spawnpoint
 			if rng.randi_range(0,100) > Settings.tower_enemy_probability:
@@ -180,11 +180,18 @@ func warning_flash():
 		
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
 
+func initialization_period():
+	under_attack_label.text = "Initializing attack..."
+
 func _on_Area2D_body_entered(body):
 	if "Tower" in body.name and !tower_destroyed:
 		tower_under_attack = true
-		warning_flash()
 		under_attack_label.visible = true
+		if !tower_under_attack:
+			initialization_period()
+			yield(get_tree().create_timer(Settings.attack_initalization_period), "timeout")
+		under_attack_label.text = "Core under attack!"
+		warning_flash()
 		enemies_in_tower += 1
 	elif tower_destroyed:
 		under_attack_label.text = "Core Destroyed!"

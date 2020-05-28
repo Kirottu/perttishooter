@@ -19,7 +19,7 @@ var warning_flash_interval = 0.08
 
 var tower_health = 50
 var tower_damage_interval = 30
-
+var attack_initalization_period = 1
 #confusing name, this is the amount of physics steps (max 60/second) before a new path is calculated for the enemies
 var max_first_path_delay = 30
 
