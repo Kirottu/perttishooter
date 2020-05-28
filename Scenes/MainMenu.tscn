@@ -76,6 +76,7 @@ custom_colors/font_color_pressed = Color( 0.721569, 0.0745098, 0.0745098, 1 )
 text = "Quit"
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 material = SubResource( 2 )
 margin_right = 40.0
 margin_bottom = 40.0
