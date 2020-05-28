@@ -32,6 +32,8 @@ var enemies_spawnable = true
 var tower_damage_interval = Settings.tower_damage_interval
 var health_bar_stylebox
 
+signal core_destroyed
+
 func _ready():
 	tower_health_bar.value = Settings.tower_health
 	_spawn_pertti()
@@ -67,6 +69,7 @@ func _physics_process(delta):
 			tower_damage_interval = Settings.tower_damage_interval
 	elif tower_health == 0:
 		tower_destroyed = true
+		emit_signal("core_destroyed")
 	
 	if !gameover and enemies_spawnable:
 		# Operate the timer between spawns
@@ -75,7 +78,7 @@ func _physics_process(delta):
 		if spawn_timer == 0:
 			rng.randomize()
 			# Set a random time for when the next enemy spawns
-			spawn_timer = rng.randi_range(60, 180)
+			spawn_timer = rng.randi_range(90, 240)
 			rng.randomize()
 			# Spawn an enemy to a random spawnpoint
 			if rng.randi_range(0,100) > Settings.tower_enemy_probability:
@@ -175,11 +178,14 @@ func warning_flash():
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
 
 func _on_Area2D_body_entered(body):
-	if "Tower" in body.name:
+	if "Tower" in body.name and !tower_destroyed:
 		tower_under_attack = true
 		warning_flash()
 		under_attack_label.visible = true
 		enemies_in_tower += 1
+	elif tower_destroyed:
+		under_attack_label.text = "Core Destroyed!"
+		under_attack_label.visible = true
 
 func _on_Tower_Enemy_exited():
 	enemies_in_tower -= 1

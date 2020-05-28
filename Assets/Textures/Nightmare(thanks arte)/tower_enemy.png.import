@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/black_and_white.png-17110837ad395dd3c4cbc9cd4a698e4f.stex"
+path="res://.import/tower_enemy.png-3771def3cde816e727a15da5d15df496.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Textures/black_and_white.png"
-dest_files=[ "res://.import/black_and_white.png-17110837ad395dd3c4cbc9cd4a698e4f.stex" ]
+source_file="res://Assets/Textures/Nightmare(thanks arte)/tower_enemy.png"
+dest_files=[ "res://.import/tower_enemy.png-3771def3cde816e727a15da5d15df496.stex" ]
 
 [params]
 

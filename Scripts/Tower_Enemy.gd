@@ -15,6 +15,7 @@ signal exited
 func _ready():
 	path = nav_2d.get_simple_path(position, tower.position)
 	connect("exited", get_parent(), "_on_Tower_Enemy_exited")
+	get_parent().connect("core_destroyed", self, "_on_Level_core_destroyed")
 
 func _process(delta):
 	look_at(tower.position)
@@ -24,6 +25,8 @@ func _physics_process(delta):
 		move_along_path(Settings.tower_enemy_speed * 0.02)
 		# TODO: add case for when it's arrived, to optimize and stuff
 
+func _on_Level_core_destroyed():
+	queue_free()
 
 func _on_Area2D_body_entered(body):
 	# Check if a bullet has entered area, if so reduce health

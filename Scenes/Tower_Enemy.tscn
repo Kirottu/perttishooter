@@ -1,10 +1,12 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/Tower_Enemy.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Textures/red.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Textures/black_rectangle.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Textures/Rectangles/red.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Textures/Rectangles/black_rectangle.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Audio/hurt.wav" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Audio/explosion.wav" type="AudioStream" id=5]
+
+
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 30, 30 )

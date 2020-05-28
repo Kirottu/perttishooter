@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/pink.png-92ed3ec6b973f12151918c9f92e5ff6b.stex"
+path="res://.import/floor_transition_outwards1.png-04f55e2894fd840a55e1b7fe1c89649c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Textures/pink.png"
-dest_files=[ "res://.import/pink.png-92ed3ec6b973f12151918c9f92e5ff6b.stex" ]
+source_file="res://Assets/Textures/Tilemap/floor_transition_outwards1.png"
+dest_files=[ "res://.import/floor_transition_outwards1.png-04f55e2894fd840a55e1b7fe1c89649c.stex" ]
 
 [params]
 
