@@ -24,6 +24,7 @@ func _ready():
 func _process(delta):
 	# Look at pertti, looks  t h i c c
 	# I see what you did arte, this incident will be reported
+	# You just can't handle the truth, he do be dummy thicc
 	look_at(pertti.position)
 	
 func _physics_process(delta):

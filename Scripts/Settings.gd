@@ -9,12 +9,12 @@ var enemy_speed = 450
 var enemy_health = 4
 var tower_enemy_speed = 500
 var tower_enemy_health = 3
-var pertti_health = 3
+var pertti_health = 1 #temp
 var gameover = false
 var path_update_timer = 0.5
 var invinsibility = 1.5
 var update_delay_factor = 0.05 #factor which the length of the route to pertti from enemy is multiplied with to calculate the amount of physicis frames before next recalculation
-
+var respawn_delay = 3
 var warning_flash_interval = 0.08
 
 var tower_health = 50
