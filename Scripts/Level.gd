@@ -15,6 +15,7 @@ onready var restart_button = $HUD/GameOverMenu/RestartButton
 var gameover = false
 var rng = RandomNumberGenerator.new()
 var enemy_scene = preload("res://Scenes/Enemy.tscn")
+var tower_enemy_scene = preload("res://Scenes/Tower_Enemy.tscn")
 var path
 var spawn_timer = Settings.spawn_timer
 var score_timer
@@ -50,7 +51,10 @@ func _physics_process(delta):
 			spawn_timer = rng.randi_range(60, 180)
 			rng.randomize()
 			# Spawn an enemy to a random spawnpoint
-			_spawn_enemy(rng.randi_range(0,7))
+			if rng.randi_range(0,100) > Settings.tower_enemy_probability:
+				_spawn_enemy(rng.randi_range(0,7))
+			else:
+				_spawn_tower_enemy(rng.randi_range(0,7))
 	
 
 func _on_viewport_size_changed():
@@ -73,6 +77,15 @@ func _spawn_enemy(spawn_point):
 	add_child(enemy)
 	# Pass reference to pertti to the enemy
 	enemy.set_pertti_ref(pertti)
+
+func _spawn_tower_enemy(spawn_point):
+	# Instance the enemy from preloaded scene
+	var enemy = tower_enemy_scene.instance()
+	# Set sel_spawn_point variable to the spawn point chosen
+	var sel_spawn_point = spawn_points[spawn_point]
+	# Set enemies position based on sel_spawn_point
+	enemy.position = sel_spawn_point.position
+	add_child(enemy)
 
 func _on_Pertti_damage_taken(health):
 	health_label.text = "Health:" + str(health)
