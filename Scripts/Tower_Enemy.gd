@@ -20,6 +20,7 @@ var pertti
 
 func _ready():
 	path = nav_2d.get_simple_path(position, tower.position)
+	connections()
 
 func _process(delta):
 	look_at(tower.position)

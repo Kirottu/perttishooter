@@ -72,6 +72,9 @@ func core_damage():
 		
 	elif tower_health == 0:
 		tower_destroyed = true
+		core_damage_timer.stop()
+		under_attack_label.text = "Core destroyed!"
+		under_attack_label.visible = true
 		emit_signal("core_destroyed")
 
 func spawn_enemies():
@@ -173,6 +176,7 @@ func _round_timer_elapsed():
 	print("Round interval")
 	emit_signal("free_time")
 	tower_under_attack = false
+	core_damage_timer.stop()
 	under_attack_label.visible = false
 	yield(get_tree().create_timer(Settings.round_interval), "timeout")
 	print("Round interval elapsed")
@@ -199,10 +203,16 @@ func warning_flash():
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
 
 func round_timer_indicator():
+	# TODO fix this shit, pause menu will crash the game or still update the
+	# Round time indicator while paused
 	for i in range(Settings.round_time):
+		while get_tree().paused:
+			pass
 		round_indicator_label.text = "Round left:" + str(Settings.round_time - i)
 		yield(get_tree().create_timer(1), "timeout")
 	for i in range(Settings.round_interval):
+		while get_tree().paused:
+			pass
 		round_indicator_label.text = "Free time:" + str(Settings.round_interval - i)
 		yield(get_tree().create_timer(1), "timeout")
 
@@ -213,31 +223,28 @@ func initialization_period():
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
 		under_attack_label.set("custom_colors/font_color", Color(1, 1, 1, 1))
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
+		if enemies_in_tower == 0:
+			break
 
 func _on_Area2D_body_entered(body):
 	if "Tower" in body.name and !tower_destroyed:
+		enemies_in_tower += 1
 		under_attack_label.visible = true
 		if !tower_under_attack:
 			initialization_period()
 			yield(get_tree().create_timer(Settings.attack_initalization_period), "timeout")
-		tower_under_attack = true
-		core_damage_timer.start()
-		under_attack_label.text = "Core under attack!"
-		warning_flash()
-		enemies_in_tower += 1
-	elif tower_destroyed:
-		under_attack_label.text = "Core Destroyed!"
-		under_attack_label.visible = true
+		if enemies_in_tower != 0:
+			tower_under_attack = true
+			core_damage_timer.start()
+			under_attack_label.text = "Core under attack!"
+			warning_flash()
+
+func _on_Tower_Enemy_exited():
+	print("Enemy exited")
 	enemies_in_tower -= 1
 	if enemies_in_tower == 0:
 		tower_under_attack = false
 		under_attack_label.visible = false
-		tower_damage_interval = Settings.tower_damage_interval
-
-func _on_Tower_Enemy_exited():
-	enemies_in_tower -= 1
-	if enemies_in_tower == 0:
-		tower_under_attack = false
 		core_damage_timer.stop()
 
 func _on_Enemy_destroyed(tower_enemy : bool):

@@ -1,16 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Assets/Textures/Rectangles/rectangle.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Textures/Sprites/zombie1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Enemy.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Textures/Rectangles/black_rectangle.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Audio/explosion.wav" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Audio/hurt.wav" type="AudioStream" id=5]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 30, 30 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 31, 31 )
 
 [sub_resource type="NavigationPolygon" id=3]
 vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
@@ -36,17 +30,17 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 [node name="Enemy" type="KinematicBody2D"]
 script = ExtResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -32, 0, -24, -24, 0, -28, 24, -24, 24, -12.5, -0.25, -11.5, -0.25, 11.5, 23.75, 12, 24, 24, 0, 27.5, -24, 24, -32, 0 )
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 0.06, 0.06 )
+rotation = 1.5708
 texture = ExtResource( 1 )
 
 [node name="Collision" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision"]
-shape = SubResource( 2 )
+[node name="CollisionShape2D2" type="CollisionPolygon2D" parent="Collision"]
+polygon = PoolVector2Array( -32, 0, -24, -24, 0, -28, 24, -24, 24, -12.5, -0.25, -11.5, -0.25, 11.5, 23.75, 12, 24, 24, 0, 27.5, -24, 24, -32, 0 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
 
