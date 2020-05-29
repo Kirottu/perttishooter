@@ -18,6 +18,7 @@ func _ready():
 	connect("exited", get_parent(), "_on_Tower_Enemy_exited")
 	connect("destroyed", get_parent(), "_on_Enemy_destroyed")
 	get_parent().connect("core_destroyed", self, "_on_Level_core_destroyed")
+	get_parent().connect("free_time", self, "_on_free_time")
 
 func _process(delta):
 	look_at(tower.position)
@@ -28,6 +29,9 @@ func _physics_process(delta):
 		# TODO: add case for when it's arrived, to optimize and stuff
 
 func _on_Level_core_destroyed():
+	queue_free()
+
+func _on_free_time():
 	queue_free()
 
 func _on_Area2D_body_entered(body):
@@ -41,8 +45,10 @@ func _on_Area2D_body_entered(body):
 			destroyed = true
 			explosion.play()
 			set_process(false)
+			emit_signal("destroyed", true)
 			if position.distance_to(tower.position) < 90:
 				emit_signal("exited")
+			get_node("CollisionShape2D").queue_free()
 			yield(get_tree().create_timer(1.5), "timeout")
 			# Queue for deletion in the next frame when health == 0
 			queue_free()

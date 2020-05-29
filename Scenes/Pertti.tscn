@@ -6,7 +6,6 @@
 [ext_resource path="res://Assets/Audio/hurt.wav" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Audio/explosion.wav" type="AudioStream" id=5]
 
-
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 30, 30 )
 
@@ -40,8 +39,8 @@ rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-visible = false
 scale = Vector2( 0.06, 0.06 )
+z_index = 1
 texture = ExtResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]

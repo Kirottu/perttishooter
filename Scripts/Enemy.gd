@@ -18,6 +18,7 @@ var destroyed = false
 
 func _ready():
 	connect("destroyed", get_parent(), "_on_Enemy_destroyed")
+	get_parent().connect("free_time", self, "_on_free_time")
 	# Do not process right away as that would cause problems, randomize to unsync the calculation, and hopefully unstrain the cpu
 	set_process(false)
 	rng.randomize()
@@ -67,7 +68,8 @@ func _on_Area2D_body_entered(body):
 			destroyed = true
 			explosion.play()
 			set_process(false)
-			emit_signal("destroyed")
+			emit_signal("destroyed", false)
+			get_node("CollisionShape2D").queue_free()
 			yield(get_tree().create_timer(1.5), "timeout")
 			# Queue for deletion in the next frame when health == 0
 			queue_free()
@@ -135,4 +137,7 @@ func update_path():
 	# print(path_length_to_pertti * Settings.update_delay_factor)
 
 func _on_Pertti_gameover():
+	queue_free()
+
+func _on_free_time():
 	queue_free()
