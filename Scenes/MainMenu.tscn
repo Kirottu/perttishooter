@@ -86,3 +86,4 @@ __meta__ = {
 }
 [connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_QuitButton_pressed"]
+// If my youtube golden play button gets pressed, we start the game of shooting... things.
