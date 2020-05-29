@@ -7,8 +7,8 @@ var fire_rate = 0.4
 var spawn_timer = 180
 var enemy_speed = 450
 var enemy_health = 4
-var tower_enemy_speed = 500
-var tower_enemy_health = 3
+var tower_enemy_speed = 300
+var tower_enemy_health = 10
 var pertti_health = 3
 var gameover = false
 var path_update_timer = 0.5
@@ -28,7 +28,7 @@ var max_first_path_delay = 30
 var minimum_path_delay = 60
 
 # in %
-var tower_enemy_probability = 40
+var tower_enemy_probability = 25
 
 var score = 0
 var coins = 0

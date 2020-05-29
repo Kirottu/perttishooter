@@ -207,6 +207,9 @@ func _on_Tower_Enemy_exited():
 		under_attack_label.visible = false
 		tower_damage_interval = Settings.tower_damage_interval
 
-func _on_Enemy_destroyed():
-	Settings.coins += 1
+func _on_Enemy_destroyed(tower_enemy : bool):
+	if !tower_enemy:
+		Settings.coins += 1
+	elif tower_enemy:
+		Settings.coins += 2
 	coin_label.text = "Coins:" + str(Settings.coins)
