@@ -31,9 +31,9 @@ var tower_destroyed = false
 var tower_under_attack = false
 var enemies_spawnable = true
 var round_interval = false
+var core_damageable = true
 
 # Integers/floats
-var spawn_timer = Settings.base_difficulty
 var tower_health = Settings.tower_health
 var enemies_in_tower = 0
 var tower_damage_interval = Settings.tower_damage_interval
@@ -50,6 +50,8 @@ var pertti
 var health_bar_stylebox
 var round_timer
 var spawn_points = []
+var spawn_timer
+var core_damage_timer
 
 func _ready():
 	set_visibility()
@@ -60,38 +62,28 @@ func _ready():
 	round_timer_indicator()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 
-func _physics_process(delta):
-	core_damage()
-	spawn_enemies()
-
 func core_damage():
-	if !tower_destroyed and tower_under_attack and tower_health != 0:
-		if tower_damage_interval > 0:
-			tower_damage_interval -= 1
-		if tower_damage_interval == 0:
-			tower_health -= 1
-			tower_health_bar.value = tower_health
-			tower_damage_interval = Settings.tower_damage_interval
+	if !tower_destroyed and tower_under_attack and tower_health != 0 and core_damageable:
+		core_damageable = false
+		yield(get_tree().create_timer(Settings.tower_damage_interval), "timeout")
+		core_damageable = true
+		tower_health -= 1
+		tower_health_bar.value = tower_health
+		
 	elif tower_health == 0:
 		tower_destroyed = true
 		emit_signal("core_destroyed")
 
 func spawn_enemies():
 	if !gameover and enemies_spawnable and !round_interval:
-		# Operate the timer between spawns
-		if spawn_timer > 0:
-			spawn_timer -= 1
-		if spawn_timer == 0:
-			rng.randomize()
-			# Set a random time for when the next enemy spawns
-			spawn_timer = Settings.base_difficulty - Settings.difficulty
-			# Spawn an enemy to a random spawnpoint
-			if rng.randi_range(0,100) > Settings.tower_enemy_probability:
-				_spawn_enemy(rng.randi_range(0,7))
-			elif !tower_destroyed:
-				_spawn_tower_enemy(rng.randi_range(0,7))
-			else:
-				_spawn_enemy(rng.randi_range(0,7))
+		rng.randomize()
+		# Spawn an enemy to a random spawnpoint
+		if rng.randi_range(0,100) > Settings.tower_enemy_probability:
+			_spawn_enemy(rng.randi_range(0,7))
+		elif !tower_destroyed:
+			_spawn_tower_enemy(rng.randi_range(0,7))
+		else:
+			_spawn_enemy(rng.randi_range(0,7))
 
 func set_visibility():
 	game_over_label.visible = false
@@ -124,6 +116,19 @@ func create_timers():
 	score_timer.set_wait_time(1.0)
 	score_timer.set_one_shot(false) # Make sure it loops
 	score_timer.start()
+	
+	spawn_timer = Timer.new()
+	add_child(spawn_timer)
+	spawn_timer.connect("timeout", self, "spawn_enemies")
+	spawn_timer.set_wait_time(Settings.base_difficulty)
+	spawn_timer.set_one_shot(false)
+	spawn_timer.start()
+	
+	core_damage_timer = Timer.new()
+	add_child(core_damage_timer)
+	core_damage_timer.connect("timeout", self, "core_damage")
+	core_damage_timer.set_wait_time(Settings.tower_damage_interval)
+	core_damage_timer.set_one_shot(false)
 
 func set_positions():
 	$HUD/ColorRect.set_size(Vector2(get_viewport().size.x, get_viewport().size.y))
@@ -216,19 +221,24 @@ func _on_Area2D_body_entered(body):
 			initialization_period()
 			yield(get_tree().create_timer(Settings.attack_initalization_period), "timeout")
 		tower_under_attack = true
+		core_damage_timer.start()
 		under_attack_label.text = "Core under attack!"
 		warning_flash()
 		enemies_in_tower += 1
 	elif tower_destroyed:
 		under_attack_label.text = "Core Destroyed!"
 		under_attack_label.visible = true
-
-func _on_Tower_Enemy_exited():
 	enemies_in_tower -= 1
 	if enemies_in_tower == 0:
 		tower_under_attack = false
 		under_attack_label.visible = false
 		tower_damage_interval = Settings.tower_damage_interval
+
+func _on_Tower_Enemy_exited():
+	enemies_in_tower -= 1
+	if enemies_in_tower == 0:
+		tower_under_attack = false
+		core_damage_timer.stop()
 
 func _on_Enemy_destroyed(tower_enemy : bool):
 	if !tower_enemy:

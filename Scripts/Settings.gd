@@ -23,12 +23,12 @@ var tower_enemy_probability = 25 # in %
 var warning_flash_interval = 0.08
 var round_time = 60
 var round_interval = 30
-var difficulty_increase = 5
+var difficulty_increase = 0.08
 var max_first_path_delay = 30 #confusing name, this is the amount of physics steps (max 60/second) before a new path is calculated for the enemies
 var minimum_path_delay = 60 #minimum amount of phyisics frames before the path is update, if in really close proximity
-var base_difficulty = 120
+var base_difficulty = 2
 var tower_health = 50
-var tower_damage_interval = 30
+var tower_damage_interval = 0.5
 var attack_initalization_period = 2
 
 # Variables that change during gameplay, e.g. score, difficulty...
