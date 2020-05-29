@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal destroyed
+
 onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
@@ -15,6 +17,7 @@ var path_length_to_pertti = 0 #set to 0 to force path calculation at start and b
 var destroyed = false
 
 func _ready():
+	connect("destroyed", get_parent(), "_on_Enemy_destroyed")
 	# Do not process right away as that would cause problems, randomize to unsync the calculation, and hopefully unstrain the cpu
 	set_process(false)
 	rng.randomize()
@@ -39,6 +42,10 @@ func _physics_process(delta):
 	else:
 		path_update_timer -= 1
 	
+	if position.distance_to(pertti.position) <= Settings.close_proximity_follow_distance:
+		pertti_in_sight = true
+	else:
+		pertti_in_sight = false
 	if !pertti_in_sight and health != 0:
 		move_along_path(Settings.enemy_speed * 0.02)
 	# Switch to close proximity follow for better close quarters following
@@ -60,6 +67,7 @@ func _on_Area2D_body_entered(body):
 			destroyed = true
 			explosion.play()
 			set_process(false)
+			emit_signal("destroyed")
 			yield(get_tree().create_timer(1.5), "timeout")
 			# Queue for deletion in the next frame when health == 0
 			queue_free()
@@ -125,14 +133,6 @@ func update_path():
 	if path_length_to_pertti * Settings.update_delay_factor <= Settings.minimum_path_delay:
 		path_length_to_pertti =  Settings.minimum_path_delay / Settings.update_delay_factor
 	# print(path_length_to_pertti * Settings.update_delay_factor)
-
-func _on_PerttiDetector_body_entered(body):
-	if body.name == "Pertti":
-		pertti_in_sight = true
-	
-func _on_PerttiDetector_body_exited(body):
-	if body.name == "Pertti":
-		pertti_in_sight = false
 
 func _on_Pertti_gameover():
 	queue_free()

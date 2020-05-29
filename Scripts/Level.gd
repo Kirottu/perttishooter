@@ -14,6 +14,7 @@ onready var restart_button = $HUD/GameOverMenu/RestartButton
 onready var tower_health_bar = $HUD/HUD/ProgressBar
 onready var respawn_label = $HUD/HUD/RespawnLabel
 onready var under_attack_label = $HUD/HUD/UnderAttackLabel
+onready var coin_label = $HUD/HUD/Coins
 
 # Other variables
 var gameover = false
@@ -51,6 +52,8 @@ func _ready():
 	health_label.text = "Health:" + str(Settings.pertti_health)
 	
 	Settings.score = 0
+	score_label.text = "Score:" + str(Settings.score)
+	coin_label.text = "Coins:" + str(Settings.coins)
 	score_timer = Timer.new()
 	add_child(score_timer)
 	score_timer.connect("timeout", self, "_increase_score")
@@ -203,3 +206,7 @@ func _on_Tower_Enemy_exited():
 		tower_under_attack = false
 		under_attack_label.visible = false
 		tower_damage_interval = Settings.tower_damage_interval
+
+func _on_Enemy_destroyed():
+	Settings.coins += 1
+	coin_label.text = "Coins:" + str(Settings.coins)

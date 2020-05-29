@@ -164,9 +164,9 @@ tile_data = PoolIntArray( -1245192, 0, 0, -1245191, 0, 0, -1245190, 0, 0, -12451
 
 [node name="ProgressBar" type="ProgressBar" parent="HUD/HUD"]
 margin_left = 10.0
-margin_top = 125.0
+margin_top = 175.0
 margin_right = 336.0
-margin_bottom = 158.0
+margin_bottom = 208.0
 custom_styles/fg = SubResource( 4 )
 custom_styles/bg = SubResource( 5 )
 custom_fonts/font = SubResource( 6 )
@@ -194,6 +194,17 @@ margin_right = 344.0
 margin_bottom = 141.0
 custom_fonts/font = SubResource( 8 )
 text = "Score:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Coins" type="Label" parent="HUD/HUD"]
+margin_left = 10.0
+margin_top = 125.0
+margin_right = 344.0
+margin_bottom = 196.0
+custom_fonts/font = SubResource( 8 )
+text = "Coins:"
 __meta__ = {
 "_edit_use_anchors_": false
 }

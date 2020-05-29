@@ -11,10 +11,12 @@ var pertti
 var destroyed = false
 
 signal exited
+signal destroyed
 
 func _ready():
 	path = nav_2d.get_simple_path(position, tower.position)
 	connect("exited", get_parent(), "_on_Tower_Enemy_exited")
+	connect("destroyed", get_parent(), "_on_Enemy_destroyed")
 	get_parent().connect("core_destroyed", self, "_on_Level_core_destroyed")
 
 func _process(delta):

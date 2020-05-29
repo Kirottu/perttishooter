@@ -17,6 +17,7 @@ var update_delay_factor = 0.05 #factor which the length of the route to pertti f
 var respawn_delay = 3
 var warning_flash_interval = 0.08
 
+var close_proximity_follow_distance = 300
 var tower_health = 50
 var tower_damage_interval = 30
 var attack_initalization_period = 1
@@ -30,3 +31,4 @@ var minimum_path_delay = 60
 var tower_enemy_probability = 40
 
 var score = 0
+var coins = 0
