@@ -169,6 +169,8 @@ tile_data = PoolIntArray( -1245192, 0, 0, -1245191, 0, 0, -1245190, 0, 0, -12451
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
+[node name="Shop" type="Node" parent="HUD"]
+
 [node name="HUD" type="Node" parent="HUD"]
 
 [node name="ProgressBar" type="ProgressBar" parent="HUD/HUD"]

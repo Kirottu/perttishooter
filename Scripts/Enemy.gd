@@ -1,20 +1,25 @@
 extends KinematicBody2D
 
-signal destroyed
-
+# Node references
 onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
 
+# Bools
+var can_update = false
+var pertti_in_sight = false
+var destroyed = false
+
+# Signals
+signal destroyed
+
+# Misc
 var rng = RandomNumberGenerator.new()
 var health = Settings.enemy_health
 var path
 var pertti
 var path_update_timer
-var can_update = false
-var pertti_in_sight = false
 var path_length_to_pertti = 0 #set to 0 to force path calculation at start and because it crashes otherwise
-var destroyed = false
 
 func _ready():
 	connect("destroyed", get_parent(), "_on_Enemy_destroyed")
@@ -23,7 +28,6 @@ func _ready():
 	set_process(false)
 	rng.randomize()
 	path_update_timer = rng.randf_range(0, Settings.max_first_path_delay)
-	
 
 func _process(delta):
 	# Look at pertti, looks  t h i c c
@@ -33,6 +37,26 @@ func _process(delta):
 	look_at(pertti.position)
 	
 func _physics_process(delta):
+	update_path_timer()
+	check_if_pertti_in_sight()
+	move_or_slide()
+
+func move_or_slide():
+	if !pertti_in_sight and health != 0:
+		move_along_path(Settings.enemy_speed * 0.02)
+	# Switch to close proximity follow for better close quarters following
+	elif health != 0:
+		var start_point = position
+		var direction = ( pertti.position - self.position).normalized()
+		move_and_slide(direction * 500)
+
+func check_if_pertti_in_sight():
+	if position.distance_to(pertti.position) <= Settings.close_proximity_follow_distance:
+		pertti_in_sight = true
+	else:
+		pertti_in_sight = false
+
+func update_path_timer():
 	# Operate path update timer
 	if path_update_timer <= 0 and !pertti_in_sight and health > 0:
 		#can_update = true
@@ -42,37 +66,6 @@ func _physics_process(delta):
 		path_update_timer = Settings.update_delay_factor * path_length_to_pertti
 	else:
 		path_update_timer -= 1
-	
-	if position.distance_to(pertti.position) <= Settings.close_proximity_follow_distance:
-		pertti_in_sight = true
-	else:
-		pertti_in_sight = false
-	if !pertti_in_sight and health != 0:
-		move_along_path(Settings.enemy_speed * 0.02)
-	# Switch to close proximity follow for better close quarters following
-	elif health != 0:
-		var start_point = position
-		var direction = ( pertti.position - self.position).normalized()
-		move_and_slide(direction * 500)
-		# position = start_point.linear_interpolate(pertti.position, Settings.enemy_speed * 0.001 * delta)
-
-
-func _on_Area2D_body_entered(body):
-	# Check if a bullet has entered area, if so reduce health
-	if "Bullet" in body.name and !destroyed:
-		if health > 1:
-			hurt_sound.play()
-		if health > 0:
-			health -= 1
-		if health == 0:
-			destroyed = true
-			explosion.play()
-			set_process(false)
-			emit_signal("destroyed", false)
-			get_node("CollisionShape2D").queue_free()
-			yield(get_tree().create_timer(1.5), "timeout")
-			# Queue for deletion in the next frame when health == 0
-			queue_free()
 
 func move_along_path(distance : float):
 	# Set the start point of the path
@@ -113,7 +106,6 @@ func set_pertti_ref(value):
 		return
 	# Start _process function and start moving on the path
 	set_process(true)
-	#print("processing")
 
 func pertti_moved_listener():
 	can_update = true
@@ -134,10 +126,26 @@ func update_path():
 		path_length_to_pertti += last.distance_to(path[i])
 	if path_length_to_pertti * Settings.update_delay_factor <= Settings.minimum_path_delay:
 		path_length_to_pertti =  Settings.minimum_path_delay / Settings.update_delay_factor
-	# print(path_length_to_pertti * Settings.update_delay_factor)
 
 func _on_Pertti_gameover():
 	queue_free()
 
 func _on_free_time():
 	queue_free()
+
+func _on_Area2D_body_entered(body):
+	# Check if a bullet has entered area, if so reduce health
+	if "Bullet" in body.name and !destroyed:
+		if health > 1:
+			hurt_sound.play()
+		if health > 0:
+			health -= 1
+		if health == 0:
+			destroyed = true
+			explosion.play()
+			set_process(false)
+			emit_signal("destroyed", false)
+			get_node("CollisionShape2D").queue_free()
+			yield(get_tree().create_timer(1.5), "timeout")
+			# Queue for deletion in the next frame when health == 0
+			queue_free()
