@@ -37,6 +37,7 @@ var core_damageable = true
 var tower_health = Settings.tower_health
 var enemies_in_tower = 0
 var tower_damage_interval = Settings.tower_damage_interval
+var round_indicator_thingy = Settings.round_time
 
 # Signals
 signal core_destroyed
@@ -177,15 +178,21 @@ func _round_timer_elapsed():
 	emit_signal("free_time")
 	tower_under_attack = false
 	core_damage_timer.stop()
-	under_attack_label.visible = false
+	round_timer.stop()
+	round_indicator_thingy = Settings.round_interval
+	if !tower_destroyed:
+		under_attack_label.visible = false
 	yield(get_tree().create_timer(Settings.round_interval), "timeout")
 	print("Round interval elapsed")
+	round_timer.start()
+	round_indicator_thingy = Settings.round_time
 	Settings.rounds += 1
 	round_label.text = "Round:" + str(Settings.rounds)
 	Settings.difficulty += Settings.difficulty_increase
 	round_interval = false
 
 func _increase_score():
+	round_timer_indicator()
 	if !gameover:
 		Settings.score += 1
 		score_label.text = "Score:" + String(Settings.score)
@@ -203,18 +210,12 @@ func warning_flash():
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
 
 func round_timer_indicator():
-	# TODO fix this shit, pause menu will crash the game or still update the
-	# Round time indicator while paused
-	for i in range(Settings.round_time):
-		while get_tree().paused:
-			pass
-		round_indicator_label.text = "Round left:" + str(Settings.round_time - i)
-		yield(get_tree().create_timer(1), "timeout")
-	for i in range(Settings.round_interval):
-		while get_tree().paused:
-			pass
-		round_indicator_label.text = "Free time:" + str(Settings.round_interval - i)
-		yield(get_tree().create_timer(1), "timeout")
+	if !round_interval:
+		round_indicator_label.text = "Time left:" + str(round_indicator_thingy)
+		round_indicator_thingy -= 1
+	elif round_interval:
+		round_indicator_label.text = "Free time:" + str(round_indicator_thingy)
+		round_indicator_thingy -= 1
 
 func initialization_period():
 	under_attack_label.text = "Initializing attack..."
