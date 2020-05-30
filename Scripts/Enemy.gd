@@ -4,6 +4,7 @@ extends KinematicBody2D
 onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
+onready var sprite = $Sprite
 
 # Bools
 var can_update = false
@@ -139,6 +140,9 @@ func _on_Area2D_body_entered(body):
 		if health > 1:
 			hurt_sound.play()
 		if health > 0:
+			sprite.frame = 1
+			yield(get_tree().create_timer(0.1), "timeout")
+			sprite.frame = 0
 			health -= 1
 		if health == 0:
 			destroyed = true
