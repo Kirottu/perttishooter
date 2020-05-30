@@ -11,9 +11,9 @@ var respawn_delay = 3
 
 # Enemy related variables
 var enemy_speed = 450
-var enemy_health = 3
+var enemy_health = 1
 var tower_enemy_speed = 200
-var tower_enemy_health = 7
+var tower_enemy_health = 2
 var path_update_timer = 0.5
 var update_delay_factor = 0.05 #factor which the length of the route to pertti from enemy is multiplied with to calculate the amount of physicis frames before next recalculation
 var close_proximity_follow_distance = 300
@@ -30,6 +30,11 @@ var base_difficulty = 2
 var tower_health = 50
 var tower_damage_interval = 0.5
 var attack_initalization_period = 2
+
+#npc related settings
+var npc_health = 3
+var npc_spawn_pos = Vector2(1050,650)
+var npc_follow_pertti_treshold = 10 #how far pertti can go before the npc starts following again
 
 # Variables that change during gameplay, e.g. score, difficulty...
 var rounds = 1 # Supposed to be round, but it is a built in type in godot and so unusable

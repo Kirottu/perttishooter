@@ -23,6 +23,7 @@ onready var under_attack_label = $HUD/HUD/UnderAttackLabel
 # Scenes
 var pertti_scene = preload("res://Scenes/Pertti.tscn")
 var enemy_scene = preload("res://Scenes/Enemy.tscn")
+var npc_scene = preload("res://Scenes/Npc.tscn")
 var tower_enemy_scene = preload("res://Scenes/Tower_Enemy.tscn")
 
 # Bools
@@ -62,6 +63,7 @@ func _ready():
 	create_timers()
 	round_timer_indicator()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
+	spawn_npc()
 
 func core_damage():
 	if !tower_destroyed and tower_under_attack and tower_health != 0 and core_damageable:
@@ -81,10 +83,8 @@ func core_damage():
 func spawn_enemies():
 	if !gameover and enemies_spawnable and !round_interval:
 		rng.randomize()
-		# Spawn an enemy to a random spawnpoint
-		if rng.randi_range(0,100) > Settings.tower_enemy_probability:
-			_spawn_enemy(rng.randi_range(0,7))
-		elif !tower_destroyed:
+		
+		if !tower_destroyed and rng.randi_range(0,99) < Settings.tower_enemy_probability:
 			_spawn_tower_enemy(rng.randi_range(0,7))
 		else:
 			_spawn_enemy(rng.randi_range(0,7))
@@ -160,6 +160,7 @@ func _spawn_enemy(spawn_point):
 	# Pass reference to pertti to the enemy
 	enemy.set_pertti_ref(pertti)
 
+
 func _spawn_tower_enemy(spawn_point):
 	# Instance the enemy from preloaded scene
 	var enemy = tower_enemy_scene.instance()
@@ -168,6 +169,13 @@ func _spawn_tower_enemy(spawn_point):
 	# Set enemies position based on sel_spawn_point
 	enemy.position = sel_spawn_point.position
 	add_child(enemy)
+
+func spawn_npc():
+	var npc = npc_scene.instance()
+	npc.position = Settings.npc_spawn_pos
+	add_child(npc)
+	npc.set_pertti_ref(pertti)
+
 
 func _on_Pertti_damage_taken(health):
 	health_label.text = "Health:" + str(health)
