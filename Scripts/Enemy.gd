@@ -35,6 +35,7 @@ func _process(delta):
 	# I see what you did arte, this incident will be reported
 	# You just can't handle the truth, he do be dummy thicc
 	# I wonder when valzu is gonna make the god damn wall textures
+	# Probably when gentoo is done compiling on the uberpotato (aka not before the end of the year)
 	look_at(pertti.position)
 	
 func _physics_process(delta):
