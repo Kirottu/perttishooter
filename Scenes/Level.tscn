@@ -3,10 +3,10 @@
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Rectangles/rectangle.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Textures/Rectangles/black_rectangle.png" type="Texture" id=3]
-[ext_resource path="res://Assets/Fonts/prstartk.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://Assets/Fonts/font.tres" type="DynamicFont" id=5]
-[ext_resource path="res://Scripts/PauseMenu.gd" type="Script" id=6]
-[ext_resource path="res://Assets/Textures/Tilemap/borror_tiles.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Textures/Tilemap/borror_tiles.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Fonts/prstartk.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://Assets/Fonts/font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://Scripts/PauseMenu.gd" type="Script" id=7]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
@@ -27,11 +27,6 @@ points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
 0/tile_mode = 0
 0/occluder_offset = Vector2( 0, 0 )
 0/navigation_offset = Vector2( 0, 0 )
-0/shape_offset = Vector2( 0, 0 )
-0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape = SubResource( 1 )
-0/shape_one_way = false
-0/shape_one_way_margin = 1.0
 0/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
@@ -49,14 +44,10 @@ points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
 1/occluder_offset = Vector2( 0, 0 )
 1/navigation_offset = Vector2( 0, 0 )
 1/navigation = SubResource( 2 )
-1/shape_offset = Vector2( 0, 0 )
-1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-1/shape_one_way = false
-1/shape_one_way_margin = 0.0
 1/shapes = [  ]
 1/z_index = 0
 4/name = "borror_tiles.png 4"
-4/texture = ExtResource( 7 )
+4/texture = ExtResource( 4 )
 4/tex_offset = Vector2( 0, 0 )
 4/modulate = Color( 1, 1, 1, 1 )
 4/region = Rect2( 0, 0, 128, 64 )
@@ -66,15 +57,9 @@ points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
 4/autotile/spacing = 0
 4/autotile/occluder_map = [  ]
 4/autotile/navpoly_map = [  ]
-4/autotile/priority_map = [  ]
 4/autotile/z_index_map = [  ]
 4/occluder_offset = Vector2( 0, 0 )
 4/navigation_offset = Vector2( 0, 0 )
-4/shape_offset = Vector2( 0, 0 )
-4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-4/shape = SubResource( 3 )
-4/shape_one_way = false
-4/shape_one_way_margin = 1.0
 4/shapes = [ {
 "autotile_coord": Vector2( 1, 0 ),
 "one_way": false,
@@ -94,25 +79,25 @@ bg_color = Color( 0.227451, 0.227451, 0.227451, 1 )
 size = 20
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 4 )
+font_data = ExtResource( 5 )
 
 [sub_resource type="DynamicFont" id=8]
 size = 40
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 4 )
+font_data = ExtResource( 5 )
 
 [sub_resource type="DynamicFont" id=9]
 size = 40
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 4 )
+font_data = ExtResource( 5 )
 
 [sub_resource type="DynamicFont" id=10]
 size = 30
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 4 )
+font_data = ExtResource( 5 )
 
 [sub_resource type="Shader" id=11]
 code = "    shader_type canvas_item;
@@ -225,7 +210,7 @@ margin_left = 544.0
 margin_top = 568.0
 margin_right = 1144.0
 margin_bottom = 727.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 text = "Respawning In:"
 align = 1
 valign = 1
@@ -238,7 +223,7 @@ margin_left = 520.0
 margin_top = 64.0
 margin_right = 1420.0
 margin_bottom = 115.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 text = "Core under attack!"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -254,7 +239,7 @@ __meta__ = {
 
 [node name="PauseMenu" type="Node" parent="HUD"]
 pause_mode = 2
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="PauseLabel" type="Label" parent="HUD/PauseMenu"]
 visible = false
@@ -262,7 +247,7 @@ margin_left = 440.0
 margin_top = 320.0
 margin_right = 960.0
 margin_bottom = 334.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 text = "Paused"
 align = 1
 __meta__ = {
@@ -275,7 +260,7 @@ margin_left = 552.0
 margin_top = 560.0
 margin_right = 635.0
 margin_bottom = 582.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.721569, 0.721569, 0.721569, 1 )
 custom_colors/font_color_pressed = Color( 0.490196, 0.490196, 0.490196, 1 )
@@ -290,7 +275,7 @@ margin_left = 416.0
 margin_top = 704.0
 margin_right = 656.0
 margin_bottom = 726.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 0.0588235, 0.0588235, 1 )
 custom_colors/font_color_pressed = Color( 0.721569, 0.0745098, 0.0745098, 1 )
@@ -305,7 +290,7 @@ margin_left = 616.0
 margin_top = 424.0
 margin_right = 720.0
 margin_bottom = 446.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.721569, 0.721569, 0.721569, 1 )
 custom_colors/font_color_pressed = Color( 0.490196, 0.490196, 0.490196, 1 )
@@ -323,7 +308,7 @@ margin_left = 440.0
 margin_top = 320.0
 margin_right = 960.0
 margin_bottom = 334.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 text = "Game Over"
 align = 1
 __meta__ = {
@@ -336,7 +321,7 @@ margin_left = 552.0
 margin_top = 560.0
 margin_right = 635.0
 margin_bottom = 582.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.721569, 0.721569, 0.721569, 1 )
 custom_colors/font_color_pressed = Color( 0.490196, 0.490196, 0.490196, 1 )
@@ -351,7 +336,7 @@ margin_left = 416.0
 margin_top = 704.0
 margin_right = 656.0
 margin_bottom = 763.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 0.0588235, 0.0588235, 1 )
 custom_colors/font_color_pressed = Color( 0.721569, 0.0745098, 0.0745098, 1 )
@@ -366,7 +351,7 @@ margin_left = 616.0
 margin_top = 424.0
 margin_right = 720.0
 margin_bottom = 446.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.721569, 0.721569, 0.721569, 1 )
 custom_colors/font_color_pressed = Color( 0.490196, 0.490196, 0.490196, 1 )

@@ -34,6 +34,7 @@ var attack_initalization_period = 2
 #npc related settings
 var npc_health = 3
 var npc_spawn_pos = Vector2(1050,650)
+var npc_follow_pertti_treshold = 10 #how far pertti can go before the npc starts following again
 
 # Variables that change during gameplay, e.g. score, difficulty...
 var rounds = 1 # Supposed to be round, but it is a built in type in godot and so unusable
