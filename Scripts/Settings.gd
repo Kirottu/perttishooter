@@ -35,7 +35,7 @@ var attack_initalization_period = 2
 var npc_health = 3
 var npc_spawn_pos = Vector2(1050,650)
 var npc_follow_pertti_treshold = 1000 #how far pertti can go before the npc starts following again
-var npc_speed = 50000
+var npc_speed = 500
 var min_distance_to_pertti = 10 # the npc won't come closer to pertti than this
 
 # Variables that change during gameplay, e.g. score, difficulty...

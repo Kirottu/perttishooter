@@ -22,6 +22,7 @@ var destination = Vector2(1000,600)
 
 func _ready():
 	rng.randomize()
+	connect("body_entered", self, "_on_seeing_something")
 
 func _process(delta):
 	look_at(destination)
@@ -38,11 +39,14 @@ func set_pertti_ref(value):
 	#pertti.connect("moved", self, "_on_pertti_moved")
 
 func move(delta):
-	move_and_slide(position.linear_interpolate(destination, delta * Settings.npc_speed))
+	#move_and_slide(position.linear_interpolate(destination, delta * Settings.npc_speed))
+	position = destination
 
 func _on_Pertti_gameover():
 	queue_free()
 	
-func _on_Area2D_body_entered(body):
+func _on_seeing_something(body):
+	print("saw smth")
 	if "Enemy" in body.name and !destroyed and !seekingpertti:
 		destination = body.get_position()
+		print("saw em")

@@ -146,6 +146,7 @@ tile_data = PoolIntArray( -1245192, 4, 1, -1245191, 4, 1, -1245190, 4, 1, -12451
 [node name="Shop" type="Node" parent="HUD"]
 
 [node name="HUD" type="Node" parent="HUD"]
+editor/display_folded = true
 
 [node name="ProgressBar" type="ProgressBar" parent="HUD/HUD"]
 margin_left = 10.0
@@ -239,6 +240,7 @@ __meta__ = {
 
 [node name="PauseMenu" type="Node" parent="HUD"]
 pause_mode = 2
+editor/display_folded = true
 script = ExtResource( 7 )
 
 [node name="PauseLabel" type="Label" parent="HUD/PauseMenu"]
@@ -301,6 +303,7 @@ __meta__ = {
 
 [node name="GameOverMenu" type="Node" parent="HUD"]
 pause_mode = 2
+editor/display_folded = true
 
 [node name="GameOverLabel" type="Label" parent="HUD/GameOverMenu"]
 visible = false
@@ -371,6 +374,7 @@ __meta__ = {
 }
 
 [node name="SpawnPoints" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="SpawnPoint1" type="Node2D" parent="SpawnPoints"]
 position = Vector2( 1441.83, 1824.36 )
@@ -397,6 +401,7 @@ position = Vector2( -215, 200 )
 position = Vector2( 2143.92, 1077.85 )
 
 [node name="Tower" type="Node2D" parent="."]
+editor/display_folded = true
 position = Vector2( 960, 640 )
 
 [node name="Area2D" type="Area2D" parent="Tower"]
@@ -406,6 +411,7 @@ position = Vector2( -6.10352e-05, 0 )
 shape = SubResource( 13 )
 
 [node name="Shop" type="Node2D" parent="."]
+editor/display_folded = true
 position = Vector2( 3030, 640 )
 
 [node name="Area2D" type="Area2D" parent="Shop"]
