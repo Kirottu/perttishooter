@@ -63,7 +63,7 @@ func _ready():
 	create_timers()
 	round_timer_indicator()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
-	spawn_npc()
+	#spawn_npc()
 
 func core_damage():
 	if !tower_destroyed and tower_under_attack and tower_health != 0 and core_damageable:
