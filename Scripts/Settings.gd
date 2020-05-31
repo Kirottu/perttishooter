@@ -41,4 +41,4 @@ var min_distance_to_pertti = 10 # the npc won't come closer to pertti than this
 var rounds = 1 # Supposed to be round, but it is a built in type in godot and so unusable
 var difficulty = 0
 var score = 0
-var coins = 0
+var coins = 15

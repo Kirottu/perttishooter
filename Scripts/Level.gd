@@ -141,15 +141,15 @@ func set_positions():
 	shop_panel.rect_size = Vector2(300, get_viewport().size.y - 200)
 	shop_panel.rect_position = Vector2(get_viewport().size.x - shop_panel.get_rect().size.x, 100)
 	game_over_label.rect_position = Vector2((get_viewport().size.x - game_over_label.get_rect().size.x) / 2, get_viewport().size.y / 4)
-	shop_panel.get_node("ScrollContainer").rect_size = Vector2(shop_panel.rect_size.x, shop_panel.rect_size.y - 20)
-	shop_panel.get_node("ScrollContainer").rect_position = Vector2(shop_panel.rect_position.x, shop_panel.rect_position.y - 20)
+	shop_panel.get_node("ScrollContainer").rect_size = Vector2(shop_panel.rect_size.x, shop_panel.rect_size.y - 40)
+	shop_panel.get_node("ScrollContainer").rect_position = Vector2(shop_panel.get_node("ScrollContainer").rect_position.x, shop_panel.get_node("ScrollContainer").rect_position.y + 40)
 	quit_button.rect_position = Vector2((get_viewport().size.x - quit_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 250)
 	main_menu_button.rect_position = Vector2((get_viewport().size.x - main_menu_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 175)
 	restart_button.rect_position = Vector2((get_viewport().size.x - restart_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 100)
 	respawn_label.rect_position = Vector2((get_viewport().size.x - respawn_label.get_rect().size.x) / 2, (get_viewport().size.y - respawn_label.get_rect().size.y) / 2)
 	under_attack_label.rect_position = Vector2((get_viewport().size.x - under_attack_label.get_rect().size.x) / 2, get_viewport().size.y - 100)
 	round_indicator_label.rect_position = Vector2((get_viewport().size.x - round_indicator_label.get_rect().size.x) / 2, 50)
-	
+
 func _spawn_pertti():
 	pertti = pertti_scene.instance()
 	pertti.position = tower.position
@@ -166,7 +166,6 @@ func _spawn_enemy(spawn_point):
 	# Pass reference to pertti to the enemy
 	enemy.set_pertti_ref(pertti)
 
-
 func _spawn_tower_enemy(spawn_point):
 	# Instance the enemy from preloaded scene
 	var enemy = tower_enemy_scene.instance()
@@ -181,7 +180,6 @@ func spawn_npc():
 	npc.position = shop.position
 	add_child(npc)
 	npc.set_pertti_ref(pertti)
-
 
 func _on_Pertti_damage_taken(health):
 	health_label.text = "Health:" + str(health)
@@ -257,6 +255,7 @@ func _on_Area2D_body_entered(body):
 			tower_under_attack = false
 			under_attack_label.visible = false
 			core_damage_timer.stop()
+
 func _on_Tower_Enemy_exited():
 	print("Enemy exited")
 	enemies_in_tower -= 1
@@ -318,3 +317,10 @@ func _on_viewport_size_changed():
 func _on_Area2D_body_exited(body):
 	if body.name == "Pertti":
 		shop_panel.visible = false
+
+func _on_CoreHealthAdd_pressed():
+	if tower_health != Settings.tower_health and Settings.coins >= 15 and !tower_destroyed and !tower_under_attack:
+		tower_health = Settings.tower_health
+		Settings.coins -= 15
+		tower_health_bar.value = tower_health
+		coin_label.text = "Coins:" + str(Settings.coins)

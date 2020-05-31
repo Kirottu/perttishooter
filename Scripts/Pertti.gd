@@ -37,7 +37,7 @@ func _physics_process(delta):
 	if !gameover:
 		_move()
 	# Run _fire if !gameover
-	if Input.is_action_pressed("fire") and can_fire and !gameover:
+	if Input.is_action_pressed("fire") and can_fire and !gameover and !get_parent().shop_panel.visible:
 			_fire()
 
 func initial_invulnerability():

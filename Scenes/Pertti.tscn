@@ -43,7 +43,7 @@ smoothing_enabled = true
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
-polygon = PoolVector2Array( -32, 0, -24, -24, -2.64972, -28.0467, 16, -16, 32, 0, 16, 16, -0.881943, 28.1683, -24, 24, -32, 0 )
+polygon = PoolVector2Array( -36.2373, 0.591091, -26.6913, -26.2789, -4.06393, -31.2287, 16.7957, -19.915, 36.2411, -0.469566, 19.6241, 16.8545, 0.532257, 30.6431, -25.6307, 27.8147, -36.2373, 0.944645 )
 
 [node name="Fireball" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )

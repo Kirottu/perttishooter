@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Rectangles/rectangle.png" type="Texture" id=2]
@@ -86,6 +86,12 @@ points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
 
 [sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0, 0, 0, 0.607843 )
+
+[sub_resource type="DynamicFont" id=17]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
 
 [sub_resource type="DynamicFont" id=16]
 size = 30
@@ -187,18 +193,18 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/Shop/Panel/ScrollContainer"]
-margin_right = 200.0
-margin_bottom = 51.0
+margin_right = 282.0
+margin_bottom = 39.0
 custom_constants/separation = 10
 
-[node name="Label" type="Label" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer"]
-margin_right = 200.0
-margin_bottom = 51.0
-custom_fonts/font = ExtResource( 6 )
-text = "TEST"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="CoreHealthAdd" type="ToolButton" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer"]
+margin_right = 282.0
+margin_bottom = 39.0
+custom_fonts/font = SubResource( 17 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.733333, 0.733333, 0.733333, 1 )
+custom_colors/font_color_pressed = Color( 0.478431, 0.47451, 0.47451, 1 )
+text = "100% Core"
 
 [node name="ShopLabel" type="Label" parent="HUD/Shop/Panel"]
 margin_left = 10.0
@@ -475,6 +481,7 @@ position = Vector2( 3030, 640 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Area2D"]
 shape = SubResource( 14 )
+[connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/CoreHealthAdd" to="." method="_on_CoreHealthAdd_pressed"]
 [connection signal="pressed" from="HUD/PauseMenu/MainMenuButton" to="HUD/PauseMenu" method="_on_MainMenuButton_pressed"]
 [connection signal="pressed" from="HUD/PauseMenu/QuitButton" to="HUD/PauseMenu" method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="HUD/PauseMenu/ResumeButton" to="HUD/PauseMenu" method="_on_ResumeButton_pressed"]
