@@ -63,7 +63,7 @@ func _ready():
 	create_timers()
 	round_timer_indicator()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
-	#spawn_npc()
+	spawn_npc()
 
 func core_damage():
 	if !tower_destroyed and tower_under_attack and tower_health != 0 and core_damageable:
@@ -247,11 +247,14 @@ func _on_Area2D_body_entered(body):
 			core_damage_timer.start()
 			under_attack_label.text = "Core under attack!"
 			warning_flash()
-
+		elif !tower_destroyed: 
+			tower_under_attack = false
+			under_attack_label.visible = false
+			core_damage_timer.stop()
 func _on_Tower_Enemy_exited():
 	print("Enemy exited")
 	enemies_in_tower -= 1
-	if enemies_in_tower == 0:
+	if enemies_in_tower == 0 and !tower_destroyed:
 		tower_under_attack = false
 		under_attack_label.visible = false
 		core_damage_timer.stop()

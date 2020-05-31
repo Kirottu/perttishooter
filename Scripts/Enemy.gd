@@ -36,6 +36,7 @@ func _process(delta):
 	# You just can't handle the truth, he do be dummy thicc
 	# I wonder when valzu is gonna make the god damn wall textures
 	# Probably when gentoo is done compiling on the uberpotato (aka not before the end of the year)
+	# I doubt it is ever going to finish
 	look_at(pertti.position)
 	
 func _physics_process(delta):
@@ -49,8 +50,8 @@ func move_or_slide():
 	# Switch to close proximity follow for better close quarters following
 	elif health != 0:
 		var start_point = position
-		var direction = ( pertti.position - self.position).normalized()
-		move_and_slide(direction * 500)
+		var direction = (pertti.position - position).normalized()
+		move_and_slide(direction * Settings.enemy_speed)
 
 func check_if_pertti_in_sight():
 	if position.distance_to(pertti.position) <= Settings.close_proximity_follow_distance:

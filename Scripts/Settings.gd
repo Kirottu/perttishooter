@@ -11,9 +11,9 @@ var respawn_delay = 3
 
 # Enemy related variables
 var enemy_speed = 450
-var enemy_health = 1
+var enemy_health = 2
 var tower_enemy_speed = 200
-var tower_enemy_health = 2
+var tower_enemy_health = 5
 var path_update_timer = 0.5
 var update_delay_factor = 0.05 #factor which the length of the route to pertti from enemy is multiplied with to calculate the amount of physicis frames before next recalculation
 var close_proximity_follow_distance = 300
@@ -33,8 +33,7 @@ var attack_initalization_period = 2
 
 #npc related settings
 var npc_health = 3
-var npc_spawn_pos = Vector2(1050,650)
-var npc_follow_pertti_treshold = 1000 #how far pertti can go before the npc starts following again
+var npc_follow_pertti_treshold = 250 #how far pertti can go before the npc starts following again
 var npc_speed = 500
 var min_distance_to_pertti = 10 # the npc won't come closer to pertti than this
 

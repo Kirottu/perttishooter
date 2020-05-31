@@ -1,5 +1,8 @@
 extends KinematicBody2D
 
+# Scenes
+var bullet = preload("res://Scenes/Bullet.tscn")
+
 # Node references
 onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
@@ -18,35 +21,34 @@ signal destroyed
 var rng = RandomNumberGenerator.new()
 var seekingpertti = true
 var pertti
-var destination = Vector2(1000,600)
+var direction
+var destination
 
 func _ready():
 	rng.randomize()
 	connect("body_entered", self, "_on_seeing_something")
 
-func _process(delta):
-	look_at(destination)
-
 func _physics_process(delta):
-	seekingpertti = position.distance_to(pertti.position) > Settings.npc_follow_pertti_treshold
-	if seekingpertti:
-		destination = pertti.position 
-	move(delta)
+	if position.distance_to(pertti.position) > Settings.npc_follow_pertti_treshold:
+		seekingpertti = true
+		move()
+	else:
+		seekingpertti = false
 
 func set_pertti_ref(value):
 	pertti = value
 	pertti.connect("gameover", self, "_on_Pertti_gameover")
 	#pertti.connect("moved", self, "_on_pertti_moved")
 
-func move(delta):
+func move():
 	#move_and_slide(position.linear_interpolate(destination, delta * Settings.npc_speed))
-	position = destination
+	direction = (pertti.position - position).normalized()
+	move_and_slide(direction * Settings.npc_speed)
 
 func _on_Pertti_gameover():
 	queue_free()
-	
-func _on_seeing_something(body):
+
+func _on_Area2D_body_entered(body):
 	print("saw smth")
 	if "Enemy" in body.name and !destroyed and !seekingpertti:
-		destination = body.get_position()
 		print("saw em")
