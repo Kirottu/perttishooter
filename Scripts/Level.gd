@@ -8,6 +8,7 @@ onready var coin_label = $HUD/HUD/Coins
 onready var round_indicator_label = $HUD/HUD/RoundTimerIndicator
 onready var round_label = $HUD/HUD/RoundLabel
 onready var tower_health_bar = $HUD/HUD/ProgressBar
+onready var shop_panel = $HUD/Shop/Panel
 
 # Gameover menu references
 onready var game_over_label = $HUD/GameOverMenu/GameOverLabel
@@ -16,6 +17,7 @@ onready var main_menu_button = $HUD/GameOverMenu/MainMenuButton
 onready var restart_button = $HUD/GameOverMenu/RestartButton
 
 # Misc references
+onready var shop = $Shop
 onready var tower = $Tower
 onready var respawn_label = $HUD/HUD/RespawnLabel
 onready var under_attack_label = $HUD/HUD/UnderAttackLabel
@@ -90,6 +92,7 @@ func spawn_enemies():
 			_spawn_enemy(rng.randi_range(0,7))
 
 func set_visibility():
+	shop_panel.visible = false
 	game_over_label.visible = false
 	quit_button.visible = false
 	main_menu_button.visible = false
@@ -135,8 +138,11 @@ func create_timers():
 	core_damage_timer.set_one_shot(false)
 
 func set_positions():
-	$HUD/ColorRect.set_size(Vector2(get_viewport().size.x, get_viewport().size.y))
+	shop_panel.rect_size = Vector2(300, get_viewport().size.y - 200)
+	shop_panel.rect_position = Vector2(get_viewport().size.x - shop_panel.get_rect().size.x, 100)
 	game_over_label.rect_position = Vector2((get_viewport().size.x - game_over_label.get_rect().size.x) / 2, get_viewport().size.y / 4)
+	shop_panel.get_node("ScrollContainer").rect_size = Vector2(shop_panel.rect_size.x, shop_panel.rect_size.y - 20)
+	shop_panel.get_node("ScrollContainer").rect_position = Vector2(shop_panel.rect_position.x, shop_panel.rect_position.y - 20)
 	quit_button.rect_position = Vector2((get_viewport().size.x - quit_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 250)
 	main_menu_button.rect_position = Vector2((get_viewport().size.x - main_menu_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 175)
 	restart_button.rect_position = Vector2((get_viewport().size.x - restart_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 100)
@@ -172,7 +178,7 @@ func _spawn_tower_enemy(spawn_point):
 
 func spawn_npc():
 	var npc = npc_scene.instance()
-	npc.position = Settings.npc_spawn_pos
+	npc.position = shop.position
 	add_child(npc)
 	npc.set_pertti_ref(pertti)
 
@@ -269,6 +275,7 @@ func _on_Enemy_destroyed(tower_enemy : bool):
 func _on_Shop_body_entered(body):
 	if body.name == "Pertti":
 		print("Shop entered")
+		shop_panel.visible = true
 
 func _on_MainMenuButton_pressed():
 	get_tree().paused = false
@@ -307,3 +314,7 @@ func _on_Pertti_gameover():
 
 func _on_viewport_size_changed():
 	set_positions()
+
+func _on_Area2D_body_exited(body):
+	if body.name == "Pertti":
+		shop_panel.visible = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Rectangles/rectangle.png" type="Texture" id=2]
@@ -27,6 +27,11 @@ points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
 0/tile_mode = 0
 0/occluder_offset = Vector2( 0, 0 )
 0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 1 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
 0/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
@@ -44,6 +49,10 @@ points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
 1/occluder_offset = Vector2( 0, 0 )
 1/navigation_offset = Vector2( 0, 0 )
 1/navigation = SubResource( 2 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
 1/shapes = [  ]
 1/z_index = 0
 4/name = "borror_tiles.png 4"
@@ -57,9 +66,15 @@ points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
 4/autotile/spacing = 0
 4/autotile/occluder_map = [  ]
 4/autotile/navpoly_map = [  ]
+4/autotile/priority_map = [  ]
 4/autotile/z_index_map = [  ]
 4/occluder_offset = Vector2( 0, 0 )
 4/navigation_offset = Vector2( 0, 0 )
+4/shape_offset = Vector2( 0, 0 )
+4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+4/shape = SubResource( 3 )
+4/shape_one_way = false
+4/shape_one_way_margin = 1.0
 4/shapes = [ {
 "autotile_coord": Vector2( 1, 0 ),
 "one_way": false,
@@ -68,6 +83,15 @@ points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 4/z_index = 0
+
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 0, 0, 0, 0.607843 )
+
+[sub_resource type="DynamicFont" id=16]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
 
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 1, 0, 0, 1 )
@@ -145,8 +169,46 @@ tile_data = PoolIntArray( -1245192, 4, 1, -1245191, 4, 1, -1245190, 4, 1, -12451
 
 [node name="Shop" type="Node" parent="HUD"]
 
+[node name="Panel" type="Panel" parent="HUD/Shop"]
+margin_right = 500.0
+margin_bottom = 40.0
+custom_styles/panel = SubResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HUD/Shop/Panel"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 310.0
+margin_bottom = 410.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Shop/Panel/ScrollContainer"]
+margin_right = 200.0
+margin_bottom = 51.0
+custom_constants/separation = 10
+
+[node name="Label" type="Label" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer"]
+margin_right = 200.0
+margin_bottom = 51.0
+custom_fonts/font = ExtResource( 6 )
+text = "TEST"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShopLabel" type="Label" parent="HUD/Shop/Panel"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 16 )
+text = "Shop"
+
 [node name="HUD" type="Node" parent="HUD"]
-editor/display_folded = true
 
 [node name="ProgressBar" type="ProgressBar" parent="HUD/HUD"]
 margin_left = 10.0
@@ -220,10 +282,10 @@ __meta__ = {
 }
 
 [node name="UnderAttackLabel" type="Label" parent="HUD/HUD"]
-margin_left = 520.0
-margin_top = 64.0
-margin_right = 1420.0
-margin_bottom = 115.0
+margin_left = 600.0
+margin_top = 56.0
+margin_right = 1500.0
+margin_bottom = 107.0
 custom_fonts/font = ExtResource( 6 )
 text = "Core under attack!"
 __meta__ = {
@@ -240,7 +302,6 @@ __meta__ = {
 
 [node name="PauseMenu" type="Node" parent="HUD"]
 pause_mode = 2
-editor/display_folded = true
 script = ExtResource( 7 )
 
 [node name="PauseLabel" type="Label" parent="HUD/PauseMenu"]
@@ -303,7 +364,6 @@ __meta__ = {
 
 [node name="GameOverMenu" type="Node" parent="HUD"]
 pause_mode = 2
-editor/display_folded = true
 
 [node name="GameOverLabel" type="Label" parent="HUD/GameOverMenu"]
 visible = false
@@ -374,7 +434,6 @@ __meta__ = {
 }
 
 [node name="SpawnPoints" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="SpawnPoint1" type="Node2D" parent="SpawnPoints"]
 position = Vector2( 1441.83, 1824.36 )
@@ -401,7 +460,6 @@ position = Vector2( -215, 200 )
 position = Vector2( 2143.92, 1077.85 )
 
 [node name="Tower" type="Node2D" parent="."]
-editor/display_folded = true
 position = Vector2( 960, 640 )
 
 [node name="Area2D" type="Area2D" parent="Tower"]
@@ -411,7 +469,6 @@ position = Vector2( -6.10352e-05, 0 )
 shape = SubResource( 13 )
 
 [node name="Shop" type="Node2D" parent="."]
-editor/display_folded = true
 position = Vector2( 3030, 640 )
 
 [node name="Area2D" type="Area2D" parent="Shop"]
@@ -426,3 +483,4 @@ shape = SubResource( 14 )
 [connection signal="pressed" from="HUD/GameOverMenu/RestartButton" to="." method="_on_RestartButton_pressed"]
 [connection signal="body_entered" from="Tower/Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_entered" from="Shop/Area2D" to="." method="_on_Shop_body_entered"]
+[connection signal="body_exited" from="Shop/Area2D" to="." method="_on_Area2D_body_exited"]
