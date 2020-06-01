@@ -8,6 +8,7 @@ onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
 onready var sprite = $Sprite
+onready var tilemap = $Navigation2D/TileMap
 
 # Bools
 var can_update = false
@@ -25,8 +26,15 @@ var direction
 var destination
 var path
 var current_target
+var tiles = []
+var tiles_map = []
 
 func _ready():
+	tiles_map = tilemap.get_used_cells()
+	for i in tiles_map.size():
+		var tile = tilemap.map_to_world(tiles_map[i])
+		tiles.append(tile)
+	
 	rng.randomize()
 	connect("body_entered", self, "_on_seeing_something")
 	update_path_if_needed(true)
@@ -45,7 +53,8 @@ func move():
 	
 func update_path_if_needed(force):
 	if force or position.distance_to(destination) < Settings.closest_to_target:
-		destination = Vector2(rng.randi_range(-500, 2300), rng.randi_range(-750, 2000))
+		rng.randomize()
+		destination = tiles[rng.randi_range(0, tiles_map.size() - 1)]
 		path = nav_2d.get_simple_path(position, destination)
 
 func _on_seeing_something():
