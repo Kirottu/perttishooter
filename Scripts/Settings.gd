@@ -33,7 +33,7 @@ var attack_initalization_period = 2
 
 #npc related settings
 var npc_health = 3
-var npc_speed = 100
+var npc_speed = 300
 var closest_to_target = 10 # the npc won't come closer to pertti than this
 var npc_active = false
 
