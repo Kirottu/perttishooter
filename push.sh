@@ -4,6 +4,6 @@ then
 else
 	git add . 
 	git commit -m "$1"
-	git pull upstream master
-	git push upstream master 
+	git pull origin master
+	git push origin master 
 fi

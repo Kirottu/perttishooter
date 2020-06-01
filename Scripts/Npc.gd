@@ -4,6 +4,7 @@ extends KinematicBody2D
 var bullet = preload("res://Scenes/Bullet.tscn")
 
 # Node references
+onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
 onready var sprite = $Sprite
@@ -31,7 +32,7 @@ func _ready():
 	update_path_if_needed(true)
 
 func _physics_process(delta):
-	update_path_if_needed(true)
+	update_path_if_needed(false)
 	move_along_path(delta * Settings.npc_speed)
 
 func set_pertti_ref(value):
@@ -43,19 +44,18 @@ func move():
 	move_and_slide(direction * Settings.npc_speed)
 	
 func update_path_if_needed(force):
-	if  force or position.distance_to(destination) < Settings.closest_to_target:
+	if force or position.distance_to(destination) < Settings.closest_to_target:
 		destination = Vector2(rng.randi_range(-500, 2300), rng.randi_range(-750, 2000))
-		#path = nav_2d.get_simple_path(position, destination)
+		path = nav_2d.get_simple_path(position, destination)
 
-func move_along_path(distance : float):
-	# Set the start point of the path
+func _on_seeing_something():
+	print("saw one")
+
+func move_along_path(distance):
 	var start_point = position
-		
-	# Loop trough the path array to move the enemy
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
 		if distance <= distance_to_next and distance > 0.0:
-			# Move the enemy
 			position = start_point.linear_interpolate(path[0], distance / distance_to_next)
 			break
 		elif distance <= 0.0:
@@ -68,8 +68,8 @@ func move_along_path(distance : float):
 func _on_Pertti_gameover():
 	queue_free()
 
-func _on_Area2D_body_entered(body):
-	print("saw smth")
-	if "Enemy" in body.name and !destroyed and !seekingpertti:
-		current_target = body
-		print("saw em")
+#func _on_Area2D_body_entered(body):
+#	print("saw smth")
+#	if "Enemy" in body.name and !destroyed and !seekingpertti:
+#		current_target = body
+#		print("saw em")
