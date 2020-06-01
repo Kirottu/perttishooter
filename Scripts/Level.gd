@@ -332,3 +332,14 @@ func _on_PerttiHealth_pressed():
 		Settings.coins -= 15
 		pertti.health = Settings.pertti_health
 		health_label.text = "Health:" + str(pertti.health)
+		coin_label.text = "Coins:" + str(Settings.coins)
+
+func _on_Core2X_pressed():
+	$Click.play()
+	if !tower_destroyed and Settings.coins >= 60:
+		Settings.tower_health *= 2
+		tower_health_bar.max_value = Settings.tower_health
+		tower_health = Settings.tower_health
+		tower_health_bar.value = tower_health
+		Settings.coins -= 60
+		coin_label.text = "Coins:" + str(Settings.coins)
