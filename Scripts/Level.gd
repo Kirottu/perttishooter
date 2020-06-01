@@ -65,7 +65,7 @@ func _ready():
 	create_timers()
 	round_timer_indicator()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
-	spawn_npc()
+	_spawn_npc()
 
 func core_damage():
 	if !tower_destroyed and tower_under_attack and tower_health != 0 and core_damageable:
@@ -175,11 +175,10 @@ func _spawn_tower_enemy(spawn_point):
 	enemy.position = sel_spawn_point.position
 	add_child(enemy)
 
-func spawn_npc():
+func _spawn_npc():
 	var npc = npc_scene.instance()
 	npc.position = shop.position
 	add_child(npc)
-	npc.set_pertti_ref(pertti)
 
 func _on_Pertti_damage_taken(health):
 	health_label.text = "Health:" + str(health)
