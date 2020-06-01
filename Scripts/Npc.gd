@@ -20,11 +20,9 @@ signal destroyed
 
 # Misc
 var rng = RandomNumberGenerator.new()
-var seekingpertti = true
-var pertti
-var direction
 var destination
 var path
+var lastpos
 var current_target
 var tiles = []
 var tiles_map = []
@@ -41,18 +39,11 @@ func _ready():
 
 func _physics_process(delta):
 	update_path_if_needed(false)
+	lastpos = position
 	move_along_path(delta * Settings.npc_speed)
 
-func set_pertti_ref(value):
-	pertti = value
-	pertti.connect("gameover", self, "_on_Pertti_gameover")
-
-func move():
-	direction = (pertti.position - position).normalized()
-	move_and_slide(direction * Settings.npc_speed)
-	
 func update_path_if_needed(force):
-	if force or position.distance_to(destination) < Settings.closest_to_target:
+	if force or lastpos == position or position.distance_to(destination) < Settings.closest_to_target:
 		rng.randomize()
 		destination = tiles[rng.randi_range(0, tiles_map.size() - 1)]
 		path = nav_2d.get_simple_path(position, destination)
@@ -73,12 +64,10 @@ func move_along_path(distance):
 		distance -= distance_to_next
 		start_point = path[0]
 		path.remove(0)
+		
 
-func _on_Pertti_gameover():
-	queue_free()
-
-#func _on_Area2D_body_entered(body):
-#	print("saw smth")
-#	if "Enemy" in body.name and !destroyed and !seekingpertti:
-#		current_target = body
-#		print("saw em")
+func _on_Area2D_body_entered(body):
+	print("saw smth")
+	if "Enemy" in body.name and !destroyed:
+		current_target = body
+		print("saw em")
