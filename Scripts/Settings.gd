@@ -33,12 +33,13 @@ var attack_initalization_period = 2
 
 #npc related settings
 var npc_health = 3
-var npc_follow_pertti_treshold = 250 #how far pertti can go before the npc starts following again
-var npc_speed = 500
-var min_distance_to_pertti = 10 # the npc won't come closer to pertti than this
+var npc_speed = 10
+var closest_to_target = 10 # the npc won't come closer to pertti than this
+var npc_active = false
 
 # Variables that change during gameplay, e.g. score, difficulty...
 var rounds = 1 # Supposed to be round, but it is a built in type in godot and so unusable
 var difficulty = 0
 var score = 0
 var coins = 0
+var nav_2d
