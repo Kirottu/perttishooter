@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scripts/Pertti.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Sprites/pertti1_pistol.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Audio/fireball.wav" type="AudioStream" id=3]
+[ext_resource path="res://Assets/Audio/weapon/weapon_fire.wav" type="AudioStream" id=3]
 [ext_resource path="res://Assets/Audio/hurt.wav" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Audio/explosion.wav" type="AudioStream" id=5]
 
@@ -47,13 +47,13 @@ polygon = PoolVector2Array( -36.2373, 0.591091, -26.6913, -26.2789, -4.06393, -3
 
 [node name="Fireball" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
-volume_db = -10.0
 
 [node name="Hurt" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
 
 [node name="Explosion" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
+attenuation = 0.0490365
 
 [node name="Invinsibility" type="AnimationPlayer" parent="."]
 anims/Invinsibility = SubResource( 1 )

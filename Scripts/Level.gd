@@ -138,11 +138,11 @@ func create_timers():
 	core_damage_timer.set_one_shot(false)
 
 func set_positions():
-	shop_panel.rect_size = Vector2(300, get_viewport().size.y - 200)
+	shop_panel.rect_size = Vector2(500, get_viewport().size.y - 200)
 	shop_panel.rect_position = Vector2(get_viewport().size.x - shop_panel.get_rect().size.x, 100)
 	game_over_label.rect_position = Vector2((get_viewport().size.x - game_over_label.get_rect().size.x) / 2, get_viewport().size.y / 4)
 	shop_panel.get_node("ScrollContainer").rect_size = Vector2(shop_panel.rect_size.x, shop_panel.rect_size.y - 40)
-	shop_panel.get_node("ScrollContainer").rect_position = Vector2(shop_panel.get_node("ScrollContainer").rect_position.x, shop_panel.get_node("ScrollContainer").rect_position.y + 40)
+	shop_panel.get_node("ScrollContainer").rect_position = Vector2(0, 40)
 	quit_button.rect_position = Vector2((get_viewport().size.x - quit_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 250)
 	main_menu_button.rect_position = Vector2((get_viewport().size.x - main_menu_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 175)
 	restart_button.rect_position = Vector2((get_viewport().size.x - restart_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 100)
@@ -246,7 +246,7 @@ func _on_Area2D_body_entered(body):
 		if !tower_under_attack:
 			initialization_period()
 			yield(get_tree().create_timer(Settings.attack_initalization_period), "timeout")
-		if enemies_in_tower != 0:
+		if enemies_in_tower != 0 and !round_interval:
 			tower_under_attack = true
 			core_damage_timer.start()
 			under_attack_label.text = "Core under attack!"
@@ -272,7 +272,7 @@ func _on_Enemy_destroyed(tower_enemy : bool):
 	coin_label.text = "Coins:" + str(Settings.coins)
 
 func _on_Shop_body_entered(body):
-	if body.name == "Pertti":
+	if "Pertti" in body.name and round_interval:
 		print("Shop entered")
 		shop_panel.visible = true
 
@@ -315,12 +315,20 @@ func _on_viewport_size_changed():
 	set_positions()
 
 func _on_Area2D_body_exited(body):
-	if body.name == "Pertti":
+	if "Pertti" in body.name:
 		shop_panel.visible = false
 
 func _on_CoreHealthAdd_pressed():
-	if tower_health != Settings.tower_health and Settings.coins >= 15 and !tower_destroyed and !tower_under_attack:
+	$Click.play()
+	if tower_health != Settings.tower_health and Settings.coins >= 30 and !tower_destroyed:
 		tower_health = Settings.tower_health
-		Settings.coins -= 15
+		Settings.coins -= 30
 		tower_health_bar.value = tower_health
 		coin_label.text = "Coins:" + str(Settings.coins)
+
+func _on_PerttiHealth_pressed():
+	$Click.play()
+	if pertti.health != Settings.pertti_health and Settings.coins >= 15:
+		Settings.coins -= 15
+		pertti.health = Settings.pertti_health
+		health_label.text = "Health:" + str(pertti.health)

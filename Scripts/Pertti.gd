@@ -18,6 +18,7 @@ signal respawn
 var bullet = preload("res://Scenes/Bullet.tscn")
 
 # Bools
+var moving = false
 var invinsibility = false
 var gameover = false
 var can_fire = true

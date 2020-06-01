@@ -4,7 +4,6 @@ extends KinematicBody2D
 var bullet = preload("res://Scenes/Bullet.tscn")
 
 # Node references
-onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
 onready var sprite = $Sprite
@@ -26,7 +25,6 @@ var destination
 
 func _ready():
 	rng.randomize()
-	connect("body_entered", self, "_on_seeing_something")
 
 func _physics_process(delta):
 	if position.distance_to(pertti.position) > Settings.npc_follow_pertti_treshold:

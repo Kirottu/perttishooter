@@ -46,6 +46,7 @@ scale = Vector2( 0.03, 0.03 )
 texture = ExtResource( 1 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
+visible = false
 amount = 20
 speed_scale = 3.0
 process_material = SubResource( 6 )

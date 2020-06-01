@@ -21,7 +21,7 @@ var tower_enemy_probability = 25 # in %
 
 # Level control logic related variables
 var warning_flash_interval = 0.08
-var round_time = 60
+var round_time = 10
 var round_interval = 30
 var difficulty_increase = 0.08
 var max_first_path_delay = 30 #confusing name, this is the amount of physics steps (max 60/second) before a new path is calculated for the enemies
@@ -41,4 +41,4 @@ var min_distance_to_pertti = 10 # the npc won't come closer to pertti than this
 var rounds = 1 # Supposed to be round, but it is a built in type in godot and so unusable
 var difficulty = 0
 var score = 0
-var coins = 15
+var coins = 0

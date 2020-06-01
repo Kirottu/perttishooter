@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Rectangles/rectangle.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Assets/Fonts/prstartk.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://Assets/Fonts/font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://Scripts/PauseMenu.gd" type="Script" id=7]
+[ext_resource path="res://Assets/Audio/ui/menu_select.wav" type="AudioStream" id=8]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
@@ -84,52 +85,58 @@ points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
 } ]
 4/z_index = 0
 
-[sub_resource type="StyleBoxFlat" id=15]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0, 0, 0, 0.607843 )
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=6]
 size = 30
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=18]
 size = 30
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
-
-[sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 1, 0, 0, 1 )
-
-[sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 0.227451, 0.227451, 0.227451, 1 )
 
 [sub_resource type="DynamicFont" id=7]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.227451, 0.227451, 0.227451, 1 )
+
+[sub_resource type="DynamicFont" id=10]
 size = 20
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=11]
 size = 40
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=12]
 size = 40
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=13]
 size = 30
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="Shader" id=11]
+[sub_resource type="Shader" id=14]
 code = "    shader_type canvas_item;
 
 uniform float amount : hint_range(0,0.5);
@@ -153,14 +160,14 @@ void fragment() {
     COLOR = vec4(col.rgb + glowing_col.rgb, col.a);
 }"
 
-[sub_resource type="ShaderMaterial" id=12]
-shader = SubResource( 11 )
+[sub_resource type="ShaderMaterial" id=15]
+shader = SubResource( 14 )
 shader_param/amount = null
 
-[sub_resource type="RectangleShape2D" id=13]
+[sub_resource type="RectangleShape2D" id=16]
 extents = Vector2( 130, 130 )
 
-[sub_resource type="RectangleShape2D" id=14]
+[sub_resource type="RectangleShape2D" id=17]
 extents = Vector2( 170, 192 )
 
 [node name="Level" type="Node2D"]
@@ -178,7 +185,7 @@ tile_data = PoolIntArray( -1245192, 4, 1, -1245191, 4, 1, -1245190, 4, 1, -12451
 [node name="Panel" type="Panel" parent="HUD/Shop"]
 margin_right = 500.0
 margin_bottom = 40.0
-custom_styles/panel = SubResource( 15 )
+custom_styles/panel = SubResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -193,25 +200,36 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/Shop/Panel/ScrollContainer"]
-margin_right = 282.0
-margin_bottom = 39.0
+margin_right = 432.0
+margin_bottom = 88.0
 custom_constants/separation = 10
 
 [node name="CoreHealthAdd" type="ToolButton" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer"]
-margin_right = 282.0
+margin_right = 432.0
 margin_bottom = 39.0
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.733333, 0.733333, 0.733333, 1 )
 custom_colors/font_color_pressed = Color( 0.478431, 0.47451, 0.47451, 1 )
-text = "100% Core"
+text = "100% Core 30C"
+align = 0
+
+[node name="PerttiHealth" type="ToolButton" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer"]
+margin_top = 49.0
+margin_right = 432.0
+margin_bottom = 88.0
+custom_fonts/font = SubResource( 18 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.733333, 0.733333, 0.733333, 1 )
+custom_colors/font_color_pressed = Color( 0.478431, 0.47451, 0.47451, 1 )
+text = "3HP Pertti 15C"
 
 [node name="ShopLabel" type="Label" parent="HUD/Shop/Panel"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 40.0
 margin_bottom = 14.0
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 7 )
 text = "Shop"
 
 [node name="HUD" type="Node" parent="HUD"]
@@ -221,9 +239,9 @@ margin_left = 10.0
 margin_top = 225.0
 margin_right = 336.0
 margin_bottom = 258.0
-custom_styles/fg = SubResource( 5 )
-custom_styles/bg = SubResource( 6 )
-custom_fonts/font = SubResource( 7 )
+custom_styles/fg = SubResource( 8 )
+custom_styles/bg = SubResource( 9 )
+custom_fonts/font = SubResource( 10 )
 max_value = 50.0
 value = 25.0
 __meta__ = {
@@ -231,11 +249,11 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="HUD/HUD"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 344.0
-margin_bottom = 81.0
-custom_fonts/font = SubResource( 8 )
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 342.0
+margin_bottom = 79.0
+custom_fonts/font = SubResource( 11 )
 text = "Health: "
 __meta__ = {
 "_edit_use_anchors_": false
@@ -246,7 +264,7 @@ margin_left = 10.0
 margin_top = 70.0
 margin_right = 344.0
 margin_bottom = 141.0
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 12 )
 text = "Score:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -257,7 +275,7 @@ margin_left = 10.0
 margin_top = 125.0
 margin_right = 344.0
 margin_bottom = 196.0
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 12 )
 text = "Coins:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -268,7 +286,7 @@ margin_left = 10.0
 margin_top = 175.0
 margin_right = 344.0
 margin_bottom = 246.0
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 12 )
 text = "Round:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -301,7 +319,7 @@ __meta__ = {
 [node name="RoundTimerIndicator" type="Label" parent="HUD/HUD"]
 margin_right = 40.0
 margin_bottom = 14.0
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -431,7 +449,7 @@ __meta__ = {
 
 [node name="ColorRect" type="ColorRect" parent="HUD"]
 visible = false
-material = SubResource( 12 )
+material = SubResource( 15 )
 margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 2
@@ -472,7 +490,7 @@ position = Vector2( 960, 640 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tower/Area2D"]
 position = Vector2( -6.10352e-05, 0 )
-shape = SubResource( 13 )
+shape = SubResource( 16 )
 
 [node name="Shop" type="Node2D" parent="."]
 position = Vector2( 3030, 640 )
@@ -480,8 +498,12 @@ position = Vector2( 3030, 640 )
 [node name="Area2D" type="Area2D" parent="Shop"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Area2D"]
-shape = SubResource( 14 )
+shape = SubResource( 17 )
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
 [connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/CoreHealthAdd" to="." method="_on_CoreHealthAdd_pressed"]
+[connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/PerttiHealth" to="." method="_on_PerttiHealth_pressed"]
 [connection signal="pressed" from="HUD/PauseMenu/MainMenuButton" to="HUD/PauseMenu" method="_on_MainMenuButton_pressed"]
 [connection signal="pressed" from="HUD/PauseMenu/QuitButton" to="HUD/PauseMenu" method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="HUD/PauseMenu/ResumeButton" to="HUD/PauseMenu" method="_on_ResumeButton_pressed"]
