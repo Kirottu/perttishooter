@@ -40,8 +40,8 @@ func _ready():
 func _physics_process(delta):
 	update_path_if_needed(false)
 	lastpos = position
-	move_along_path(delta * Settings.npc_speed)
 
+	move_along_path(delta * Settings.npc_speed)
 func update_path_if_needed(force):
 	if force or lastpos == position or position.distance_to(destination) < Settings.closest_to_target:
 		rng.randomize()

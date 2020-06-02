@@ -72,5 +72,6 @@ pause={
 [rendering]
 
 quality/2d/use_pixel_snap=true
+threads/thread_model=2
 environment/default_clear_color=Color( 0.21875, 0.21875, 0.21875, 1 )
 environment/default_environment="res://default_env.tres"

@@ -5,6 +5,7 @@ onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
 onready var tower = get_tree().get_root().get_node("Level/Tower")
+onready var sprite = $Sprite
 
 # Signals
 signal exited
@@ -20,6 +21,7 @@ var pertti
 
 func _ready():
 	path = nav_2d.get_simple_path(position, tower.position)
+	print(path[0])
 	connections()
 
 func _process(delta):
@@ -51,9 +53,9 @@ func move_along_path(distance : float):
 		elif distance <= 0.0:
 			position = path[0]
 			break
-		distance -= distance_to_next
-		start_point = path[0]
 		path.remove(0)
+		distance -= distance_to_next
+		#start_point = path[0]
 
 func _on_Level_core_destroyed():
 	queue_free()
@@ -68,6 +70,9 @@ func _on_Area2D_body_entered(body):
 			hurt_sound.play()
 		if health > 0:
 			health -= 1
+			sprite.frame = 1
+			yield(get_tree().create_timer(0.1), "timeout")
+			sprite.frame = 0
 		if health == 0:
 			destroyed = true
 			explosion.play()

@@ -211,12 +211,12 @@ func _increase_score():
 func warning_flash():
 	while tower_under_attack:
 		var health_bar_stylebox = tower_health_bar.get("custom_styles/fg")
-		health_bar_stylebox.bg_color = Color(1,1,1)
+		health_bar_stylebox.bg_color = Color(1, 1, 1)
 		
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
 		
 		health_bar_stylebox = tower_health_bar.get("custom_styles/fg")
-		health_bar_stylebox.bg_color = Color(1,0,0)
+		health_bar_stylebox.bg_color = Color8(191, 38, 81)
 		
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
 
@@ -231,7 +231,7 @@ func round_timer_indicator():
 func initialization_period():
 	under_attack_label.text = "Initializing attack..."
 	while !tower_under_attack:
-		under_attack_label.set("custom_colors/font_color", Color(1, 0, 0, 1))
+		under_attack_label.set("custom_colors/font_color", Color8(191, 38, 81))
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
 		under_attack_label.set("custom_colors/font_color", Color(1, 1, 1, 1))
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
