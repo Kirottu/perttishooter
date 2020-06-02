@@ -37,8 +37,7 @@ func _process(delta):
 	# I wonder when valzu is gonna make the god damn wall textures
 	# Probably when gentoo is done compiling on the uberpotato (aka not before the end of the year)
 	# I doubt it is ever going to finish
-	# look_at(pertti.position)
-	pass
+	look_at(pertti.position)
 	
 func _physics_process(delta):
 	update_path_timer()
