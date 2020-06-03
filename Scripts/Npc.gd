@@ -14,6 +14,7 @@ onready var tilemap = $Navigation2D/TileMap
 var can_update = false
 var enemy_in_sight = false
 var destroyed = false
+var can_fire = true
 
 # Signals
 signal destroyed
@@ -34,22 +35,31 @@ func _ready():
 		tiles.append(tile)
 	
 	rng.randomize()
-	connect("body_entered", self, "_on_seeing_something")
 	update_path_if_needed(true)
 
 func _physics_process(delta):
 	update_path_if_needed(false)
 	lastpos = position
+	if enemy_in_sight:
+		look_at(current_target.position)
+		_fire()
 	move_along_path(delta * Settings.npc_speed)
-
 func update_path_if_needed(force):
 	if force or lastpos == position or position.distance_to(destination) < Settings.closest_to_target:
 		rng.randomize()
 		destination = tiles[rng.randi_range(0, tiles_map.size() - 1)]
 		path = nav_2d.get_simple_path(position, destination)
 
-func _on_seeing_something():
-	print("saw one")
+func _fire():
+	if can_fire:
+		var new_bullet = bullet.instance()
+		new_bullet.position = $BulletPoint.get_global_position()
+		new_bullet.rotation_degrees = rotation_degrees 
+		new_bullet.apply_impulse(Vector2(), Vector2(Settings.bullet_speed, 0).rotated(rotation))
+		get_tree().get_root().add_child(new_bullet)
+		can_fire = false
+		yield(get_tree().create_timer(Settings.npc_fire_rate), "timeout")
+		can_fire = true
 
 func move_along_path(distance):
 	var start_point = position
@@ -65,9 +75,19 @@ func move_along_path(distance):
 		start_point = path[0]
 		path.remove(0)
 		
-
 func _on_Area2D_body_entered(body):
-	print("saw smth")
-	if "Enemy" in body.name and !destroyed:
+	print(body.name)
+	if "Enemy" in body.name:
 		current_target = body
+		body.connect("destroyed", self, "_on_selected_enemy_destroyed")
+		enemy_in_sight = true
 		print("saw em")
+
+func _on_Area2D_body_exited(body):
+	if body == current_target:
+		enemy_in_sight = false
+		current_target = null
+	
+func _on_selected_enemy_destroyed(enemy_type):
+	enemy_in_sight = false
+	current_target = null
