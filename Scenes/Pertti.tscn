@@ -72,4 +72,19 @@ shadow_enabled = true
 visible = false
 position = Vector2( -6.49244, -150.547 )
 texture = ExtResource( 7 )
+
+[node name="Light2D2" type="Light2D" parent="."]
+visible = false
+light_mask = 2
+rotation = 1.5708
+texture = ExtResource( 6 )
+offset = Vector2( 0, -230 )
+texture_scale = 8.0
+mode = 2
+shadow_enabled = true
+
+[node name="red_circle" type="Sprite" parent="Light2D2"]
+visible = false
+position = Vector2( -6.49244, -150.547 )
+texture = ExtResource( 7 )
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

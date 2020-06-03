@@ -40,6 +40,7 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+rotation = 1.5708
 polygon = PoolVector2Array( -19.588, -44.6854, -31.8256, -45.3847, -35.4969, -41.7134, -39.8675, 16.8525, -32, 32, -29.0284, 48.146, 29.0131, 48.146, 32, 32, 40, 16, 35.8312, -41.0141, 31.6354, -45.0351, 19.3978, -44.5106, 18.6985, -34.3708, 15.7264, -3.2522, -15.567, -3.42702, -18.3642, -38.7414 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
@@ -50,6 +51,7 @@ frames = SubResource( 1 )
 [node name="Collision" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="Collision"]
+rotation = 1.5708
 polygon = PoolVector2Array( -19.588, -44.6854, -30.8001, -47.8755, -37.9674, -41.483, -41.4542, 17.5987, -33.7057, 33.2892, -29.8315, 49.5609, 29.4439, 50.1421, 35.2552, 33.0955, 41.454, 15.8553, 36.4175, -42.839, 31.1873, -47.1006, 19.3978, -44.5106, 17.0464, -36.2529, 13.7534, -5.06545, -14.141, -5.64658, -18.3642, -38.7414 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
@@ -65,4 +67,5 @@ stream = ExtResource( 4 )
 
 [node name="Explosion" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
+[connection signal="area_entered" from="Collision" to="." method="_on_Collision_area_entered"]
 [connection signal="body_entered" from="Collision" to="." method="_on_Area2D_body_entered"]

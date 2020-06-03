@@ -17,7 +17,8 @@ var tower_enemy_health = 5
 var path_update_timer = 0.5
 var update_delay_factor = 0.05 #factor which the length of the route to pertti from enemy is multiplied with to calculate the amount of physicis frames before next recalculation
 var close_proximity_follow_distance = 300
-var tower_enemy_probability = 25 # in %
+var tower_enemy_spawn_interval = 10
+var core_enemy_explosion_time = 5
 
 # Level control logic related variables
 var warning_flash_interval = 0.08
@@ -30,8 +31,10 @@ var base_difficulty = 2
 var tower_health = 50
 var tower_damage_interval = 0.5
 var attack_initalization_period = 2
+var explosion_damage = 10
 
 #npc related settings
+var npc_fire_rate = 0.4
 var npc_health = 3
 var npc_speed = 300
 var closest_to_target = 10 # the npc won't come closer to pertti than this

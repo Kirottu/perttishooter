@@ -10,6 +10,7 @@ onready var sprite = $Sprite
 # Signals
 signal exited
 signal destroyed
+signal explosion
 
 # Bools
 var destroyed = false
@@ -38,6 +39,7 @@ func connections():
 	connect("destroyed", get_parent(), "_on_Enemy_destroyed")
 	get_parent().connect("core_destroyed", self, "_on_Level_core_destroyed")
 	get_parent().connect("free_time", self, "_on_free_time")
+	connect("explosion", get_parent(), "_on_Core_enemy_explosion")
 
 func move_along_path(distance : float):
 	# Set the start point of the path
@@ -58,6 +60,7 @@ func move_along_path(distance : float):
 		#start_point = path[0]
 
 func _on_Level_core_destroyed():
+	emit_signal("exited")
 	queue_free()
 
 func _on_free_time():
@@ -84,3 +87,10 @@ func _on_Area2D_body_entered(body):
 			yield(get_tree().create_timer(1.5), "timeout")
 			# Queue for deletion in the next frame when health == 0
 			queue_free()
+
+func _on_Collision_area_entered(area):
+	if area.name == "Core":
+		yield(get_tree().create_timer(Settings.core_enemy_explosion_time), "timeout")
+		emit_signal("exited")
+		emit_signal("explosion")
+		queue_free()
