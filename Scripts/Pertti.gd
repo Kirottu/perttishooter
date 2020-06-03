@@ -78,6 +78,7 @@ func _move():
 		emit_signal("moved")
 	
 	# Move Pertti
+	# Ah yes the floor here is made out of floor :helpmeplz:
 	move_and_slide(movement)
 	movement = Vector2(0,0)
 
