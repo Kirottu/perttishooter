@@ -33,12 +33,16 @@ var tower_damage_interval = 0.5
 var attack_initalization_period = 2
 var explosion_damage = 10
 
-#npc related settings
+# Npc related settings
 var npc_fire_rate = 0.4
 var npc_health = 3
 var npc_speed = 300
 var closest_to_target = 10 # the npc won't come closer to pertti than this
 var npc_active = false
+
+# Mine enemy related settings
+var mine_enemy_speed = 500
+var mine_enemy_health = 3
 
 # Variables that change during gameplay, e.g. score, difficulty...
 var rounds = 1 # Supposed to be round, but it is a built in type in godot and so unusable
