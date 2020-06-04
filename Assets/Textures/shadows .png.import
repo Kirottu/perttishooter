@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/borror_tiles.png-511808526b023bdc0e0c83db840275cb.stex"
+path="res://.import/shadows .png-92605a87812652187ffa7dffaf63fac6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Textures/Tilemap/borror_tiles.png"
-dest_files=[ "res://.import/borror_tiles.png-511808526b023bdc0e0c83db840275cb.stex" ]
+source_file="res://Assets/Textures/shadows .png"
+dest_files=[ "res://.import/shadows .png-92605a87812652187ffa7dffaf63fac6.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

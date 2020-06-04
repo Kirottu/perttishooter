@@ -133,8 +133,8 @@ func set_positions():
 	shop_panel.rect_size = Vector2(500, get_viewport().size.y - 200)
 	shop_panel.rect_position = Vector2(get_viewport().size.x - shop_panel.get_rect().size.x, 100)
 	game_over_label.rect_position = Vector2((get_viewport().size.x - game_over_label.get_rect().size.x) / 2, get_viewport().size.y / 4)
-	shop_panel.get_node("ScrollContainer").rect_size = Vector2(shop_panel.rect_size.x, shop_panel.rect_size.y - 40)
-	shop_panel.get_node("ScrollContainer").rect_position = Vector2(0, 40)
+	shop_panel.get_node("ScrollContainer").rect_size = Vector2(shop_panel.rect_size.x, shop_panel.rect_size.y - 60)
+	shop_panel.get_node("ScrollContainer").rect_position = Vector2(0, 60)
 	quit_button.rect_position = Vector2((get_viewport().size.x - quit_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 250)
 	main_menu_button.rect_position = Vector2((get_viewport().size.x - main_menu_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 175)
 	restart_button.rect_position = Vector2((get_viewport().size.x - restart_button.get_rect().size.x) / 2, get_viewport().size.y / 4 + 100)
@@ -267,7 +267,7 @@ func _on_Pertti_gameover():
 		enemies_spawnable = false
 		respawn_label.visible = true
 		for i in range(Settings.respawn_delay):
-			respawn_label.text = "Respawning In:" + str(Settings.respawn_delay-i)
+			respawn_label.text = "Respawning In:" + str(Settings.respawn_delay - i)
 			yield(get_tree().create_timer(1), "timeout")
 
 		
@@ -335,3 +335,13 @@ func _on_Harold_pressed():
 func _on_Core_enemy_explosion():
 	tower_health -= Settings.explosion_damage
 	tower_health_bar.value = tower_health
+
+func _on_Pertti2X_pressed():
+	$Click.play()
+	if Settings.coins >= 30 and respawn_label.visible == false:
+		Settings.coins -= 60
+		Settings.pertti_health *= 2
+		pertti.health = Settings.pertti_health
+		health_label.text = "Health:" + str(Settings.pertti_health)
+			
+		

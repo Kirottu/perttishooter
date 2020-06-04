@@ -91,6 +91,7 @@ func _on_Area2D_body_entered(body):
 func _on_Collision_area_entered(area):
 	if area.name == "Core":
 		yield(get_tree().create_timer(Settings.core_enemy_explosion_time), "timeout")
-		emit_signal("exited")
-		emit_signal("explosion")
-		queue_free()
+		if !destroyed:
+			emit_signal("explosion")
+			emit_signal("exited")
+			queue_free()

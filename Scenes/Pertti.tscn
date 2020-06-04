@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/Pertti.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Sprites/pertti1_pistol.png" type="Texture" id=2]
@@ -23,6 +23,9 @@ tracks/0/keys = {
 "update": 1,
 "values": [ false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true ]
 }
+
+[sub_resource type="StreamTexture" id=2]
+load_path = "res://.import/flashlight_mask.png-093251ce4c666689b9866e3f633f58fe.stex"
 
 [node name="Pertti" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -64,7 +67,7 @@ anims/Invinsibility = SubResource( 1 )
 [node name="Light2D" type="Light2D" parent="."]
 rotation = 1.5708
 texture = ExtResource( 6 )
-offset = Vector2( 0, -230 )
+offset = Vector2( 0, -235 )
 texture_scale = 8.0
 shadow_enabled = true
 
@@ -77,10 +80,11 @@ texture = ExtResource( 7 )
 visible = false
 light_mask = 2
 rotation = 1.5708
-texture = ExtResource( 6 )
+texture = SubResource( 2 )
 offset = Vector2( 0, -230 )
 texture_scale = 8.0
-mode = 2
+mode = 3
+range_item_cull_mask = 2
 shadow_enabled = true
 
 [node name="red_circle" type="Sprite" parent="Light2D2"]

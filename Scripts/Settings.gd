@@ -44,5 +44,4 @@ var npc_active = false
 var rounds = 1 # Supposed to be round, but it is a built in type in godot and so unusable
 var difficulty = 0
 var score = 0
-var coins = 0
-var nav_2d
+var coins = 120

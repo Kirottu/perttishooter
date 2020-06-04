@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/borror_tiles.png-511808526b023bdc0e0c83db840275cb.stex"
+path="res://.import/flashlight_mask.png-093251ce4c666689b9866e3f633f58fe.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Textures/Tilemap/borror_tiles.png"
-dest_files=[ "res://.import/borror_tiles.png-511808526b023bdc0e0c83db840275cb.stex" ]
+source_file="res://Assets/Textures/flashlight_mask.png"
+dest_files=[ "res://.import/flashlight_mask.png-093251ce4c666689b9866e3f633f58fe.stex" ]
 
 [params]
 
@@ -27,7 +27,7 @@ flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
-process/invert_color=false
+process/invert_color=true
 stream=false
 size_limit=0
 detect_3d=true

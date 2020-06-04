@@ -52,6 +52,7 @@ func update_path_if_needed(force):
 
 func _fire():
 	if can_fire:
+		$Fireball.play()
 		var new_bullet = bullet.instance()
 		new_bullet.position = $BulletPoint.get_global_position()
 		new_bullet.rotation_degrees = rotation_degrees 
