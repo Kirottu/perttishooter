@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 # Scenes
-var bullet = preload("res://Scenes/Bullet.tscn")
+var mine = preload("res://Scenes/Mine.tscn")
 
 # Node references
 onready var nav_2d = $Navigation2D
@@ -32,13 +32,14 @@ func _ready():
 		var tile = tilemap.map_to_world(tiles_map[i])
 		tiles.append(tile)
 	
+	print("hdas")
 	rng.randomize()
 	update_path_if_needed(true)
 
 func _physics_process(delta):
 	update_path_if_needed(false)
 	lastpos = position
-	move_along_path(Settings.mine_enemy_speed)
+	move_along_path(Settings.mine_enemy_speed * delta)
 
 func update_path_if_needed(force):
 	if force or lastpos == position or position.distance_to(destination) < Settings.closest_to_target:
@@ -73,8 +74,8 @@ func _on_Area2D_body_entered(body):
 			destroyed = true
 			explosion.play()
 			set_process(false)
-			emit_signal("destroyed", true)
-			get_node("CollisionShape2D").queue_free()
-			yield(get_tree().create_timer(1.5), "timeout")
+			#emit_signal("destroyed", true)
+			#get_node("CollisionShape2D").queue_free()
+			#yield(get_tree().create_timer(1.5), "timeout")
 			# Queue for deletion in the next frame when health == 0
 			queue_free()

@@ -44,6 +44,7 @@ func _physics_process(delta):
 		look_at(current_target.position)
 		_fire()
 	move_along_path(delta * Settings.npc_speed)
+	
 func update_path_if_needed(force):
 	if force or lastpos == position or position.distance_to(destination) < Settings.closest_to_target:
 		rng.randomize()
