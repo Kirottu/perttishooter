@@ -29,7 +29,6 @@ var enemy_scene = preload("res://Scenes/Enemy.tscn")
 var npc_scene = preload("res://Scenes/Npc.tscn")
 var tower_enemy_scene = preload("res://Scenes/Tower_Enemy.tscn")
 var linus_scene = preload("res://Scenes/Linus.tscn")
-var mine_scene = preload("res://Scenes/Mine.tscn")
 
 # Bools
 var gameover = false
@@ -74,7 +73,6 @@ func spawn_enemies():
 		
 		_spawn_enemy(rng.randi_range(0,7))
 		
-		#only temp for testing, should happen auto in the future
 		_spawn_linus()
 		
 		#if !tower_destroyed and rng.randi_range(0,99) < Settings.tower_enemy_probability:
@@ -181,12 +179,6 @@ func _spawn_linus():
 	var linus = linus_scene.instance()
 	linus.position = Vector2(1000,600)
 	add_child(linus)
-
-# not in Linus.gd itself, cause the mines need to stay when Linus've been thinking of retiring.
-func _spawn_mine(pos):
-	var mine = mine_scene.instance()
-	mine.position = pos
-	add_child(mine)
 
 func _on_Pertti_damage_taken(health):
 	health_label.text = "Health:" + str(health)

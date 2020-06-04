@@ -43,7 +43,7 @@ texture = ExtResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
-zoom = Vector2( 5, 5 )
+zoom = Vector2( 0.8, 0.8 )
 smoothing_enabled = true
 
 [node name="Area2D" type="Area2D" parent="."]
