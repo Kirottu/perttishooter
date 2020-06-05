@@ -20,7 +20,7 @@ run/main_scene="res://Scenes/MainMenu.tscn"
 boot_splash/image="res://Assets/Textures/rocket_spaghetti_logo.png"
 boot_splash/fullsize=false
 boot_splash/bg_color=Color( 1, 1, 1, 1 )
-config/icon="res://Assets/Textures/perttishooter_logo.png"
+config/icon="res://icon.png"
 
 [autoload]
 

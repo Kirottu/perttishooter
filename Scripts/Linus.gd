@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 # Scenes
-var bullet = preload("res://Scenes/Bullet.tscn")
+var mine = preload("res://Scenes/Mine.tscn")
 
 # Node references
 onready var nav_2d = $Navigation2D
@@ -9,6 +9,9 @@ onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
 onready var sprite = $Sprite
 onready var tilemap = $Navigation2D/TileMap
+
+# As you obviously can tell yourself, this loads the mine scene. But comments everywhere except here is ugly :helpmeplz:
+var mine_scene = preload("res://Scenes/Mine.tscn")
 
 # Bools
 var can_update = false
@@ -25,8 +28,10 @@ var lastpos
 var tiles = []
 var tiles_map = []
 var health = Settings.mine_enemy_health
+var timer = Timer.new()
 
 func _ready():
+	connect("placemine", get_parent(), "_spawn_mine")
 	tiles_map = tilemap.get_used_cells()
 	for i in tiles_map.size():
 		var tile = tilemap.map_to_world(tiles_map[i])
@@ -34,11 +39,23 @@ func _ready():
 	
 	rng.randomize()
 	update_path_if_needed(true)
+	
+	add_child(timer)
+	timer.connect("timeout", self, "_place_mine")
+	timer.set_wait_time(Settings.mine_place_interval)
+	timer.set_one_shot(false)
+	timer.start()
 
 func _physics_process(delta):
 	update_path_if_needed(false)
 	lastpos = position
-	move_along_path(Settings.mine_enemy_speed)
+	move_along_path(Settings.mine_enemy_speed * delta)
+
+func _place_mine():
+	var mine = mine_scene.instance()
+	mine.position = position
+	# call parent, cause the mines need to stay when Linus've been thinking of retiring.
+	get_parent().add_child(mine)
 
 func update_path_if_needed(force):
 	if force or lastpos == position or position.distance_to(destination) < Settings.closest_to_target:
@@ -73,8 +90,8 @@ func _on_Area2D_body_entered(body):
 			destroyed = true
 			explosion.play()
 			set_process(false)
-			emit_signal("destroyed", true)
-			get_node("CollisionShape2D").queue_free()
-			yield(get_tree().create_timer(1.5), "timeout")
+			#emit_signal("destroyed", true)
+			#get_node("CollisionShape2D").queue_free()
+			#yield(get_tree().create_timer(1.5), "timeout")
 			# Queue for deletion in the next frame when health == 0
 			queue_free()
