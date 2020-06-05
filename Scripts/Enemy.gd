@@ -136,9 +136,18 @@ func _on_Pertti_gameover():
 func _on_free_time():
 	queue_free()
 
-func _on_Area2D_body_entered(body):
-	# Check if a bullet has entered area, if so reduce health
-	if "Bullet" in body.name and !destroyed:
+func _kil():
+	health = 0
+	destroyed = true
+	explosion.play()
+	set_process(false)
+	emit_signal("destroyed", false)
+	get_node("CollisionShape2D").queue_free()
+	yield(get_tree().create_timer(1.5), "timeout")
+	queue_free()
+
+func _hurt(damage):
+	if !destroyed:
 		if health > 1:
 			hurt_sound.play()
 		if health > 0:
@@ -147,11 +156,11 @@ func _on_Area2D_body_entered(body):
 			sprite.frame = 0
 			health -= 1
 		if health == 0:
-			destroyed = true
-			explosion.play()
-			set_process(false)
-			emit_signal("destroyed", false)
-			get_node("CollisionShape2D").queue_free()
-			yield(get_tree().create_timer(1.5), "timeout")
-			# Queue for deletion in the next frame when health == 0
-			queue_free()
+			_kil()
+
+func _on_Area2D_body_entered(body):
+	# Check if a bullet has entered area, if so reduce health
+	if "Bullet" in body.name:
+		_hurt(Settings.bullet_damage)
+
+

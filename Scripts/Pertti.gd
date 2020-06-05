@@ -82,21 +82,32 @@ func _move():
 	move_and_slide(movement)
 	movement = Vector2(0,0)
 
-func _on_Area2D_body_entered(body):
-	# Check for collisions with Enemies
-	if "Enemy" in body.name and !gameover and !invinsibility and !("Tower" in body.name): 
-		if health != 1:
+func _kil():
+	# To prevent confused confusing confusery when the ui health counter goes negative
+	health = 0
+	explosion.play()
+	gameover = true
+	emit_signal("gameover")
+	yield(get_tree().create_timer(Settings.respawn_delay), "timeout")
+	emit_signal("respawn")
+	queue_free()
+
+func _hurt(damage):
+	if !gameover and !invinsibility:
+		if health > 1:
 			hurt_sound.play()
-		health -= 1
+		health -= damage
 		emit_signal("damage_taken", health)
-		if health == 0:
-			explosion.play()
-			gameover = true
-			emit_signal("gameover")
-			yield(get_tree().create_timer(Settings.respawn_delay), "timeout")
-			emit_signal("respawn")
-			queue_free()
+		if health <= 0:
+			_kil()
 		invinsibility = true
 		animation.play("Invinsibility")
 		yield(get_tree().create_timer(Settings.invinsibility), "timeout")
 		invinsibility = false
+
+func _on_Area2D_body_entered(body):
+	# Check for collisions with Enemies
+	if "Enemy" in body.name and !("Tower" in body.name):
+		_hurt(1)
+	elif "Mine" in body.name:
+		_hurt(10)
