@@ -12,5 +12,4 @@ func _on_Area2D_body_entered(body):
 			body._hurt(Settings.mine_damage)
 			detonated()
 		"Bullet":
-			body.queue_free()
 			detonated()
