@@ -85,6 +85,7 @@ func _move():
 func _kil():
 	# To prevent confused confusing confusery when the ui health counter goes negative
 	health = 0
+	emit_signal("damage_taken", health)
 	explosion.play()
 	gameover = true
 	emit_signal("gameover")
@@ -94,12 +95,12 @@ func _kil():
 
 func _hurt(damage):
 	if !gameover and !invinsibility:
+		health -= damage
 		if health > 1:
 			hurt_sound.play()
-		health -= damage
-		emit_signal("damage_taken", health)
 		if health <= 0:
 			_kil()
+		emit_signal("damage_taken", health)
 		invinsibility = true
 		animation.play("Invinsibility")
 		yield(get_tree().create_timer(Settings.invinsibility), "timeout")
