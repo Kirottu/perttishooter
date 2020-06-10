@@ -89,11 +89,12 @@ func _kil():
 	explosion.play()
 	gameover = true
 	emit_signal("gameover")
+	$Area2D.queue_free()
 	yield(get_tree().create_timer(Settings.respawn_delay), "timeout")
 	emit_signal("respawn")
 	queue_free()
 
-func _hurt(damage):
+func _hurt(damage : int):
 	if !gameover and !invinsibility:
 		health -= damage
 		if health > 1:
@@ -112,3 +113,12 @@ func _on_Area2D_body_entered(body):
 		_hurt(1)
 	elif "Mine" in body.name:
 		_hurt(10)
+
+func _on_Area2D_area_entered(area):
+	if "Mine" in area.name:
+		_hurt(10)
+		area.get_node("AnimatedSprite").visible = true
+		area.get_node("AnimatedSprite").play()
+		area.get_node("Sprite").queue_free()
+		yield(get_tree().create_timer(0.7), "timeout")
+		area.queue_free()

@@ -46,7 +46,7 @@ var npc_active = false
 # Mine enemy related settings
 var mine_enemy_speed = 50
 var mine_enemy_health = 3
-var mine_place_interval = 1
+var mine_place_interval = 10
 
 # Variables that change during gameplay, e.g. score, difficulty...
 var rounds = 1 # Supposed to be round, but it is a built in type in godot and so unusable

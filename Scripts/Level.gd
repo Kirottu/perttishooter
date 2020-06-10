@@ -73,8 +73,6 @@ func spawn_enemies():
 		
 		_spawn_enemy(rng.randi_range(0,7))
 		
-		_spawn_linus()
-		
 		#if !tower_destroyed and rng.randi_range(0,99) < Settings.tower_enemy_probability:
 		#	_spawn_tower_enemy(rng.randi_range(0,7))
 		#else:
@@ -83,6 +81,8 @@ func spawn_enemies():
 func spawn_tower_enemies():
 	rng.randomize()
 	_spawn_tower_enemy(rng.randi_range(0,7))
+	rng.randomize()
+	_spawn_linus(rng.randi_range(0,7))
 
 func set_visibility():
 	skip_free_time_button.visible = false
@@ -175,9 +175,9 @@ func _spawn_npc():
 	npc.position = shop.position
 	add_child(npc)
 
-func _spawn_linus():
+func _spawn_linus(point):
 	var linus = linus_scene.instance()
-	linus.position = Vector2(1000,600)
+	linus.position = spawn_points[point].position
 	add_child(linus)
 
 func _on_Pertti_damage_taken(health):
@@ -267,6 +267,7 @@ func _on_RestartButton_pressed():
 
 func _on_Pertti_respawn():
 	_spawn_pertti()
+	print("respawned")
 	respawn_label.visible = false
 	enemies_spawnable = true
 	health_label.text = "Health:" + str(Settings.pertti_health)

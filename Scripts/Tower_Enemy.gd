@@ -94,4 +94,9 @@ func _on_Collision_area_entered(area):
 		if !destroyed:
 			emit_signal("explosion")
 			emit_signal("exited")
+			$AnimatedSprite.visible = true
+			$AnimatedSprite.play()
+			$Collision.queue_free()
+			$Sprite.queue_free()
+			yield(get_tree().create_timer(0.7), "timeout")
 			queue_free()

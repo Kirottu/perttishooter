@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Rectangles/rectangle.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Scripts/PauseMenu.gd" type="Script" id=7]
 [ext_resource path="res://Assets/Audio/ui/menu_select.wav" type="AudioStream" id=8]
 [ext_resource path="res://Assets/Textures/shadows.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Audio/perttischuut.ogg" type="AudioStream" id=10]
 
 [sub_resource type="TileSet" id=1]
 0/name = "shadows.png 0"
@@ -584,6 +585,11 @@ stream = ExtResource( 8 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.521569, 0.521569, 0.521569, 1 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = ExtResource( 10 )
+autoplay = true
 [connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/CoreHealthAdd" to="." method="_on_CoreHealthAdd_pressed"]
 [connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/PerttiHealth" to="." method="_on_PerttiHealth_pressed"]
 [connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/Core2X" to="." method="_on_Core2X_pressed"]
