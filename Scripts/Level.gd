@@ -269,6 +269,7 @@ func _on_Pertti_respawn():
 	_spawn_pertti()
 	respawn_label.visible = false
 	enemies_spawnable = true
+	health_label.text = "Health:" + str(Settings.pertti_health)
 
 func _on_Pertti_gameover():
 	if !tower_destroyed:
