@@ -35,6 +35,7 @@ var tower_health = 50
 var tower_damage_interval = 0.5
 var attack_initalization_period = 2
 var explosion_damage = 10
+var music = true
 
 # Npc related settings
 var npc_fire_rate = 0.4
@@ -44,7 +45,7 @@ var closest_to_target = 10 # the npc won't come closer to pertti than this
 var npc_active = false
 
 # Mine enemy related settings
-var mine_enemy_speed = 50
+var mine_enemy_speed = 300
 var mine_enemy_health = 3
 var mine_place_interval = 10
 

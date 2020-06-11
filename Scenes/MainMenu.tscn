@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Fonts/font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Assets/Audio/ui/menu_select.wav" type="AudioStream" id=3]
+[ext_resource path="res://Assets/Audio/perttischuut.ogg" type="AudioStream" id=4]
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -33,6 +34,22 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.137255, 1, 0.231373, 1 )
 custom_colors/font_color_pressed = Color( 0.0901961, 0.627451, 0.14902, 1 )
 text = "Play"
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayButton2" type="ToolButton" parent="."]
+margin_left = 105.175
+margin_top = 430.881
+margin_right = 317.175
+margin_bottom = 489.881
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.137255, 1, 0.231373, 1 )
+custom_colors/font_color_pressed = Color( 0.0901961, 0.627451, 0.14902, 1 )
+text = "Join"
+align = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -47,8 +64,28 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 0.0588235, 0.0588235, 1 )
 custom_colors/font_color_pressed = Color( 0.721569, 0.0745098, 0.0745098, 1 )
 text = "Quit"
+align = 0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+autoplay = true
+
+[node name="Volume" type="ToolButton" parent="."]
+margin_left = 10.0
+margin_top = 325.0
+margin_right = 322.0
+margin_bottom = 384.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.721569, 0.721569, 0.721569, 1 )
+custom_colors/font_color_pressed = Color( 0.490196, 0.490196, 0.490196, 1 )
+toggle_mode = true
+text = "Music"
+align = 0
 [connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="PlayButton2" to="." method="_on_PlayButton2_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="toggled" from="Volume" to="." method="_on_Volume_toggled"]

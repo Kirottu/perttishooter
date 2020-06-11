@@ -92,11 +92,12 @@ func _on_Collision_area_entered(area):
 	if area.name == "Core":
 		yield(get_tree().create_timer(Settings.core_enemy_explosion_time), "timeout")
 		if !destroyed:
-			emit_signal("explosion")
 			emit_signal("exited")
+			emit_signal("explosion")
 			$AnimatedSprite.visible = true
 			$AnimatedSprite.play()
+			$ExplosionRadius/CollisionShape2D.disabled = false
 			$Collision.queue_free()
-			$Sprite.queue_free()
+			$Sprite.visible = false
 			yield(get_tree().create_timer(0.7), "timeout")
 			queue_free()

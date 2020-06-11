@@ -122,3 +122,5 @@ func _on_Area2D_area_entered(area):
 		area.get_node("Sprite").queue_free()
 		yield(get_tree().create_timer(0.7), "timeout")
 		area.queue_free()
+	elif "ExplosionRadius" in area.name:
+		_hurt(10)

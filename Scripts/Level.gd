@@ -58,6 +58,10 @@ var spawn_timer
 var tower_enemy_spawn_timer
 
 func _ready():
+	if !Settings.music:
+		$AudioStreamPlayer.autoplay = false
+		$AudioStreamPlayer.stop()
+		print("Music stopped")
 	set_visibility()
 	set_default_values()
 	_spawn_pertti()
@@ -148,6 +152,8 @@ func set_positions():
 func _spawn_pertti():
 	pertti = pertti_scene.instance()
 	pertti.position = tower.position
+	pertti.name = str(get_tree().get_network_unique_id())
+	pertti.set_network_master(get_tree().get_network_unique_id())
 	add_child(pertti)
 
 func _spawn_enemy(spawn_point):

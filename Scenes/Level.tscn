@@ -476,6 +476,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Volume" type="ToolButton" parent="HUD/PauseMenu"]
+visible = false
+margin_left = 10.0
+margin_top = 325.0
+margin_right = 322.0
+margin_bottom = 384.0
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.721569, 0.721569, 0.721569, 1 )
+custom_colors/font_color_pressed = Color( 0.490196, 0.490196, 0.490196, 1 )
+toggle_mode = true
+text = "Music"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="GameOverMenu" type="Node" parent="HUD"]
 pause_mode = 2
 
@@ -599,6 +615,7 @@ autoplay = true
 [connection signal="pressed" from="HUD/PauseMenu/MainMenuButton" to="HUD/PauseMenu" method="_on_MainMenuButton_pressed"]
 [connection signal="pressed" from="HUD/PauseMenu/QuitButton" to="HUD/PauseMenu" method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="HUD/PauseMenu/ResumeButton" to="HUD/PauseMenu" method="_on_ResumeButton_pressed"]
+[connection signal="toggled" from="HUD/PauseMenu/Volume" to="HUD/PauseMenu" method="_on_Volume_toggled"]
 [connection signal="pressed" from="HUD/GameOverMenu/MainMenuButton" to="." method="_on_MainMenuButton_pressed"]
 [connection signal="pressed" from="HUD/GameOverMenu/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="HUD/GameOverMenu/RestartButton" to="." method="_on_RestartButton_pressed"]
