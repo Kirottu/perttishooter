@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/Pertti.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Sprites/pertti1_pistol.png" type="Texture" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://Assets/Audio/explosion.wav" type="AudioStream" id=5]
 [ext_resource path="res://Assets/Textures/flashlight.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Textures/red_circle.png" type="Texture" id=7]
-[ext_resource path="res://Scripts/Camera2D.gd" type="Script" id=8]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Invinsibility"
@@ -46,7 +45,6 @@ texture = ExtResource( 2 )
 current = true
 zoom = Vector2( 0.8, 0.8 )
 smoothing_enabled = true
-script = ExtResource( 8 )
 
 [node name="Area2D" type="Area2D" parent="."]
 
