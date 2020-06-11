@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/perttischuut_copy.ogg-746e5e84c45e428827a4006dcfec1f4e.oggstr"
+
+[deps]
+
+source_file="res://Assets/Audio/perttischuut_copy.ogg"
+dest_files=[ "res://.import/perttischuut_copy.ogg-746e5e84c45e428827a4006dcfec1f4e.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
