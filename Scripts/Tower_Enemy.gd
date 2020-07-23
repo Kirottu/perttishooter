@@ -66,27 +66,34 @@ func _on_Level_core_destroyed():
 func _on_free_time():
 	queue_free()
 
-func _on_Area2D_body_entered(body):
-	# Check if a bullet has entered area, if so reduce health
-	if "Bullet" in body.name and !destroyed:
+func _kil():
+	destroyed = true
+	explosion.play()
+	set_process(false)
+	emit_signal("destroyed", true)
+	if position.distance_to(tower.position) < 90:
+		emit_signal("exited")
+	get_node("CollisionShape2D").queue_free()
+	yield(get_tree().create_timer(1.5), "timeout")
+	# Queue for deletion in the next frame when health == 0
+	queue_free()
+
+func _hurt(damage):
+	if !destroyed:
 		if health > 1:
 			hurt_sound.play()
 		if health > 0:
-			health -= 1
 			sprite.frame = 1
 			yield(get_tree().create_timer(0.1), "timeout")
 			sprite.frame = 0
+			health -= damage
 		if health == 0:
-			destroyed = true
-			explosion.play()
-			set_process(false)
-			emit_signal("destroyed", true)
-			if position.distance_to(tower.position) < 90:
-				emit_signal("exited")
-			get_node("CollisionShape2D").queue_free()
-			yield(get_tree().create_timer(1.5), "timeout")
-			# Queue for deletion in the next frame when health == 0
-			queue_free()
+			_kil()
+
+func _on_Area2D_body_entered(body):
+	# Check if a bullet has entered area, if so reduce health
+	if "Bullet" in body.name and !destroyed:
+		_hurt(1)
 
 func _on_Collision_area_entered(area):
 	if area.name == "Core":
@@ -96,7 +103,8 @@ func _on_Collision_area_entered(area):
 			emit_signal("exited")
 			$AnimatedSprite.visible = true
 			$AnimatedSprite.play()
+			$ExplosionRadius/CollisionShape2D.disabled = false
 			$Collision.queue_free()
-			$Sprite.queue_free()
+			$Sprite.visible = false
 			yield(get_tree().create_timer(0.7), "timeout")
 			queue_free()

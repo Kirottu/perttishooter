@@ -44,7 +44,7 @@ var closest_to_target = 10 # the npc won't come closer to pertti than this
 var npc_active = false
 
 # Mine enemy related settings
-var mine_enemy_speed = 50
+var mine_enemy_speed = 400
 var mine_enemy_health = 3
 var mine_place_interval = 10
 
@@ -52,4 +52,4 @@ var mine_place_interval = 10
 var rounds = 1 # Supposed to be round, but it is a built in type in godot and so unusable
 var difficulty = 0
 var score = 0
-var coins = 120
+var coins = 0

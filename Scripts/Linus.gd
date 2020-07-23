@@ -31,6 +31,7 @@ var health = Settings.mine_enemy_health
 var timer = Timer.new()
 
 func _ready():
+	get_parent().connect("free_time", self, "_on_free_time")
 	connect("placemine", get_parent(), "_spawn_mine")
 	tiles_map = tilemap.get_used_cells()
 	for i in tiles_map.size():
@@ -56,6 +57,9 @@ func _place_mine():
 	mine.position = position
 	# call parent, cause the mines need to stay when Linus've been thinking of retiring.
 	get_parent().add_child(mine)
+
+func _on_free_time():
+	queue_free()
 
 func update_path_if_needed(force):
 	if force or lastpos == position or position.distance_to(destination) < Settings.closest_to_target:

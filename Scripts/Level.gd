@@ -207,12 +207,24 @@ func round_timer_indicator():
 		round_indicator_label.text = "Time left:" + str(round_indicator_thingy)
 		round_indicator_thingy -= 1
 
+func slide_color(color : Color, light_node : Light2D, amplitude : float, tored : bool):
+	print("slide func called")
+	if tored:
+		while light_node.color != color and enemies_in_tower != 0:
+			light_node.color = light_node.color.linear_interpolate(color, amplitude)
+			yield(get_tree().create_timer(0.1), "timeout")
+	else:
+		while light_node.color != color and enemies_in_tower == 0:
+			light_node.color = light_node.color.linear_interpolate(color, amplitude)
+			yield(get_tree().create_timer(0.1), "timeout")
+
 func initialization_period():
 	under_attack_label.text = "Initializing attack..."
+	slide_color(Color8(191, 38, 81), $Tower/Light2D, 0.1, true)
 	while enemies_in_tower > 0:
 		under_attack_label.set("custom_colors/font_color", Color8(191, 38, 81))
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
-		under_attack_label.set("custom_colors/font_color", Color(1, 1, 1, 1))
+		under_attack_label.set("custom_colors/font_color", Color8(255, 255, 255))
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
 
 func _on_Area2D_body_entered(body):
@@ -234,13 +246,14 @@ func _on_Area2D_body_entered(body):
 			tower_destroyed = true
 			under_attack_label.text = "Core destroyed"
 			emit_signal("core_destroyed")
-
+			
 func _on_Tower_Enemy_exited():
 	print("Enemy exited")
 	enemies_in_tower -= 1
 	print(enemies_in_tower)
 	if enemies_in_tower <= 0 and !tower_destroyed:
 		under_attack_label.visible = false
+		slide_color(Color(1, 1, 1), $Tower/Light2D, 0.1, false)
 
 func _on_Enemy_destroyed(tower_enemy : bool):
 	if !tower_enemy:
@@ -280,7 +293,6 @@ func _on_Pertti_gameover():
 			respawn_label.text = "Respawning In:" + str(Settings.respawn_delay - i)
 			yield(get_tree().create_timer(1), "timeout")
 
-		
 		#pertti.animation.play("Invinsibility")
 	elif tower_destroyed:
 		gameover = true

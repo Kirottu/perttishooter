@@ -5,8 +5,9 @@
 [ext_resource path="res://Assets/Audio/weapon/weapon_fire.wav" type="AudioStream" id=3]
 [ext_resource path="res://Assets/Audio/hurt.wav" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Audio/explosion.wav" type="AudioStream" id=5]
-[ext_resource path="res://Assets/Textures/flashlight.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Textures/flashligh.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Textures/red_circle.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Textures/Sprites/pertti1_pistol_hurt.png" type="Texture" id=8]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Invinsibility"
@@ -23,9 +24,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [ false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true ]
 }
-
-[sub_resource type="StreamTexture" id=2]
-load_path = "res://.import/flashlight_mask.png-093251ce4c666689b9866e3f633f58fe.stex"
 
 [node name="Pertti" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -66,9 +64,10 @@ anims/Invinsibility = SubResource( 1 )
 
 [node name="Light2D" type="Light2D" parent="."]
 rotation = 1.5708
+scale = Vector2( 2, 2 )
 texture = ExtResource( 6 )
-offset = Vector2( 0, -235 )
-texture_scale = 8.0
+offset = Vector2( 0, -130 )
+texture_scale = 0.25
 shadow_enabled = true
 
 [node name="red_circle" type="Sprite" parent="Light2D"]
@@ -77,19 +76,9 @@ position = Vector2( -6.49244, -150.547 )
 texture = ExtResource( 7 )
 
 [node name="Light2D2" type="Light2D" parent="."]
-visible = false
-light_mask = 2
 rotation = 1.5708
-texture = SubResource( 2 )
-offset = Vector2( 0, -230 )
-texture_scale = 8.0
-mode = 3
-range_item_cull_mask = 2
-shadow_enabled = true
-
-[node name="red_circle" type="Sprite" parent="Light2D2"]
-visible = false
-position = Vector2( -6.49244, -150.547 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
+energy = 1.3
+mode = 2
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
