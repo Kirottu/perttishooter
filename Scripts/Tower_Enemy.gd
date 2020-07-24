@@ -68,19 +68,18 @@ func _on_free_time():
 
 func _kil():
 	destroyed = true
-	explosion.play()
 	set_process(false)
 	emit_signal("destroyed", true)
 	if position.distance_to(tower.position) < 90:
 		emit_signal("exited")
-	get_node("CollisionShape2D").queue_free()
+	$CollisionShape2D.disabled = true
 	yield(get_tree().create_timer(1.5), "timeout")
 	# Queue for deletion in the next frame when health == 0
 	queue_free()
 
 func _hurt(damage):
 	if !destroyed:
-		if health > 1:
+		if health > 0:
 			hurt_sound.play()
 		if health > 0:
 			sprite.frame = 1
@@ -103,6 +102,7 @@ func _on_Collision_area_entered(area):
 			emit_signal("exited")
 			$AnimatedSprite.visible = true
 			$AnimatedSprite.play()
+			$Explosion2.play()
 			$ExplosionRadius/CollisionShape2D.disabled = false
 			$Collision.queue_free()
 			$Sprite.visible = false

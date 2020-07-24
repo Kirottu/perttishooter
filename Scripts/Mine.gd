@@ -9,5 +9,6 @@ func _on_Mine_body_entered(body):
 		$Sprite.visible = false
 		$AnimatedSprite.visible = true
 		$AnimatedSprite.play()
+		$Explosion2.play()
 		yield(get_tree().create_timer(0.7), "timeout")
 		queue_free()

@@ -139,16 +139,15 @@ func _on_free_time():
 func _kil():
 	health = 0
 	destroyed = true
-	explosion.play()
 	set_process(false)
 	emit_signal("destroyed", false)
-	get_node("CollisionShape2D").queue_free()
+	get_node("CollisionShape2D").disabled = true
 	yield(get_tree().create_timer(1.5), "timeout")
 	queue_free()
 
 func _hurt(damage):
 	if !destroyed:
-		if health > 1:
+		if health > 0:
 			hurt_sound.play()
 		if health > 0:
 			sprite.frame = 1

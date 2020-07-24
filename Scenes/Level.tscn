@@ -641,7 +641,7 @@ shape = SubResource( 18 )
 [node name="Light2D" type="Light2D" parent="Tower"]
 position = Vector2( 2.17053, 1.44708 )
 texture = ExtResource( 11 )
-texture_scale = 2.0
+texture_scale = 1.25
 color = Color( 0.87451, 0.929412, 0.929412, 1 )
 shadow_enabled = true
 
@@ -667,6 +667,7 @@ color = Color( 0.219608, 0.219608, 0.219608, 1 )
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
 stream = ExtResource( 10 )
+volume_db = -5.0
 autoplay = true
 [connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/CoreHealthAdd" to="." method="_on_CoreHealthAdd_pressed"]
 [connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/PerttiHealth" to="." method="_on_PerttiHealth_pressed"]

@@ -35,6 +35,10 @@ settings/fps/force_fps=60
 window/size/width=1920
 window/size/height=1080
 
+[editor]
+
+convert_text_resources_to_binary_on_export=true
+
 [input]
 
 fire={

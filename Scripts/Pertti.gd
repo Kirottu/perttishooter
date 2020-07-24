@@ -86,7 +86,6 @@ func _kil():
 	# To prevent confused confusing confusery when the ui health counter goes negative
 	health = 0
 	emit_signal("damage_taken", health)
-	explosion.play()
 	gameover = true
 	emit_signal("gameover")
 	$Area2D.queue_free()
@@ -97,7 +96,7 @@ func _kil():
 func _hurt(damage : int):
 	if !gameover and !invinsibility:
 		health -= damage
-		if health > 1:
+		if health > 0:
 			hurt_sound.play()
 		if health <= 0:
 			_kil()

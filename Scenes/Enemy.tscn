@@ -4,7 +4,7 @@
 [ext_resource path="res://Assets/Textures/Sprites/zombie1.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Textures/Sprites/zombie_hurt1.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Textures/Rectangles/black_rectangle.png" type="Texture" id=4]
-[ext_resource path="res://Assets/Audio/damage/enemy_hit3.wav" type="AudioStream" id=5]
+[ext_resource path="res://Assets/Audio/hurt.wav" type="AudioStream" id=5]
 [ext_resource path="res://Assets/Audio/explosion.wav" type="AudioStream" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
