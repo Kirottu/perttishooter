@@ -5,7 +5,7 @@
 [ext_resource path="res://Assets/Audio/explosion.wav" type="AudioStream" id=3]
 [ext_resource path="res://Assets/Textures/Sprites/harold1_pistol.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Textures/Rectangles/black_rectangle.png" type="Texture" id=5]
-[ext_resource path="res://Assets/Audio/weapon/weapon_fire.wav" type="AudioStream" id=6]
+[ext_resource path="res://Assets/Audio/gunshot.wav" type="AudioStream" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 500.0

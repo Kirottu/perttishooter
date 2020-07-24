@@ -50,7 +50,8 @@ func _ready():
 func _physics_process(delta):
 	update_path_if_needed(false)
 	lastpos = position
-	move_along_path(Settings.mine_enemy_speed * delta)
+	if !destroyed:
+		move_along_path(Settings.mine_enemy_speed * delta)
 
 func _place_mine():
 	var mine = mine_scene.instance()
@@ -87,7 +88,7 @@ func _kil():
 	destroyed = true
 	set_process(false)
 	emit_signal("destroyed", true)
-	get_node("CollisionShape2D").disabled = true
+	get_node("CollisionPolygon2D").disabled = true
 	yield(get_tree().create_timer(1.5), "timeout")
 	queue_free()
 

@@ -79,7 +79,7 @@ texture = ExtResource( 7 )
 [node name="Light2D2" type="Light2D" parent="."]
 rotation = 1.5708
 texture = ExtResource( 8 )
-energy = 1.3
+energy = 1.1
 mode = 2
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

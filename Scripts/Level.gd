@@ -72,11 +72,6 @@ func spawn_enemies():
 		rng.randomize()
 		
 		_spawn_enemy(rng.randi_range(0,7))
-		
-		#if !tower_destroyed and rng.randi_range(0,99) < Settings.tower_enemy_probability:
-		#	_spawn_tower_enemy(rng.randi_range(0,7))
-		#else:
-		#	_spawn_enemy(rng.randi_range(0,7))
 
 func spawn_tower_enemies():
 	rng.randomize()
@@ -207,20 +202,24 @@ func round_timer_indicator():
 		round_indicator_label.text = "Time left:" + str(round_indicator_thingy)
 		round_indicator_thingy -= 1
 
-func slide_color(color : Color, light_node : Light2D, amplitude : float, tored : bool):
+func slide_color(color : Color, light_node : Light2D, amplitude : float, tored : bool, notower : bool):
 	print("slide func called")
-	if tored:
+	if tored and !notower:
 		while light_node.color != color and enemies_in_tower != 0:
 			light_node.color = light_node.color.linear_interpolate(color, amplitude)
 			yield(get_tree().create_timer(0.1), "timeout")
-	else:
+	elif !notower:
 		while light_node.color != color and enemies_in_tower == 0:
+			light_node.color = light_node.color.linear_interpolate(color, amplitude)
+			yield(get_tree().create_timer(0.1), "timeout")
+	else:
+		while light_node.color != color:
 			light_node.color = light_node.color.linear_interpolate(color, amplitude)
 			yield(get_tree().create_timer(0.1), "timeout")
 
 func initialization_period():
 	under_attack_label.text = "Initializing attack..."
-	slide_color(Color8(191, 38, 81), $Tower/Light2D, 0.1, true)
+	slide_color(Color8(191, 38, 81), $Tower/Light2D, 0.1, true, false)
 	while enemies_in_tower > 0:
 		under_attack_label.set("custom_colors/font_color", Color8(191, 38, 81))
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
@@ -246,14 +245,14 @@ func _on_Area2D_body_entered(body):
 			tower_destroyed = true
 			under_attack_label.text = "Core destroyed"
 			emit_signal("core_destroyed")
-			
+
 func _on_Tower_Enemy_exited():
 	print("Enemy exited")
 	enemies_in_tower -= 1
 	print(enemies_in_tower)
 	if enemies_in_tower <= 0 and !tower_destroyed:
 		under_attack_label.visible = false
-		slide_color(Color(1, 1, 1), $Tower/Light2D, 0.1, false)
+		slide_color(Color(1, 1, 1), $Tower/Light2D, 0.1, false, false)
 
 func _on_Enemy_destroyed(tower_enemy : bool):
 	if !tower_enemy:
@@ -365,5 +364,3 @@ func _on_Pertti2X_pressed():
 		Settings.pertti_health *= 2
 		pertti.health = Settings.pertti_health
 		health_label.text = "Health:" + str(Settings.pertti_health)
-			
-		
