@@ -155,7 +155,7 @@ func _hurt(damage):
 			yield(get_tree().create_timer(0.1), "timeout")
 			sprite.frame = 0
 			health -= damage
-		if health == 0:
+		if health <= 0:
 			_kil()
 
 func _on_Area2D_body_entered(body):
@@ -163,14 +163,6 @@ func _on_Area2D_body_entered(body):
 	if "Bullet" in body.name:
 		_hurt(Settings.bullet_damage)
 
-"""func _on_Collision_area_entered(area):
-	if "Mine" in area.name:
-		_hurt(10)
-		area.get_node("AnimatedSprite").visible = true
-		area.get_node("AnimatedSprite").play()
-		area.get_node("Sprite").visible = false
-		yield(get_tree().create_timer(0.7), "timeout")
-		area.queue_free()
+func _on_Collision_area_entered(area):
 	if "ExplosionRadius" in area.name:
 		_hurt(10)
-		yield(get_tree().create_timer(0.7), "timeout")"""

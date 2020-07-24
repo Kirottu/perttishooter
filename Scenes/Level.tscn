@@ -542,28 +542,92 @@ __meta__ = {
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="SpawnPoint1" type="Node2D" parent="SpawnPoints"]
-position = Vector2( 1441.83, 1824.36 )
+position = Vector2( 1408, 1824.36 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Light2D" type="Light2D" parent="SpawnPoints/SpawnPoint1"]
+texture = ExtResource( 11 )
+texture_scale = 0.5
+color = Color( 0.74902, 0.14902, 0.317647, 1 )
 
 [node name="SpawnPoint2" type="Node2D" parent="SpawnPoints"]
-position = Vector2( 554.175, 1785.13 )
+position = Vector2( 512, 1832 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Light2D2" type="Light2D" parent="SpawnPoints/SpawnPoint2"]
+texture = ExtResource( 11 )
+texture_scale = 0.5
+color = Color( 0.74902, 0.14902, 0.317647, 1 )
 
 [node name="SpawnPoint3" type="Node2D" parent="SpawnPoints"]
-position = Vector2( -240.306, 1093.64 )
+position = Vector2( -215, 1088 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Light2D3" type="Light2D" parent="SpawnPoints/SpawnPoint3"]
+texture = ExtResource( 11 )
+texture_scale = 0.5
+color = Color( 0.74902, 0.14902, 0.317647, 1 )
 
 [node name="SpawnPoint4" type="Node2D" parent="SpawnPoints"]
-position = Vector2( 2152, 184 )
+position = Vector2( 2144, 196 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Light2D4" type="Light2D" parent="SpawnPoints/SpawnPoint4"]
+texture = ExtResource( 11 )
+texture_scale = 0.5
+color = Color( 0.74902, 0.14902, 0.317647, 1 )
 
 [node name="SpawnPoint5" type="Node2D" parent="SpawnPoints"]
-position = Vector2( 1422.22, -613.025 )
+position = Vector2( 1408, -536 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Light2D5" type="Light2D" parent="SpawnPoints/SpawnPoint5"]
+texture = ExtResource( 11 )
+texture_scale = 0.5
+color = Color( 0.74902, 0.14902, 0.317647, 1 )
 
 [node name="SpawnPoint6" type="Node2D" parent="SpawnPoints"]
-position = Vector2( 450, -610 )
+position = Vector2( 512, -536 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Light2D6" type="Light2D" parent="SpawnPoints/SpawnPoint6"]
+texture = ExtResource( 11 )
+texture_scale = 0.5
+color = Color( 0.74902, 0.14902, 0.317647, 1 )
 
 [node name="SpawnPoint7" type="Node2D" parent="SpawnPoints"]
 position = Vector2( -215, 200 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Light2D7" type="Light2D" parent="SpawnPoints/SpawnPoint7"]
+texture = ExtResource( 11 )
+texture_scale = 0.5
+color = Color( 0.74902, 0.14902, 0.317647, 1 )
 
 [node name="SpawnPoint8" type="Node2D" parent="SpawnPoints"]
-position = Vector2( 2143.92, 1077.85 )
+position = Vector2( 2144, 1088 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Light2D8" type="Light2D" parent="SpawnPoints/SpawnPoint8"]
+texture = ExtResource( 11 )
+texture_scale = 0.5
+color = Color( 0.74902, 0.14902, 0.317647, 1 )
 
 [node name="Tower" type="Node2D" parent="."]
 position = Vector2( 960, 640 )
@@ -577,6 +641,8 @@ shape = SubResource( 18 )
 [node name="Light2D" type="Light2D" parent="Tower"]
 position = Vector2( 2.17053, 1.44708 )
 texture = ExtResource( 11 )
+texture_scale = 2.0
+color = Color( 0.87451, 0.929412, 0.929412, 1 )
 shadow_enabled = true
 
 [node name="Shop" type="Node2D" parent="."]
@@ -589,6 +655,7 @@ shape = SubResource( 19 )
 
 [node name="Light2D2" type="Light2D" parent="Shop"]
 texture = ExtResource( 11 )
+color = Color( 0.87451, 0.929412, 0.929412, 1 )
 shadow_enabled = true
 
 [node name="Click" type="AudioStreamPlayer" parent="."]

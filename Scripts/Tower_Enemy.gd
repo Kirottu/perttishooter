@@ -87,7 +87,7 @@ func _hurt(damage):
 			yield(get_tree().create_timer(0.1), "timeout")
 			sprite.frame = 0
 			health -= damage
-		if health == 0:
+		if health <= 0:
 			_kil()
 
 func _on_Area2D_body_entered(body):
