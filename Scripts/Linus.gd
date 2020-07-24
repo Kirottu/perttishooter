@@ -72,6 +72,7 @@ func move_along_path(distance):
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
 		if distance <= distance_to_next and distance > 0.0:
+			look_at(path[0])
 			position = start_point.linear_interpolate(path[0], distance / distance_to_next)
 			break
 		elif distance <= 0.0:
@@ -81,21 +82,27 @@ func move_along_path(distance):
 		start_point = path[0]
 		path.remove(0)
 
-func _on_Area2D_body_entered(body):
-	if "Bullet" in body.name:
-		if health > 1:
+func _kil():
+	health = 0
+	destroyed = true
+	set_process(false)
+	emit_signal("destroyed", true)
+	get_node("CollisionShape2D").disabled = true
+	yield(get_tree().create_timer(1.5), "timeout")
+	queue_free()
+
+func _hurt(damage):
+	if !destroyed:
+		if health > 0:
 			hurt_sound.play()
 		if health > 0:
 			sprite.frame = 1
 			yield(get_tree().create_timer(0.1), "timeout")
 			sprite.frame = 0
-			health -= 1
-		if health == 0:
-			destroyed = true
-			explosion.play()
-			set_process(false)
-			#emit_signal("destroyed", true)
-			#get_node("CollisionShape2D").queue_free()
-			#yield(get_tree().create_timer(1.5), "timeout")
-			# Queue for deletion in the next frame when health == 0
-			queue_free()
+			health -= damage
+		if health <= 0:
+			_kil()
+
+func _on_Area2D_body_entered(body):
+	if "Bullet" in body.name:
+		_hurt(1)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Rectangles/rectangle.png" type="Texture" id=2]
@@ -192,10 +192,39 @@ outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="RectangleShape2D" id=18]
+[sub_resource type="Shader" id=18]
+code = "    shader_type canvas_item;
+
+uniform float amount : hint_range(0,0.5);
+
+vec4 sample_glow_pixel(sampler2D tex, vec2 uv) {
+   float hdr_threshold = amount; 
+    return max(textureLod(tex, uv, 2.0) - hdr_threshold, vec4(0.0));
+}
+
+void fragment() {
+    vec2 ps = SCREEN_PIXEL_SIZE;
+    // Get blurred color from pixels considered glowing
+    vec4 col0 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(-ps.x, 0));
+    vec4 col1 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(ps.x, 0));
+    vec4 col2 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(0, -ps.y));
+    vec4 col3 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(0, ps.y));
+
+    vec4 col = texture(SCREEN_TEXTURE, SCREEN_UV);
+    vec4 glowing_col = 0.25 * (col0 + col1 + col2 + col3);
+
+    COLOR = vec4(col.rgb + glowing_col.rgb, col.a);
+}"
+custom_defines = ""
+
+[sub_resource type="ShaderMaterial" id=19]
+shader = SubResource( 18 )
+shader_param/amount = null
+
+[sub_resource type="RectangleShape2D" id=20]
 extents = Vector2( 130, 130 )
 
-[sub_resource type="RectangleShape2D" id=19]
+[sub_resource type="RectangleShape2D" id=21]
 extents = Vector2( 170, 192 )
 
 [node name="Level" type="Node2D"]
@@ -539,6 +568,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Bloom" type="ColorRect" parent="HUD"]
+visible = false
+material = SubResource( 19 )
+margin_right = 2584.0
+margin_bottom = 1960.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="SpawnPoint1" type="Node2D" parent="SpawnPoints"]
@@ -636,7 +675,7 @@ position = Vector2( 960, 640 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tower/Core"]
 position = Vector2( -6.10352e-05, 0 )
-shape = SubResource( 18 )
+shape = SubResource( 20 )
 
 [node name="Light2D" type="Light2D" parent="Tower"]
 position = Vector2( 2.17053, 1.44708 )
@@ -651,7 +690,7 @@ position = Vector2( 3030, 640 )
 [node name="Area2D" type="Area2D" parent="Shop"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Area2D"]
-shape = SubResource( 19 )
+shape = SubResource( 21 )
 
 [node name="Light2D2" type="Light2D" parent="Shop"]
 texture = ExtResource( 11 )

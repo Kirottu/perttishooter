@@ -25,9 +25,6 @@ func _ready():
 	print(path[0])
 	connections()
 
-func _process(delta):
-	look_at(tower.position)
-
 func _physics_process(delta):
 	if health > 0 and position.distance_to(tower.position) > 70:
 		move_along_path(Settings.tower_enemy_speed * 0.02)
@@ -44,12 +41,13 @@ func connections():
 func move_along_path(distance : float):
 	# Set the start point of the path
 	var start_point = position
-		
 	# Loop trough the path array to move the enemy
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
 		if distance <= distance_to_next and distance > 0.0:
 			# Move the enemy
+			look_at(path[0])
+			#rotation = lerp_angle(rotation, get_angle_to(path[0]), rotation / (rotation - get_angle_to(path[0])))
 			position = start_point.linear_interpolate(path[0], distance / distance_to_next)
 			break
 		elif distance <= 0.0:

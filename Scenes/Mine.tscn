@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://Assets/Textures/Nightmare(thanks arte)/PicsArt_06-01-10.38.22.jpg" type="Texture" id=1]
+[ext_resource path="res://Assets/Textures/Sprites/mine.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Textures/Sprites/xplosion.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Mine.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Audio/explosion.wav" type="AudioStream" id=4]
@@ -55,7 +55,7 @@ script = ExtResource( 3 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 0.03, 0.03 )
+scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 1 )
 region_rect = Rect2( 1, 1, 1, 1 )
 

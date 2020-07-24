@@ -10,5 +10,7 @@ func _on_Mine_body_entered(body):
 		$AnimatedSprite.visible = true
 		$AnimatedSprite.play()
 		$Explosion2.play()
+		yield(get_tree().create_timer(0.1), "timeout")
+		$CollisionShape2D.disabled = true
 		yield(get_tree().create_timer(0.7), "timeout")
 		queue_free()
