@@ -37,7 +37,8 @@ func _process(delta):
 	# I wonder when valzu is gonna make the god damn wall textures
 	# Probably when gentoo is done compiling on the uberpotato (aka not before the end of the year)
 	# I doubt it is ever going to finish
-	look_at(pertti.position)
+	if pertti_in_sight:
+		look_at(pertti.position)
 	
 func _physics_process(delta):
 	update_path_timer()
@@ -82,6 +83,7 @@ func move_along_path(distance : float):
 		var distance_to_next = start_point.distance_to(path[0])
 		if distance <= distance_to_next and distance > 0.0:
 			# Move the enemy
+			look_at(path[0])
 			position = start_point.linear_interpolate(path[0], distance / distance_to_next)
 			break
 		elif distance <= 0.0:

@@ -189,6 +189,9 @@ func _round_timer_elapsed():
 	round_interval = true
 	print("Round interval")
 	emit_signal("free_time")
+	if Settings.base_difficulty > 0.1:
+		Settings.base_difficulty -= Settings.difficulty_increase
+		spawn_timer.set_wait_time(Settings.base_difficulty)
 	round_indicator_label.text = "Free time"
 	skip_free_time_button.visible = true
 	round_timer.stop()
