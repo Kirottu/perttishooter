@@ -22,7 +22,7 @@ var moving = false
 var invinsibility = false
 var gameover = false
 var can_fire = true
-var joy_connected
+var joy_connected = Input.is_joy_known(0)
 
 # Others
 var health = Settings.pertti_health
@@ -37,10 +37,12 @@ func _ready():
 func _physics_process(delta):
 	# Run _move if !gameover
 	if !gameover:
-		look_at(get_global_mouse_position())
-		joy_axis = Vector2(Input.get_joy_axis(0, JOY_AXIS_2), Input.get_joy_axis(0, JOY_AXIS_3))
-		joy_rotation = joy_axis.angle()
-		rotation = joy_rotation
+		if joy_connected:
+			joy_axis = Vector2(Input.get_joy_axis(0, JOY_AXIS_2), Input.get_joy_axis(0, JOY_AXIS_3))
+			joy_rotation = joy_axis.angle()
+			rotation = joy_rotation
+		else:
+			look_at(get_global_mouse_position())
 		_move()
 	# Run _fire if !gameover
 	if Input.is_action_pressed("fire") and can_fire and !gameover:
