@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/Npc.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Audio/hurt.wav" type="AudioStream" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://Assets/Textures/Sprites/harold1_pistol.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Textures/Rectangles/black_rectangle.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Audio/gunshot.wav" type="AudioStream" id=6]
+[ext_resource path="res://Assets/Textures/Sprites/pertti1_pistol_hurt.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Textures/flashlight.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Textures/red_circle.png" type="Texture" id=9]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 500.0
@@ -66,5 +69,26 @@ position = Vector2( 50, 0 )
 
 [node name="Fireball" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 6 )
+
+[node name="Light2D" type="Light2D" parent="."]
+rotation = 1.5708
+scale = Vector2( 2, 2 )
+texture = ExtResource( 8 )
+offset = Vector2( 0, -130 )
+texture_scale = 0.25
+color = Color( 0.470588, 0.701961, 0.572549, 1 )
+shadow_enabled = true
+
+[node name="red_circle" type="Sprite" parent="Light2D"]
+visible = false
+position = Vector2( -6.49244, -150.547 )
+z_index = -1
+texture = ExtResource( 9 )
+
+[node name="Light2D2" type="Light2D" parent="."]
+rotation = 1.5708
+texture = ExtResource( 7 )
+energy = 1.1
+mode = 2
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

@@ -22,7 +22,7 @@ var pertti
 
 func _ready():
 	path = nav_2d.get_simple_path(position, tower.position)
-	print(path[0])
+	print(path)
 	connections()
 
 func _physics_process(delta):

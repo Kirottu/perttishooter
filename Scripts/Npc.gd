@@ -27,6 +27,7 @@ var lastpos
 var current_target
 var tiles = []
 var tiles_map = []
+var thread
 
 func _ready():
 	tiles_map = tilemap.get_used_cells()
@@ -46,10 +47,17 @@ func _physics_process(delta):
 	move_along_path(delta * Settings.npc_speed)
 	
 func update_path_if_needed(force):
-	if force or lastpos == position or position.distance_to(destination) < Settings.closest_to_target:
-		rng.randomize()
-		destination = tiles[rng.randi_range(0, tiles_map.size() - 1)]
-		path = nav_2d.get_simple_path(position, destination)
+	if !force and lastpos == position:
+		thread.wait_to_finish()
+		thread = Thread.new()
+		thread.start(self, "calculate_path")
+	elif force:
+		calculate_path()
+
+func calculate_path():
+	rng.randomize()
+	destination = tiles[rng.randi_range(0, tiles_map.size() - 1)]
+	path = nav_2d.get_simple_path(position, destination)
 
 func _fire():
 	if can_fire:
@@ -95,3 +103,6 @@ func _on_Area2D_body_exited(body):
 func _on_selected_enemy_destroyed(enemy_type):
 	enemy_in_sight = false
 	current_target = null
+
+func _exit_tree():
+	thread.wait_to_finish()

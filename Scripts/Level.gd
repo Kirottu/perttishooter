@@ -68,6 +68,7 @@ func _ready():
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 
 func spawn_enemies():
+	return
 	if !gameover and enemies_spawnable and !round_interval:
 		
 		rng.randomize()
@@ -359,9 +360,9 @@ func _on_SkipFreeTime_pressed():
 
 func _on_Harold_pressed():
 	$Click.play()
-	if Settings.coins >= 120:
+	if Settings.coins >= 90:
 		_spawn_npc()
-		Settings.coins -= 120
+		Settings.coins -= 90
 
 func _on_Core_enemy_explosion():
 	tower_health -= Settings.explosion_damage
@@ -369,8 +370,9 @@ func _on_Core_enemy_explosion():
 
 func _on_Pertti2X_pressed():
 	$Click.play()
-	if Settings.coins >= 30 and respawn_label.visible == false:
+	if Settings.coins >= 60 and respawn_label.visible == false:
 		Settings.coins -= 60
 		Settings.pertti_health *= 2
 		pertti.health = Settings.pertti_health
-		health_label.value = Settings.pertti_health
+		health_bar.max_value = Settings.pertti_health
+		coin_label.text = "Coins:" + str(Settings.coins)
