@@ -17,6 +17,7 @@ var mine_scene = preload("res://Scenes/Mine.tscn")
 # Bools
 var can_update = false
 var destroyed = false
+var path_calculated = false
 
 # Signals
 signal destroyed
@@ -53,7 +54,7 @@ func _ready():
 func _physics_process(delta):
 	update_path_if_needed(false)
 	lastpos = position
-	if !destroyed:
+	if !destroyed and path_calculated:
 		move_along_path(Settings.mine_enemy_speed * delta)
 
 func _place_mine():
@@ -67,7 +68,10 @@ func _on_free_time():
 
 func update_path_if_needed(force):
 	if force or lastpos == position:
+		path_calculated = false
 		thread.start(self, "calculate_path", "dummy")
+		thread.wait_to_finish()
+		path_calculated = true
 	
 func calculate_path(dummy):
 	rng.randomize()
@@ -76,7 +80,6 @@ func calculate_path(dummy):
 
 func move_along_path(distance):
 	
-	thread.wait_to_finish()
 	var start_point = position
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])

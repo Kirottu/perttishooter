@@ -95,6 +95,7 @@ func set_default_values():
 	coin_label.text = "Coins:" + str(Settings.coins)
 	round_label.text = "Round:" + str(Settings.rounds)
 	tower_health_bar.value = Settings.tower_health
+	$AudioStreamPlayer.volume_db = Settings.volume
 	for i in $SpawnPoints.get_children():
 		spawn_points.append(i)
 

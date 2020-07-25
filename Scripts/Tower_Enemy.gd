@@ -16,6 +16,7 @@ signal explosion
 
 # Bools
 var destroyed = false
+var path_calculated = false
 
 # Misc
 var health = Settings.tower_enemy_health
@@ -25,15 +26,18 @@ var thread
 var blood
 
 func _ready():
-	thread = Thread.new()
-	thread.start(self, "calculate_path", "dummy")
 	connections()
+	thread = Thread.new()
+	path_calculated = false
+	thread.start(self, "calculate_path", "dummy")
+	thread.wait_to_finish()
+	path_calculated = true
 
 func calculate_path(dummy):
 	path = nav_2d.get_simple_path(position, tower.position)
 
 func _physics_process(delta):
-	if health > 0 and position.distance_to(tower.position) > 70:
+	if health > 0 and position.distance_to(tower.position) > 70 and path_calculated:
 		move_along_path(Settings.tower_enemy_speed * 0.02)
 
 func connections():
@@ -47,7 +51,6 @@ func move_along_path(distance : float):
 	# Set the start point of the path
 	var start_point = position
 	# Loop trough the path array to move the enemy
-	thread.wait_to_finish()
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
 		if distance <= distance_to_next and distance > 0.0:

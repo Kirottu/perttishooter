@@ -12,6 +12,7 @@ onready var sprite = $Sprite
 var can_update = false
 var pertti_in_sight = false
 var destroyed = false
+var path_calculated = false
 
 # Signals
 signal destroyed
@@ -24,8 +25,10 @@ var pertti
 var path_update_timer
 var path_length_to_pertti = 0 #set to 0 to force path calculation at start and because it crashes otherwise
 var blood
+var thread
 
 func _ready():
+	thread = Thread.new()
 	connect("destroyed", get_parent(), "_on_Enemy_destroyed")
 	get_parent().connect("free_time", self, "_on_free_time")
 	# Do not process right away as that would cause problems, randomize to unsync the calculation, and hopefully unstrain the cpu
@@ -52,7 +55,7 @@ func move_or_slide():
 	if !pertti_in_sight and health != 0:
 		move_along_path(Settings.enemy_speed * 0.02)
 	# Switch to close proximity follow for better close quarters following
-	elif health != 0:
+	elif health != 0 and path_calculated:
 		var start_point = position
 		var direction = (pertti.position - position).normalized()
 		move_and_slide(direction * Settings.enemy_speed)
@@ -68,7 +71,10 @@ func update_path_timer():
 	if path_update_timer <= 0 and !pertti_in_sight and health > 0:
 		#can_update = true
 		if can_update:
-			update_path()
+			path_calculated = false
+			thread.start(self, "update_path", "dummy")
+			thread.wait_to_finish()
+			path_calculated = true
 		#can_update = false
 		path_update_timer = Settings.update_delay_factor * path_length_to_pertti
 	else:
@@ -118,7 +124,7 @@ func set_pertti_ref(value):
 func pertti_moved_listener():
 	can_update = true
 
-func update_path():
+func update_path(dummy):
 	# Check if the can update timer has expired, as if this didnt exist the performance would be horrible all time pertto moves
 	#if can_update:
 	# Restart the timer
@@ -174,3 +180,6 @@ func _on_Area2D_body_entered(body):
 func _on_Collision_area_entered(area):
 	if "ExplosionRadius" in area.name:
 		_hurt(10)
+
+func _exit_tree():
+	thread.wait_to_finish()

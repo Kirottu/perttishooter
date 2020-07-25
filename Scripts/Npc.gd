@@ -15,6 +15,7 @@ var can_update = false
 var enemy_in_sight = false
 var destroyed = false
 var can_fire = true
+var path_calculated = false
 
 # Signals
 signal destroyed
@@ -45,14 +46,17 @@ func _physics_process(delta):
 	if enemy_in_sight:
 		look_at(current_target.position)
 		_fire()
-	move_along_path(delta * Settings.npc_speed)
+	if path_calculated:
+		move_along_path(delta * Settings.npc_speed)
 	
 func update_path_if_needed(force):
 	if force or lastpos == position:
-		thread.wait_to_finish()
 		# Pass a dummy argument, wont work otherwise
 		# TODO this is dumb
+		path_calculated = false
 		thread.start(self, "calculate_path", "boi")
+		thread.wait_to_finish()
+		path_calculated = true
 
 func calculate_path(dummy):
 	rng.randomize()
@@ -72,8 +76,6 @@ func _fire():
 		can_fire = true
 
 func move_along_path(distance):
-	
-	thread.wait_to_finish()
 	var start_point = position
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
