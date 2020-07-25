@@ -56,3 +56,4 @@ var coins = 0
 
 # Actual settings
 var volume = -5
+var glow = true

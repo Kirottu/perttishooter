@@ -15,3 +15,10 @@ func _on_QuitButton_pressed():
 func _on_HSlider_value_changed(value):
 	Settings.volume = value
 	$AudioStreamPlayer.volume_db = value
+
+func _on_ToolButton_toggled(button_pressed):
+	Settings.glow = !button_pressed
+	if button_pressed:
+		$GlowButton/ToolButton.text = "Disabled"
+	else:
+		$GlowButton/ToolButton.text = "Enabled"

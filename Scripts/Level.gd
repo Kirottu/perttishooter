@@ -57,6 +57,7 @@ var round_timer
 var spawn_points = []
 var spawn_timer
 var tower_enemy_spawn_timer
+var environment
 
 func _ready():
 	set_visibility()
@@ -91,6 +92,9 @@ func set_visibility():
 	under_attack_label.visible = false
 
 func set_default_values():
+	environment = $WorldEnvironment.environment
+	environment.glow_enabled = Settings.glow
+	$WorldEnvironment.environment = environment
 	score_label.text = "Score:" + str(Settings.score)
 	coin_label.text = "Coins:" + str(Settings.coins)
 	round_label.text = "Round:" + str(Settings.rounds)

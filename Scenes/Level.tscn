@@ -1120,7 +1120,7 @@ shadow_enabled = true
 
 [node name="Click" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
-pitch_scale = 0.55
+pitch_scale = 0.6
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.184314, 0.184314, 0.184314, 1 )

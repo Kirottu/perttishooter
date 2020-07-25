@@ -22,10 +22,13 @@ var moving = false
 var invinsibility = false
 var gameover = false
 var can_fire = true
+var joy_connected
 
 # Others
 var health = Settings.pertti_health
 var movement = Vector2()
+var joy_axis = Vector2()
+var joy_rotation
 
 func _ready():
 	connections()
@@ -35,11 +38,13 @@ func _physics_process(delta):
 	# Run _move if !gameover
 	if !gameover:
 		look_at(get_global_mouse_position())
-	if !gameover:
+		joy_axis = Vector2(Input.get_joy_axis(0, JOY_AXIS_2), Input.get_joy_axis(0, JOY_AXIS_3))
+		joy_rotation = joy_axis.angle()
+		rotation = joy_rotation
 		_move()
 	# Run _fire if !gameover
 	if Input.is_action_pressed("fire") and can_fire and !gameover:
-			_fire()
+		_fire()
 
 func initial_invulnerability():
 	sprite.visible = true
@@ -49,6 +54,7 @@ func initial_invulnerability():
 	invinsibility = false
 
 func connections():
+	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
 	connect("damage_taken", get_parent(), "_on_Pertti_damage_taken")
 	connect("gameover", get_parent(), "_on_Pertti_gameover")
 	connect("respawn", get_parent(), "_on_Pertti_respawn")
@@ -117,3 +123,9 @@ func _on_Area2D_area_entered(area):
 	if "ExplosionRadius" in area.name:
 		_hurt(10)
 		yield(get_tree().create_timer(0.7), "timeout")
+
+func _on_joy_connection_changed(device_id, connected):
+	if connected:
+		joy_connected = true
+	else:
+		joy_connected = false
