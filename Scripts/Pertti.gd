@@ -95,9 +95,9 @@ func _kil():
 
 func _hurt(damage : int):
 	if !gameover and !invinsibility:
-		health -= damage
 		if health > 0:
 			hurt_sound.play()
+		health -= damage
 		if health <= 0:
 			_kil()
 		emit_signal("damage_taken", health)

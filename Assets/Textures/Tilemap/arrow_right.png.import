@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/floor_transition2.png-8bc0c0aed64d6e4a0485bd54d47d3013.stex"
+path="res://.import/arrow_right.png-126de222004c3e0cb5439de852c89512.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Textures/Tilemap/floor_transition2.png"
-dest_files=[ "res://.import/floor_transition2.png-8bc0c0aed64d6e4a0485bd54d47d3013.stex" ]
+source_file="res://Assets/Textures/Tilemap/arrow_right.png"
+dest_files=[ "res://.import/arrow_right.png-126de222004c3e0cb5439de852c89512.stex" ]
 
 [params]
 

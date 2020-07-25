@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/wall_corners.png-94647fd2aef0ac82ce24bd8c07535636.stex"
+path="res://.import/arrow_left.png-04703648f272f7f813712d80266f964b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Textures/Tilemap/wall_corners.png"
-dest_files=[ "res://.import/wall_corners.png-94647fd2aef0ac82ce24bd8c07535636.stex" ]
+source_file="res://Assets/Textures/Tilemap/arrow_left.png"
+dest_files=[ "res://.import/arrow_left.png-04703648f272f7f813712d80266f964b.stex" ]
 
 [params]
 

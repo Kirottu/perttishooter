@@ -2,7 +2,8 @@ extends Node2D
 
 # Node refrences
 # HUD References
-onready var health_label = $HUD/HUD/Label
+onready var health_label = $HUD/HUD/HealthBar/Label
+onready var health_bar = $HUD/HUD/HealthBar
 onready var score_label = $HUD/HUD/Score
 onready var coin_label = $HUD/HUD/Coins
 onready var round_indicator_label = $HUD/HUD/RoundTimerIndicator
@@ -90,7 +91,6 @@ func set_visibility():
 	under_attack_label.visible = false
 
 func set_default_values():
-	health_label.text = "Health:" + str(Settings.pertti_health)
 	score_label.text = "Score:" + str(Settings.score)
 	coin_label.text = "Coins:" + str(Settings.coins)
 	round_label.text = "Round:" + str(Settings.rounds)
@@ -128,7 +128,7 @@ func create_timers():
 	tower_enemy_spawn_timer.start()
 
 func set_positions():
-	shop_panel.rect_size = Vector2(500, get_viewport().size.y - 200)
+	shop_panel.rect_size = Vector2(700, get_viewport().size.y - 200)
 	shop_panel.rect_position = Vector2(get_viewport().size.x - shop_panel.get_rect().size.x, 100)
 	game_over_label.rect_position = Vector2((get_viewport().size.x - game_over_label.get_rect().size.x) / 2, get_viewport().size.y / 4)
 	shop_panel.get_node("ScrollContainer").rect_size = Vector2(shop_panel.rect_size.x, shop_panel.rect_size.y - 60)
@@ -176,7 +176,14 @@ func _spawn_linus(point):
 	add_child(linus)
 
 func _on_Pertti_damage_taken(health):
-	health_label.text = "Health:" + str(health)
+	health_bar.value = health
+	var health_bar_stylebox = health_bar.get("custom_styles/fg")
+	health_bar_stylebox.bg_color = Color(1, 1, 1)
+		
+	yield(get_tree().create_timer(0.2), "timeout")
+		
+	health_bar_stylebox = health_bar.get("custom_styles/fg")
+	health_bar_stylebox.bg_color = Color8(120, 179, 146)
 
 func _round_timer_elapsed():
 	round_interval = true
@@ -233,13 +240,13 @@ func _on_Area2D_body_entered(body):
 		initialization_period()
 		yield(get_tree().create_timer(Settings.core_enemy_explosion_time - 0.1), "timeout")
 		if enemies_in_tower != 0:
-			var health_bar_stylebox = tower_health_bar.get("custom_styles/fg")
-			health_bar_stylebox.bg_color = Color(1, 1, 1)
+			var tower_health_bar_stylebox = tower_health_bar.get("custom_styles/fg")
+			tower_health_bar_stylebox.bg_color = Color(1, 1, 1)
 		
 			yield(get_tree().create_timer(0.2), "timeout")
 		
-			health_bar_stylebox = tower_health_bar.get("custom_styles/fg")
-			health_bar_stylebox.bg_color = Color8(191, 38, 81)
+			tower_health_bar_stylebox = tower_health_bar.get("custom_styles/fg")
+			tower_health_bar_stylebox.bg_color = Color8(191, 38, 81)
 		
 		if tower_health <= 0:
 			tower_destroyed = true
@@ -282,7 +289,7 @@ func _on_Pertti_respawn():
 	print("respawned")
 	respawn_label.visible = false
 	enemies_spawnable = true
-	health_label.text = "Health:" + str(Settings.pertti_health)
+	health_bar.value = Settings.pertti_health
 
 func _on_Pertti_gameover():
 	if !tower_destroyed:
@@ -322,7 +329,7 @@ func _on_PerttiHealth_pressed():
 	if pertti.health != Settings.pertti_health and Settings.coins >= 15:
 		Settings.coins -= 15
 		pertti.health = Settings.pertti_health
-		health_label.text = "Health:" + str(pertti.health)
+		health_bar.value = Settings.pertti_health
 		coin_label.text = "Coins:" + str(Settings.coins)
 
 func _on_Core2X_pressed():
@@ -363,4 +370,4 @@ func _on_Pertti2X_pressed():
 		Settings.coins -= 60
 		Settings.pertti_health *= 2
 		pertti.health = Settings.pertti_health
-		health_label.text = "Health:" + str(Settings.pertti_health)
+		health_label.value = Settings.pertti_health
