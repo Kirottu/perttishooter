@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+var blood_scene = preload("res://Scenes/Blood.tscn")
+
 # Node references
 onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
@@ -21,6 +23,7 @@ var path
 var pertti
 var path_update_timer
 var path_length_to_pertti = 0 #set to 0 to force path calculation at start and because it crashes otherwise
+var blood
 
 func _ready():
 	connect("destroyed", get_parent(), "_on_Enemy_destroyed")
@@ -150,6 +153,10 @@ func _kil():
 func _hurt(damage):
 	if !destroyed:
 		if health > 0:
+			blood = blood_scene.instance()
+			blood.position = position
+			blood.emitting = true
+			get_parent().add_child(blood)
 			hurt_sound.play()
 		if health > 0:
 			sprite.frame = 1

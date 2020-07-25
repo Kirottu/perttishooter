@@ -68,7 +68,6 @@ func _ready():
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 
 func spawn_enemies():
-	return
 	if !gameover and enemies_spawnable and !round_interval:
 		
 		rng.randomize()
@@ -188,7 +187,6 @@ func _on_Pertti_damage_taken(health):
 
 func _round_timer_elapsed():
 	round_interval = true
-	print("Round interval")
 	emit_signal("free_time")
 	if Settings.base_difficulty > 0.1:
 		Settings.base_difficulty -= Settings.difficulty_increase
@@ -214,7 +212,6 @@ func round_timer_indicator():
 		round_indicator_thingy -= 1
 
 func slide_color(color : Color, light_node : Light2D, amplitude : float, tored : bool, notower : bool):
-	print("slide func called")
 	if tored and !notower:
 		while light_node.color != color and enemies_in_tower != 0:
 			light_node.color = light_node.color.linear_interpolate(color, amplitude)
@@ -258,9 +255,7 @@ func _on_Area2D_body_entered(body):
 			emit_signal("core_destroyed")
 
 func _on_Tower_Enemy_exited():
-	print("Enemy exited")
 	enemies_in_tower -= 1
-	print(enemies_in_tower)
 	if enemies_in_tower <= 0 and !tower_destroyed:
 		under_attack_label.visible = false
 		slide_color(Color(1, 1, 1), $Tower/Light2D, 0.1, false, false)
@@ -274,7 +269,6 @@ func _on_Enemy_destroyed(tower_enemy : bool):
 
 func _on_Shop_body_entered(body):
 	if "Pertti" in body.name:
-		print("Shop entered")
 		shop_panel.visible = true
 
 func _on_MainMenuButton_pressed():
@@ -290,7 +284,6 @@ func _on_RestartButton_pressed():
 
 func _on_Pertti_respawn():
 	_spawn_pertti()
-	print("respawned")
 	respawn_label.visible = false
 	enemies_spawnable = true
 	health_bar.value = Settings.pertti_health

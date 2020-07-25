@@ -30,6 +30,7 @@ var tiles_map = []
 var thread
 
 func _ready():
+	thread = Thread.new()
 	tiles_map = tilemap.get_used_cells()
 	for i in tiles_map.size():
 		var tile = tilemap.map_to_world(tiles_map[i])
@@ -47,14 +48,13 @@ func _physics_process(delta):
 	move_along_path(delta * Settings.npc_speed)
 	
 func update_path_if_needed(force):
-	if !force and lastpos == position:
+	if force or lastpos == position:
 		thread.wait_to_finish()
-		thread = Thread.new()
-		thread.start(self, "calculate_path")
-	elif force:
-		calculate_path()
+		# Pass a dummy argument, wont work otherwise
+		# TODO this is dumb
+		thread.start(self, "calculate_path", "boi")
 
-func calculate_path():
+func calculate_path(dummy):
 	rng.randomize()
 	destination = tiles[rng.randi_range(0, tiles_map.size() - 1)]
 	path = nav_2d.get_simple_path(position, destination)
@@ -72,6 +72,8 @@ func _fire():
 		can_fire = true
 
 func move_along_path(distance):
+	
+	thread.wait_to_finish()
 	var start_point = position
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
@@ -93,7 +95,6 @@ func _on_Area2D_body_entered(body):
 		current_target = body
 		body.connect("destroyed", self, "_on_selected_enemy_destroyed")
 		enemy_in_sight = true
-		print("saw em")
 
 func _on_Area2D_body_exited(body):
 	if body == current_target:

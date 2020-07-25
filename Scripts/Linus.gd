@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 # Scenes
 var mine = preload("res://Scenes/Mine.tscn")
+var blood_scene = preload("res://Scenes/Blood.tscn")
 
 # Node references
 onready var nav_2d = $Navigation2D
@@ -29,10 +30,12 @@ var tiles = []
 var tiles_map = []
 var health = Settings.mine_enemy_health
 var timer = Timer.new()
+var thread
+var blood
 
 func _ready():
+	thread = Thread.new()
 	get_parent().connect("free_time", self, "_on_free_time")
-	connect("placemine", get_parent(), "_spawn_mine")
 	tiles_map = tilemap.get_used_cells()
 	for i in tiles_map.size():
 		var tile = tilemap.map_to_world(tiles_map[i])
@@ -63,12 +66,17 @@ func _on_free_time():
 	queue_free()
 
 func update_path_if_needed(force):
-	if force or lastpos == position or position.distance_to(destination) < Settings.closest_to_target:
-		rng.randomize()
-		destination = tiles[rng.randi_range(0, tiles_map.size() - 1)]
-		path = nav_2d.get_simple_path(position, destination)
+	if force or lastpos == position:
+		thread.start(self, "calculate_path", "dummy")
+	
+func calculate_path(dummy):
+	rng.randomize()
+	destination = tiles[rng.randi_range(0, tiles_map.size() - 1)]
+	path = nav_2d.get_simple_path(position, destination)
 
 func move_along_path(distance):
+	
+	thread.wait_to_finish()
 	var start_point = position
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
@@ -95,6 +103,10 @@ func _kil():
 func _hurt(damage):
 	if !destroyed:
 		if health > 0:
+			blood = blood_scene.instance()
+			blood.position = position
+			blood.emitting = true
+			get_parent().add_child(blood)
 			hurt_sound.play()
 		if health > 0:
 			sprite.frame = 1
@@ -107,3 +119,6 @@ func _hurt(damage):
 func _on_Area2D_body_entered(body):
 	if "Bullet" in body.name:
 		_hurt(1)
+
+func _exit_tree():
+	thread.wait_to_finish()

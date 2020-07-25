@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+var blood_scene = preload("res://Scenes/Blood.tscn")
+
 # Node reference
 onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
@@ -19,17 +21,20 @@ var destroyed = false
 var health = Settings.tower_enemy_health
 var path
 var pertti
+var thread
+var blood
 
 func _ready():
-	path = nav_2d.get_simple_path(position, tower.position)
-	print(path)
+	thread = Thread.new()
+	thread.start(self, "calculate_path", "dummy")
 	connections()
+
+func calculate_path(dummy):
+	path = nav_2d.get_simple_path(position, tower.position)
 
 func _physics_process(delta):
 	if health > 0 and position.distance_to(tower.position) > 70:
 		move_along_path(Settings.tower_enemy_speed * 0.02)
-		# TODO: add case for when it's arrived, to optimize and stuff
-		# Done^^
 
 func connections():
 	connect("exited", get_parent(), "_on_Tower_Enemy_exited")
@@ -42,6 +47,7 @@ func move_along_path(distance : float):
 	# Set the start point of the path
 	var start_point = position
 	# Loop trough the path array to move the enemy
+	thread.wait_to_finish()
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
 		if distance <= distance_to_next and distance > 0.0:
@@ -78,6 +84,10 @@ func _kil():
 func _hurt(damage):
 	if !destroyed:
 		if health > 0:
+			blood = blood_scene.instance()
+			blood.position = position
+			blood.emitting = true
+			get_parent().add_child(blood)
 			hurt_sound.play()
 		if health > 0:
 			sprite.frame = 1
@@ -106,3 +116,6 @@ func _on_Collision_area_entered(area):
 			$Sprite.visible = false
 			yield(get_tree().create_timer(0.7), "timeout")
 			queue_free()
+
+func _exit_tree():
+	thread.wait_to_finish()
