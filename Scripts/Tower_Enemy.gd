@@ -77,7 +77,7 @@ func _kil():
 	destroyed = true
 	set_process(false)
 	emit_signal("destroyed", true)
-	if position.distance_to(tower.position) < 90:
+	if position.distance_to(tower.position) < 128:
 		emit_signal("exited")
 	$CollisionShape2D.disabled = true
 	yield(get_tree().create_timer(1.5), "timeout")

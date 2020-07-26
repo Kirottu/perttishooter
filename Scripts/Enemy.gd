@@ -139,7 +139,6 @@ func update_path(dummy):
 		path_length_to_pertti =  Settings.minimum_path_delay / Settings.update_delay_factor
 
 func calculate_path():
-	print("recalculating path")
 	path_calculated = false
 	thread.start(self, "update_path", "dummy")
 	thread.wait_to_finish()
@@ -187,7 +186,7 @@ func _on_Collision_area_entered(area):
 
 func _exit_tree():
 	thread.wait_to_finish()
-	line.queue_free()
+	#line.queue_free()
 
 func _on_PerttiDetector_body_entered(body):
 	if "Pertti" in body.name:

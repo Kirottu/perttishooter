@@ -181,7 +181,10 @@ func _spawn_linus(point):
 	add_child(linus)
 
 func _on_Pertti_damage_taken(health):
-	health_bar.value = health
+	print(health)
+	print($HUD/HUD/HealthBar.value)
+	$HUD/HUD/Tween.interpolate_property($HUD/HUD/HealthBar, "value", $HUD/HUD/HealthBar.value, health, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	$HUD/HUD/Tween.start()
 	var health_bar_stylebox = health_bar.get("custom_styles/fg")
 	health_bar_stylebox.bg_color = Color(1, 1, 1)
 		
@@ -246,6 +249,7 @@ func _on_Area2D_body_entered(body):
 		initialization_period()
 		yield(get_tree().create_timer(Settings.core_enemy_explosion_time - 0.1), "timeout")
 		if enemies_in_tower != 0:
+			
 			var tower_health_bar_stylebox = tower_health_bar.get("custom_styles/fg")
 			tower_health_bar_stylebox.bg_color = Color(1, 1, 1)
 		
@@ -291,7 +295,8 @@ func _on_Pertti_respawn():
 	_spawn_pertti()
 	respawn_label.visible = false
 	enemies_spawnable = true
-	health_bar.value = Settings.pertti_health
+	$HUD/HUD/Tween.interpolate_property($HUD/HUD/HealthBar, "value", $HUD/HUD/HealthBar.value, Settings.pertti_health, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	$HUD/HUD/Tween.start()
 
 func _on_Pertti_gameover():
 	if !tower_destroyed:
@@ -323,7 +328,8 @@ func _on_CoreHealthAdd_pressed():
 	if tower_health != Settings.tower_health and Settings.coins >= 30 and !tower_destroyed:
 		tower_health = Settings.tower_health
 		Settings.coins -= 30
-		tower_health_bar.value = tower_health
+		$HUD/HUD/Tween.interpolate_property($HUD/HUD/ProgressBar, "value", $HUD/HUD/ProgressBar.value, tower_health, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
+		$HUD/HUD/Tween.start()
 		coin_label.text = "Coins:" + str(Settings.coins)
 
 func _on_PerttiHealth_pressed():
@@ -331,7 +337,8 @@ func _on_PerttiHealth_pressed():
 	if pertti.health != Settings.pertti_health and Settings.coins >= 15:
 		Settings.coins -= 15
 		pertti.health = Settings.pertti_health
-		health_bar.value = Settings.pertti_health
+		$HUD/HUD/Tween.interpolate_property($HUD/HUD/HealthBar, "value", $HUD/HUD/HealthBar.value, pertti.health, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
+		$HUD/HUD/Tween.start()
 		coin_label.text = "Coins:" + str(Settings.coins)
 
 func _on_Core2X_pressed():
@@ -340,7 +347,8 @@ func _on_Core2X_pressed():
 		Settings.tower_health *= 2
 		tower_health_bar.max_value = Settings.tower_health
 		tower_health = Settings.tower_health
-		tower_health_bar.value = tower_health
+		$HUD/HUD/Tween.interpolate_property($HUD/HUD/ProgressBar, "value", $HUD/HUD/ProgressBar.value, tower_health, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
+		$HUD/HUD/Tween.start()
 		Settings.coins -= 60
 		coin_label.text = "Coins:" + str(Settings.coins)
 
@@ -364,7 +372,8 @@ func _on_Harold_pressed():
 
 func _on_Core_enemy_explosion():
 	tower_health -= Settings.explosion_damage
-	tower_health_bar.value = tower_health
+	$HUD/HUD/Tween.interpolate_property($HUD/HUD/ProgressBar, "value", $HUD/HUD/ProgressBar.value, tower_health, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	$HUD/HUD/Tween.start()
 
 func _on_Pertti2X_pressed():
 	$Click.play()
@@ -373,4 +382,6 @@ func _on_Pertti2X_pressed():
 		Settings.pertti_health *= 2
 		pertti.health = Settings.pertti_health
 		health_bar.max_value = Settings.pertti_health
+		$HUD/HUD/Tween.interpolate_property($HUD/HUD/HealthBar, "value", $HUD/HUD/HealthBar.value, pertti.health, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
+		$HUD/HUD/Tween.start()
 		coin_label.text = "Coins:" + str(Settings.coins)

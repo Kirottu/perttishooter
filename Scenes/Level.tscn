@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Tilemap/new_tileset.tres" type="TileSet" id=2]
@@ -540,35 +540,6 @@ bg_color = Color( 0.74902, 0.14902, 0.317647, 1 )
 [sub_resource type="StyleBoxFlat" id=20]
 bg_color = Color( 0.74902, 0.14902, 0.317647, 1 )
 
-[sub_resource type="Shader" id=21]
-code = "    shader_type canvas_item;
-
-uniform float amount : hint_range(0,0.5);
-
-vec4 sample_glow_pixel(sampler2D tex, vec2 uv) {
-   float hdr_threshold = amount; 
-    return max(textureLod(tex, uv, 2.0) - hdr_threshold, vec4(0.0));
-}
-
-void fragment() {
-    vec2 ps = SCREEN_PIXEL_SIZE;
-    // Get blurred color from pixels considered glowing
-    vec4 col0 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(-ps.x, 0));
-    vec4 col1 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(ps.x, 0));
-    vec4 col2 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(0, -ps.y));
-    vec4 col3 = sample_glow_pixel(SCREEN_TEXTURE, SCREEN_UV + vec2(0, ps.y));
-
-    vec4 col = texture(SCREEN_TEXTURE, SCREEN_UV);
-    vec4 glowing_col = 0.25 * (col0 + col1 + col2 + col3);
-
-    COLOR = vec4(col.rgb + glowing_col.rgb, col.a);
-}"
-custom_defines = ""
-
-[sub_resource type="ShaderMaterial" id=22]
-shader = SubResource( 21 )
-shader_param/amount = null
-
 [sub_resource type="RectangleShape2D" id=23]
 extents = Vector2( 130, 130 )
 
@@ -835,6 +806,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Tween" type="Tween" parent="HUD/HUD"]
+
 [node name="PauseMenu" type="Node" parent="HUD"]
 pause_mode = 2
 script = ExtResource( 7 )
@@ -983,16 +956,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Bloom" type="ColorRect" parent="HUD"]
-visible = false
-material = SubResource( 22 )
-margin_right = 2584.0
-margin_bottom = 1960.0
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="SpawnPoint1" type="Node2D" parent="SpawnPoints"]
@@ -1123,7 +1086,7 @@ shadow_enabled = true
 
 [node name="Click" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
-pitch_scale = 0.6
+pitch_scale = 0.5
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.184314, 0.184314, 0.184314, 1 )
