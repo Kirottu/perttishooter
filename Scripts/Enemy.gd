@@ -8,7 +8,7 @@ onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
 onready var sprite = $Sprite
 onready var tilemap = $Navigation2D/TileMap
-onready var line = Line2D.new()
+#onready var line = Line2D.new()
 
 # Bools
 var can_update = false
@@ -29,14 +29,14 @@ var blood
 var thread
 
 func _ready():
-	get_parent().add_child(line)
-	var _half_cell_size = tilemap.cell_size / 2
+	# Visual pathfinding
+	#get_parent().add_child(line)
 	thread = Thread.new()
 	connect("destroyed", get_parent(), "_on_Enemy_destroyed")
 	get_parent().connect("free_time", self, "_on_free_time")
 	# Do not process right away as that would cause problems, randomize to unsync the calculation, and hopefully unstrain the cpu
 	set_process(false)
-	path_update_timer = Settings.max_first_path_delay
+	#path_update_timer = Settings.max_first_path_delay Legacy code
 
 func _process(delta):
 	# Look at pertti, looks  t h i c c
@@ -126,9 +126,9 @@ func update_path(dummy):
 	#print("Path updating")
 	# Recalculate the path
 	path = nav_2d.get_simple_path(position, pertti.position)
-	line.clear_points()
-	for i in path:
-		line.add_point(i)
+	#line.clear_points()
+	#for i in path:
+	#	line.add_point(i)
 	
 	#recalculate the length of the route to pertti
 	path_length_to_pertti = 0

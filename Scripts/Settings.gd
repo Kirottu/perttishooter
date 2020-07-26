@@ -24,8 +24,7 @@ var core_enemy_explosion_time = 5
 
 # Level control logic related variables
 var warning_flash_interval = 0.08
-var round_time = 10
-var round_interval = 30
+var round_time = 60
 var difficulty_increase = 0.1
 var max_first_path_delay = 120 #confusing name, this is the amount of physics steps (max 60/second) before a new path is calculated for the enemies
 var minimum_path_delay = 120 #minimum amount of phyisics frames before the path is update, if in really close proximity
