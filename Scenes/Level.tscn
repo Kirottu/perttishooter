@@ -1,12 +1,13 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Tilemap/new_tileset.tres" type="TileSet" id=2]
 [ext_resource path="res://Assets/Textures/knob.png" type="Texture" id=3]
-[ext_resource path="res://Assets/Audio/click.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Audio/ui/menu_select.wav" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Fonts/prstartk.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://Assets/Fonts/font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://Scripts/PauseMenu.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/Shop.gd" type="Script" id=8]
 [ext_resource path="res://Assets/Textures/shadows.png" type="Texture" id=9]
 [ext_resource path="res://Assets/Audio/perttischuut.ogg" type="AudioStream" id=10]
 [ext_resource path="res://Assets/Textures/ambient_light.png" type="Texture" id=11]
@@ -37,50 +38,70 @@
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0, 0, 0, 0.607843 )
 
+[sub_resource type="StyleBoxEmpty" id=25]
+
 [sub_resource type="DynamicFont" id=3]
-size = 30
+size = 25
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
 [sub_resource type="DynamicFont" id=4]
-size = 30
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 5 )
-
-[sub_resource type="DynamicFont" id=5]
-size = 30
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 5 )
-
-[sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 0.74902, 0.14902, 0.317647, 1 )
-
-[sub_resource type="StyleBoxFlat" id=7]
-bg_color = Color( 0.227451, 0.227451, 0.227451, 1 )
-
-[sub_resource type="DynamicFont" id=8]
 size = 20
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
+[sub_resource type="StyleBoxEmpty" id=26]
+
+[sub_resource type="DynamicFont" id=5]
+size = 25
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="StyleBoxEmpty" id=27]
+
+[sub_resource type="StyleBoxEmpty" id=28]
+
+[sub_resource type="StyleBoxEmpty" id=29]
+
+[sub_resource type="DynamicFont" id=6]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.74902, 0.14902, 0.317647, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.568627, 0.113725, 0.333333, 1 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.227451, 0.227451, 0.227451, 1 )
+
 [sub_resource type="DynamicFont" id=9]
+size = 20
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=10]
 size = 30
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.470588, 0.701961, 0.572549, 1 )
-
-[sub_resource type="DynamicFont" id=11]
-size = 30
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 5 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.298039, 0.560784, 0.509804, 1 )
 
 [sub_resource type="DynamicFont" id=12]
 size = 30
@@ -94,21 +115,27 @@ outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="StyleBoxEmpty" id=14]
-
-[sub_resource type="DynamicFont" id=15]
-size = 40
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 5 )
-
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=14]
 size = 30
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="Theme" id=17]
+[sub_resource type="StyleBoxEmpty" id=15]
+
+[sub_resource type="DynamicFont" id=16]
+size = 40
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=17]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="Theme" id=18]
 Button/colors/font_color = Color( 0, 0, 0, 1 )
 Button/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 Button/colors/font_color_hover = Color( 0, 0, 0, 1 )
@@ -529,24 +556,24 @@ WindowDialog/icons/close = null
 WindowDialog/icons/close_highlight = null
 WindowDialog/styles/panel = null
 
-[sub_resource type="StyleBoxFlat" id=18]
+[sub_resource type="StyleBoxFlat" id=19]
 content_margin_top = 10.0
 content_margin_bottom = 2.0
 bg_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="StyleBoxFlat" id=19]
-bg_color = Color( 0.74902, 0.14902, 0.317647, 1 )
-
 [sub_resource type="StyleBoxFlat" id=20]
 bg_color = Color( 0.74902, 0.14902, 0.317647, 1 )
 
-[sub_resource type="RectangleShape2D" id=23]
+[sub_resource type="StyleBoxFlat" id=21]
+bg_color = Color( 0.74902, 0.14902, 0.317647, 1 )
+
+[sub_resource type="RectangleShape2D" id=22]
 extents = Vector2( 130, 130 )
 
-[sub_resource type="RectangleShape2D" id=24]
+[sub_resource type="RectangleShape2D" id=23]
 extents = Vector2( 170, 192 )
 
-[sub_resource type="Environment" id=25]
+[sub_resource type="Environment" id=24]
 background_mode = 4
 glow_enabled = true
 glow_intensity = 2.02
@@ -580,6 +607,7 @@ tile_data = PoolIntArray( 327694, 10, 0, 327695, 10, 1, 393230, 10, 65536, 39323
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="Shop" type="Node" parent="HUD"]
+script = ExtResource( 8 )
 
 [node name="Panel" type="Panel" parent="HUD/Shop"]
 margin_left = 1088.0
@@ -592,79 +620,135 @@ __meta__ = {
 }
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HUD/Shop/Panel"]
-margin_left = 848.0
-margin_top = 336.0
-margin_right = 1148.0
-margin_bottom = 736.0
+margin_left = 10.0
+margin_top = 72.0
+margin_right = 310.0
+margin_bottom = 472.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/Shop/Panel/ScrollContainer"]
-margin_right = 492.0
-margin_bottom = 235.0
-custom_constants/separation = 10
+margin_right = 562.0
+margin_bottom = 430.0
+custom_constants/separation = 65
 
 [node name="CoreHealthAdd" type="ToolButton" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer"]
-margin_right = 492.0
-margin_bottom = 39.0
+margin_right = 562.0
+margin_bottom = 34.0
+custom_styles/focus = SubResource( 25 )
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.733333, 0.733333, 0.733333, 1 )
 custom_colors/font_color_pressed = Color( 0.47451, 0.47451, 0.47451, 1 )
-text = "100% Core 30C"
+text = "100% Core, 30 Coins"
 align = 0
+
+[node name="Label" type="Label" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer/CoreHealthAdd"]
+margin_top = 44.0
+margin_right = 700.0
+margin_bottom = 65.0
+custom_fonts/font = SubResource( 4 )
+text = "  Restore core to it's full health"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="PerttiHealth" type="ToolButton" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer"]
-margin_top = 49.0
-margin_right = 492.0
-margin_bottom = 88.0
-custom_fonts/font = SubResource( 4 )
+margin_top = 99.0
+margin_right = 562.0
+margin_bottom = 133.0
+custom_styles/focus = SubResource( 26 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.733333, 0.733333, 0.733333, 1 )
 custom_colors/font_color_pressed = Color( 0.47451, 0.47451, 0.47451, 1 )
-text = "3HP Pertti 15C"
+text = "100% Pertti, 15 Coins"
 align = 0
+
+[node name="Label2" type="Label" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer/PerttiHealth"]
+margin_top = 44.0
+margin_right = 700.0
+margin_bottom = 65.0
+custom_fonts/font = SubResource( 4 )
+text = "  Restore Pertti to his full health"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Core2X" type="ToolButton" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer"]
-margin_top = 98.0
-margin_right = 492.0
-margin_bottom = 137.0
-custom_fonts/font = SubResource( 4 )
+margin_top = 198.0
+margin_right = 562.0
+margin_bottom = 232.0
+custom_styles/focus = SubResource( 27 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.733333, 0.733333, 0.733333, 1 )
 custom_colors/font_color_pressed = Color( 0.47451, 0.47451, 0.47451, 1 )
-text = "2X HP Core 60C"
+text = "2X HP Core, 60 Coins"
 align = 0
+
+[node name="Label3" type="Label" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer/Core2X"]
+margin_top = 44.0
+margin_right = 540.0
+margin_bottom = 65.0
+custom_fonts/font = SubResource( 4 )
+text = "  Double the Core's health"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Pertti2X" type="ToolButton" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer"]
-margin_top = 147.0
-margin_right = 492.0
-margin_bottom = 186.0
-custom_fonts/font = SubResource( 4 )
+margin_top = 297.0
+margin_right = 562.0
+margin_bottom = 331.0
+custom_styles/focus = SubResource( 28 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.733333, 0.733333, 0.733333, 1 )
 custom_colors/font_color_pressed = Color( 0.47451, 0.47451, 0.47451, 1 )
-text = "2X HP Pertti 60C"
+text = "2X HP Pertti, 60 Coins"
 align = 0
 
-[node name="Harold" type="ToolButton" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer"]
-margin_top = 196.0
-margin_right = 492.0
-margin_bottom = 235.0
+[node name="Label4" type="Label" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer/Pertti2X"]
+margin_top = 44.0
+margin_right = 540.0
+margin_bottom = 65.0
 custom_fonts/font = SubResource( 4 )
+text = "  Double Pertti's health"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Harold" type="ToolButton" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer"]
+margin_top = 396.0
+margin_right = 562.0
+margin_bottom = 430.0
+custom_styles/focus = SubResource( 29 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.733333, 0.733333, 0.733333, 1 )
 custom_colors/font_color_pressed = Color( 0.47451, 0.47451, 0.47451, 1 )
-text = "Harold 90C"
+text = "Harold, 90 Coins"
 align = 0
+
+[node name="Label5" type="Label" parent="HUD/Shop/Panel/ScrollContainer/VBoxContainer/Harold"]
+margin_top = 44.0
+margin_right = 540.0
+margin_bottom = 65.0
+custom_fonts/font = SubResource( 4 )
+text = "  Hire Harold to assist you"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ShopLabel" type="Label" parent="HUD/Shop/Panel"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 40.0
 margin_bottom = 14.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0.470588, 0.701961, 0.572549, 1 )
 text = "Shop"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -677,9 +761,9 @@ margin_left = 220.0
 margin_top = 165.0
 margin_right = 546.0
 margin_bottom = 195.0
-custom_styles/fg = SubResource( 6 )
-custom_styles/bg = SubResource( 7 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/fg = SubResource( 7 )
+custom_styles/bg = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
 max_value = 50.0
 value = 25.0
 percent_visible = false
@@ -691,7 +775,7 @@ __meta__ = {
 margin_left = -210.0
 margin_right = -60.0
 margin_bottom = 71.0
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 10 )
 text = "Core:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -702,9 +786,9 @@ margin_left = 220.0
 margin_top = 215.0
 margin_right = 546.0
 margin_bottom = 245.0
-custom_styles/fg = SubResource( 10 )
-custom_styles/bg = SubResource( 7 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/fg = SubResource( 11 )
+custom_styles/bg = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
 max_value = 3.0
 value = 3.0
 percent_visible = false
@@ -716,7 +800,7 @@ __meta__ = {
 margin_left = -210.0
 margin_right = 30.0
 margin_bottom = 71.0
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 12 )
 text = "Health: "
 __meta__ = {
 "_edit_use_anchors_": false
@@ -727,7 +811,7 @@ margin_left = 10.0
 margin_top = 20.0
 margin_right = 344.0
 margin_bottom = 91.0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 13 )
 text = "Score:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -738,7 +822,7 @@ margin_left = 10.0
 margin_top = 65.0
 margin_right = 344.0
 margin_bottom = 196.0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 13 )
 text = "Coins:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -749,7 +833,7 @@ margin_left = 10.0
 margin_top = 115.0
 margin_right = 344.0
 margin_bottom = 246.0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 13 )
 text = "Round:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -783,7 +867,7 @@ __meta__ = {
 [node name="RoundTimerIndicator" type="Label" parent="HUD/HUD"]
 margin_right = 350.0
 margin_bottom = 31.0
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 14 )
 text = "Time Left"
 align = 1
 __meta__ = {
@@ -795,8 +879,8 @@ margin_left = 10.0
 margin_top = 265.0
 margin_right = 432.0
 margin_bottom = 334.0
-custom_styles/focus = SubResource( 14 )
-custom_fonts/font = SubResource( 15 )
+custom_styles/focus = SubResource( 15 )
+custom_fonts/font = SubResource( 16 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.733333, 0.733333, 0.733333, 1 )
 custom_colors/font_color_pressed = Color( 0.47451, 0.47451, 0.47451, 1 )
@@ -875,7 +959,7 @@ margin_left = 20.0
 margin_top = 300.0
 margin_right = 200.0
 margin_bottom = 371.0
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 17 )
 text = "Music:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -885,10 +969,10 @@ __meta__ = {
 margin_left = 200.0
 margin_right = 464.0
 margin_bottom = 32.0
-theme = SubResource( 17 )
-custom_styles/slider = SubResource( 18 )
-custom_styles/grabber_area_highlight = SubResource( 19 )
-custom_styles/grabber_area = SubResource( 20 )
+theme = SubResource( 18 )
+custom_styles/slider = SubResource( 19 )
+custom_styles/grabber_area_highlight = SubResource( 20 )
+custom_styles/grabber_area = SubResource( 21 )
 min_value = -80.0
 max_value = 24.0
 __meta__ = {
@@ -1061,7 +1145,7 @@ position = Vector2( 960, 640 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tower/Core"]
 position = Vector2( -6.10352e-05, 0 )
-shape = SubResource( 23 )
+shape = SubResource( 22 )
 
 [node name="Light2D" type="Light2D" parent="Tower"]
 position = Vector2( -2.14577e-06, -2.5034e-06 )
@@ -1077,7 +1161,7 @@ position = Vector2( 3030, 640 )
 [node name="Area2D" type="Area2D" parent="Shop"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Area2D"]
-shape = SubResource( 24 )
+shape = SubResource( 23 )
 
 [node name="Light2D2" type="Light2D" parent="Shop"]
 texture = ExtResource( 11 )
@@ -1086,7 +1170,6 @@ shadow_enabled = true
 
 [node name="Click" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
-pitch_scale = 0.5
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.184314, 0.184314, 0.184314, 1 )
@@ -1098,7 +1181,7 @@ volume_db = -5.0
 autoplay = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 25 )
+environment = SubResource( 24 )
 [connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/CoreHealthAdd" to="." method="_on_CoreHealthAdd_pressed"]
 [connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/PerttiHealth" to="." method="_on_PerttiHealth_pressed"]
 [connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/Core2X" to="." method="_on_Core2X_pressed"]
