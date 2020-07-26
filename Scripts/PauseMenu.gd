@@ -23,6 +23,8 @@ func set_visibility():
 	music_label.visible = false
 
 func inputs():
+	if Input.is_action_just_pressed("fullscreen"):
+		OS.window_fullscreen = !OS.window_fullscreen
 	if Input.is_action_just_pressed("pause") and !get_tree().paused:
 		$MusicLabel/HSlider.value = Settings.volume
 		pause_label.visible = true

@@ -117,7 +117,9 @@ func _on_Collision_area_entered(area):
 			$ExplosionRadius/CollisionShape2D.disabled = false
 			$Collision.queue_free()
 			$Sprite.visible = false
-			yield(get_tree().create_timer(0.7), "timeout")
+			yield(get_tree().create_timer(0.1), "timeout")
+			$ExplosionRadius/CollisionShape2D.disabled = true
+			yield(get_tree().create_timer(0.6), "timeout")
 			queue_free()
 
 func _exit_tree():

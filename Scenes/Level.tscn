@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Tilemap/new_tileset.tres" type="TileSet" id=2]
@@ -94,19 +94,21 @@ outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="StyleBoxEmpty" id=14]
+
+[sub_resource type="DynamicFont" id=15]
 size = 40
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=16]
 size = 30
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="Theme" id=21]
+[sub_resource type="Theme" id=17]
 Button/colors/font_color = Color( 0, 0, 0, 1 )
 Button/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 Button/colors/font_color_hover = Color( 0, 0, 0, 1 )
@@ -527,18 +529,18 @@ WindowDialog/icons/close = null
 WindowDialog/icons/close_highlight = null
 WindowDialog/styles/panel = null
 
-[sub_resource type="StyleBoxFlat" id=22]
+[sub_resource type="StyleBoxFlat" id=18]
 content_margin_top = 10.0
 content_margin_bottom = 2.0
 bg_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="StyleBoxFlat" id=23]
+[sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.74902, 0.14902, 0.317647, 1 )
 
-[sub_resource type="StyleBoxFlat" id=24]
+[sub_resource type="StyleBoxFlat" id=20]
 bg_color = Color( 0.74902, 0.14902, 0.317647, 1 )
 
-[sub_resource type="Shader" id=15]
+[sub_resource type="Shader" id=21]
 code = "    shader_type canvas_item;
 
 uniform float amount : hint_range(0,0.5);
@@ -563,17 +565,17 @@ void fragment() {
 }"
 custom_defines = ""
 
-[sub_resource type="ShaderMaterial" id=16]
-shader = SubResource( 15 )
+[sub_resource type="ShaderMaterial" id=22]
+shader = SubResource( 21 )
 shader_param/amount = null
 
-[sub_resource type="RectangleShape2D" id=17]
+[sub_resource type="RectangleShape2D" id=23]
 extents = Vector2( 130, 130 )
 
-[sub_resource type="RectangleShape2D" id=18]
+[sub_resource type="RectangleShape2D" id=24]
 extents = Vector2( 170, 192 )
 
-[sub_resource type="Environment" id=19]
+[sub_resource type="Environment" id=25]
 background_mode = 4
 glow_enabled = true
 glow_intensity = 2.02
@@ -822,7 +824,8 @@ margin_left = 10.0
 margin_top = 265.0
 margin_right = 432.0
 margin_bottom = 334.0
-custom_fonts/font = SubResource( 14 )
+custom_styles/focus = SubResource( 14 )
+custom_fonts/font = SubResource( 15 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.733333, 0.733333, 0.733333, 1 )
 custom_colors/font_color_pressed = Color( 0.47451, 0.47451, 0.47451, 1 )
@@ -899,7 +902,7 @@ margin_left = 20.0
 margin_top = 300.0
 margin_right = 200.0
 margin_bottom = 371.0
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 16 )
 text = "Music:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -909,10 +912,10 @@ __meta__ = {
 margin_left = 200.0
 margin_right = 464.0
 margin_bottom = 32.0
-theme = SubResource( 21 )
-custom_styles/slider = SubResource( 22 )
-custom_styles/grabber_area_highlight = SubResource( 23 )
-custom_styles/grabber_area = SubResource( 24 )
+theme = SubResource( 17 )
+custom_styles/slider = SubResource( 18 )
+custom_styles/grabber_area_highlight = SubResource( 19 )
+custom_styles/grabber_area = SubResource( 20 )
 min_value = -80.0
 max_value = 24.0
 __meta__ = {
@@ -982,7 +985,7 @@ __meta__ = {
 
 [node name="Bloom" type="ColorRect" parent="HUD"]
 visible = false
-material = SubResource( 16 )
+material = SubResource( 22 )
 margin_right = 2584.0
 margin_bottom = 1960.0
 mouse_filter = 2
@@ -1095,7 +1098,7 @@ position = Vector2( 960, 640 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tower/Core"]
 position = Vector2( -6.10352e-05, 0 )
-shape = SubResource( 17 )
+shape = SubResource( 23 )
 
 [node name="Light2D" type="Light2D" parent="Tower"]
 position = Vector2( -2.14577e-06, -2.5034e-06 )
@@ -1111,7 +1114,7 @@ position = Vector2( 3030, 640 )
 [node name="Area2D" type="Area2D" parent="Shop"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Area2D"]
-shape = SubResource( 18 )
+shape = SubResource( 24 )
 
 [node name="Light2D2" type="Light2D" parent="Shop"]
 texture = ExtResource( 11 )
@@ -1132,7 +1135,7 @@ volume_db = -5.0
 autoplay = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 19 )
+environment = SubResource( 25 )
 [connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/CoreHealthAdd" to="." method="_on_CoreHealthAdd_pressed"]
 [connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/PerttiHealth" to="." method="_on_PerttiHealth_pressed"]
 [connection signal="pressed" from="HUD/Shop/Panel/ScrollContainer/VBoxContainer/Core2X" to="." method="_on_Core2X_pressed"]

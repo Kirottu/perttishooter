@@ -7,6 +7,8 @@ onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
 onready var sprite = $Sprite
+onready var tilemap = $Navigation2D/TileMap
+onready var line = Line2D.new()
 
 # Bools
 var can_update = false
@@ -18,7 +20,6 @@ var path_calculated = false
 signal destroyed
 
 # Misc
-var rng = RandomNumberGenerator.new()
 var health = Settings.enemy_health
 var path
 var pertti
@@ -28,13 +29,14 @@ var blood
 var thread
 
 func _ready():
+	get_parent().add_child(line)
+	var _half_cell_size = tilemap.cell_size / 2
 	thread = Thread.new()
 	connect("destroyed", get_parent(), "_on_Enemy_destroyed")
 	get_parent().connect("free_time", self, "_on_free_time")
 	# Do not process right away as that would cause problems, randomize to unsync the calculation, and hopefully unstrain the cpu
 	set_process(false)
-	rng.randomize()
-	path_update_timer = rng.randf_range(0, Settings.max_first_path_delay)
+	path_update_timer = Settings.max_first_path_delay
 
 func _process(delta):
 	# Look at pertti, looks  t h i c c
@@ -47,35 +49,26 @@ func _process(delta):
 		look_at(pertti.position)
 	
 func _physics_process(delta):
-	update_path_timer()
-	check_if_pertti_in_sight()
+	# update_path_timer()
 	move_or_slide()
 
 func move_or_slide():
-	if !pertti_in_sight and health != 0:
+	if !pertti_in_sight and health != 0 and path_calculated:
 		move_along_path(Settings.enemy_speed * 0.02)
 	# Switch to close proximity follow for better close quarters following
-	elif health != 0 and path_calculated:
-		var start_point = position
+	elif health != 0:
 		var direction = (pertti.position - position).normalized()
 		move_and_slide(direction * Settings.enemy_speed)
 
-func check_if_pertti_in_sight():
-	if position.distance_to(pertti.position) <= Settings.close_proximity_follow_distance:
-		pertti_in_sight = true
-	else:
-		pertti_in_sight = false
-
+# Legacy code, no longer in use. Kept if needed in the future
 func update_path_timer():
 	# Operate path update timer
 	if path_update_timer <= 0 and !pertti_in_sight and health > 0:
-		#can_update = true
-		if can_update:
+		if can_update and position.distance_to(pertti.position) >= 1000:
 			path_calculated = false
 			thread.start(self, "update_path", "dummy")
 			thread.wait_to_finish()
 			path_calculated = true
-		#can_update = false
 		path_update_timer = Settings.update_delay_factor * path_length_to_pertti
 	else:
 		path_update_timer -= 1
@@ -101,6 +94,8 @@ func move_along_path(distance : float):
 		distance -= distance_to_next
 		start_point = path[0]
 		path.remove(0)
+		if path.size() == 0:
+			calculate_path()
 
 func set_pertti_ref(value):
 	# Check if nothing was passed
@@ -114,7 +109,7 @@ func set_pertti_ref(value):
 	pertti.connect("gameover", self, "_on_Pertti_gameover")
 	# Connect a signal to notify enemy to update path
 	pertti.connect("moved", self, "pertti_moved_listener")
-	path = nav_2d.get_simple_path(position, pertti.position)
+	calculate_path()
 	# Check if pathfinding was unsuccessful
 	if path.size() == 0:
 		return
@@ -131,7 +126,9 @@ func update_path(dummy):
 	#print("Path updating")
 	# Recalculate the path
 	path = nav_2d.get_simple_path(position, pertti.position)
-	
+	line.clear_points()
+	for i in path:
+		line.add_point(i)
 	
 	#recalculate the length of the route to pertti
 	path_length_to_pertti = 0
@@ -140,6 +137,13 @@ func update_path(dummy):
 		path_length_to_pertti += last.distance_to(path[i])
 	if path_length_to_pertti * Settings.update_delay_factor <= Settings.minimum_path_delay:
 		path_length_to_pertti =  Settings.minimum_path_delay / Settings.update_delay_factor
+
+func calculate_path():
+	print("recalculating path")
+	path_calculated = false
+	thread.start(self, "update_path", "dummy")
+	thread.wait_to_finish()
+	path_calculated = true
 
 func _on_Pertti_gameover():
 	queue_free()
@@ -183,3 +187,21 @@ func _on_Collision_area_entered(area):
 
 func _exit_tree():
 	thread.wait_to_finish()
+	line.queue_free()
+
+func _on_PerttiDetector_body_entered(body):
+	if "Pertti" in body.name:
+		pertti_in_sight = true
+
+func _on_PerttiDetector_body_exited(body):
+	if "Pertti" in body.name:
+		pertti_in_sight = false
+		calculate_path()
+
+func _on_PerttiDetector2_body_entered(body):
+	print("pertti detected 2")
+	calculate_path()
+
+func _on_PerttiDetector3_body_entered(body):
+	print("pertti detected 3")
+	calculate_path()

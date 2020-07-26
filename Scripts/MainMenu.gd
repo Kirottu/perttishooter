@@ -4,6 +4,10 @@ func _ready():
 	$AudioStreamPlayer.volume_db = Settings.volume
 	$MusicLabel/HSlider.value = Settings.volume
 
+func _physics_process(delta):
+	if Input.is_action_just_pressed("fullscreen"):
+		OS.window_fullscreen = !OS.window_fullscreen
+
 func _on_PlayButton_pressed():
 	$Click.play()
 	get_tree().change_scene("res://Scenes/Level.tscn")
