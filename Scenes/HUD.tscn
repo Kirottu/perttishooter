@@ -1,0 +1,202 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Assets/Fonts/font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Assets/Fonts/prstartk.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Scripts/HUD.gd" type="Script" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.74902, 0.14902, 0.317647, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.568627, 0.113725, 0.333333, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.227451, 0.227451, 0.227451, 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 20
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.470588, 0.701961, 0.572549, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.298039, 0.560784, 0.509804, 1 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxEmpty" id=9]
+
+[sub_resource type="DynamicFont" id=10]
+size = 40
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[node name="HUD" type="Node"]
+script = ExtResource( 3 )
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+margin_left = 220.0
+margin_top = 165.0
+margin_right = 546.0
+margin_bottom = 195.0
+custom_styles/fg = SubResource( 1 )
+custom_styles/bg = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
+max_value = 50.0
+value = 25.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CoreLabel" type="Label" parent="ProgressBar"]
+margin_left = -210.0
+margin_right = -60.0
+margin_bottom = 71.0
+custom_fonts/font = SubResource( 4 )
+text = "Core:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+margin_left = 220.0
+margin_top = 215.0
+margin_right = 546.0
+margin_bottom = 245.0
+custom_styles/fg = SubResource( 5 )
+custom_styles/bg = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
+max_value = 3.0
+value = 3.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HealthBar"]
+margin_left = -210.0
+margin_right = 30.0
+margin_bottom = 71.0
+custom_fonts/font = SubResource( 6 )
+text = "Health: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="."]
+margin_left = 10.0
+margin_top = 20.0
+margin_right = 344.0
+margin_bottom = 91.0
+custom_fonts/font = SubResource( 7 )
+text = "Score:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Coins" type="Label" parent="."]
+margin_left = 10.0
+margin_top = 65.0
+margin_right = 344.0
+margin_bottom = 196.0
+custom_fonts/font = SubResource( 7 )
+text = "Coins:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RoundLabel" type="Label" parent="."]
+margin_left = 10.0
+margin_top = 115.0
+margin_right = 344.0
+margin_bottom = 246.0
+custom_fonts/font = SubResource( 7 )
+text = "Round:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RespawnLabel" type="Label" parent="."]
+margin_left = 544.0
+margin_top = 568.0
+margin_right = 1344.0
+margin_bottom = 768.0
+custom_fonts/font = ExtResource( 1 )
+text = "Respawning In:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UnderAttackLabel" type="Label" parent="."]
+margin_left = 600.0
+margin_top = 56.0
+margin_right = 1600.0
+margin_bottom = 107.0
+custom_fonts/font = ExtResource( 1 )
+text = "Core under attack!"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RoundTimerIndicator" type="Label" parent="."]
+margin_right = 350.0
+margin_bottom = 31.0
+custom_fonts/font = SubResource( 8 )
+text = "Time Left"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SkipFreeTime" type="ToolButton" parent="."]
+margin_left = 10.0
+margin_top = 265.0
+margin_right = 432.0
+margin_bottom = 334.0
+custom_styles/focus = SubResource( 9 )
+custom_fonts/font = SubResource( 10 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.733333, 0.733333, 0.733333, 1 )
+custom_colors/font_color_pressed = Color( 0.47451, 0.47451, 0.47451, 1 )
+text = "Next round"
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="."]
+[connection signal="pressed" from="SkipFreeTime" to="." method="_on_SkipFreeTime_pressed"]

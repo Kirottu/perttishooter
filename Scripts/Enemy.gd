@@ -36,6 +36,7 @@ func _ready():
 	get_parent().connect("free_time", self, "_on_free_time")
 	# Do not process right away as that would cause problems, randomize to unsync the calculation, and hopefully unstrain the cpu
 	set_process(false)
+	set_physics_process(false)
 	#path_update_timer = Settings.max_first_path_delay Legacy code
 
 func _process(delta):
@@ -115,6 +116,7 @@ func set_pertti_ref(value):
 		return
 	# Start _process function and start moving on the path
 	set_process(true)
+	set_physics_process(true)
 
 func pertti_moved_listener():
 	can_update = true

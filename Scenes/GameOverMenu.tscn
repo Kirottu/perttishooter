@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/Fonts/font.tres" type="DynamicFont" id=1]
+
+[node name="GameOverMenu" type="Node"]
+pause_mode = 2
+
+[node name="GameOverLabel" type="Label" parent="."]
+visible = false
+margin_left = 440.0
+margin_top = 320.0
+margin_right = 960.0
+margin_bottom = 334.0
+custom_fonts/font = ExtResource( 1 )
+text = "Game Over"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainMenuButton" type="ToolButton" parent="."]
+visible = false
+margin_left = 552.0
+margin_top = 560.0
+margin_right = 635.0
+margin_bottom = 582.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.721569, 0.721569, 0.721569, 1 )
+custom_colors/font_color_pressed = Color( 0.490196, 0.490196, 0.490196, 1 )
+text = "Main Menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="QuitButton" type="ToolButton" parent="."]
+visible = false
+margin_left = 416.0
+margin_top = 704.0
+margin_right = 656.0
+margin_bottom = 763.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 1, 0.0588235, 0.0588235, 1 )
+custom_colors/font_color_pressed = Color( 0.721569, 0.0745098, 0.0745098, 1 )
+text = "Quit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RestartButton" type="ToolButton" parent="."]
+visible = false
+margin_left = 616.0
+margin_top = 424.0
+margin_right = 720.0
+margin_bottom = 446.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.721569, 0.721569, 0.721569, 1 )
+custom_colors/font_color_pressed = Color( 0.490196, 0.490196, 0.490196, 1 )
+text = "Restart"
+__meta__ = {
+"_edit_use_anchors_": false
+}

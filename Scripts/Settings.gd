@@ -30,7 +30,6 @@ var max_first_path_delay = 120 #confusing name, this is the amount of physics st
 var minimum_path_delay = 120 #minimum amount of phyisics frames before the path is update, if in really close proximity
 var base_difficulty = 3
 var tower_health = 50
-var tower_damage_interval = 0.5
 var attack_initalization_period = 2
 var explosion_damage = 10
 
@@ -44,13 +43,14 @@ var npc_active = false
 # Mine enemy related settings
 var mine_enemy_speed = 400
 var mine_enemy_health = 3
-var mine_place_interval = 10
+var mine_place_interval = 20
 
 # Variables that change during gameplay, e.g. score, difficulty...
 var rounds = 1 # Supposed to be round, but it is a built in type in godot and so unusable
 var difficulty = 0
 var score = 0
-var coins = 40
+var coins = 0
+var coin_multiplier = 1
 
 # Actual settings
 var volume = -5

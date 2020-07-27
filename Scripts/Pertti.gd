@@ -70,6 +70,7 @@ func _fire():
 	bullet_instance.apply_impulse(Vector2(), Vector2(Settings.bullet_speed, 0).rotated(rotation))
 	get_tree().get_root().add_child(bullet_instance)
 	can_fire = false
+	$BulletPoint/Particles2D.emitting = true
 	# Wait until timeout
 	yield(get_tree().create_timer(Settings.fire_rate), "timeout")
 	can_fire = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/Pertti.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Sprites/pertti1_pistol.png" type="Texture" id=2]
@@ -9,8 +9,27 @@
 [ext_resource path="res://Assets/Textures/red_circle.png" type="Texture" id=7]
 [ext_resource path="res://Assets/Textures/Sprites/pertti1_pistol_hurt.png" type="Texture" id=8]
 
-[sub_resource type="Animation" id=1]
-resource_name = "Invinsibility"
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.525926, 1 )
+colors = PoolColorArray( 0.74902, 0.14902, 0.317647, 1, 0.841975, 0.289906, 0.348148, 1, 1, 0.529412, 0.4, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+lifetime_randomness = 0.29
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_disable_z = true
+spread = 84.78
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 51.97
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 15.0
+color_ramp = SubResource( 2 )
+
+[sub_resource type="Animation" id=4]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:visible")
@@ -31,12 +50,21 @@ script = ExtResource( 1 )
 [node name="BulletPoint" type="Node2D" parent="."]
 position = Vector2( 48.9998, 0 )
 
+[node name="Particles2D" type="Particles2D" parent="BulletPoint"]
+position = Vector2( -16, 0 )
+emitting = false
+lifetime = 0.3
+one_shot = true
+speed_scale = 3.75
+explosiveness = 1.0
+process_material = SubResource( 3 )
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PoolVector2Array( -32, 0, -24, -24, -2.64972, -28.0467, 16, -16, 32, 0, 16, 16, -0.881943, 28.1683, -24, 24, -32, 0 )
 
 [node name="Sprite" type="Sprite" parent="."]
 rotation = 1.5708
-z_index = 1
+z_index = 2
 texture = ExtResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -60,7 +88,7 @@ stream = ExtResource( 5 )
 attenuation = 0.0490365
 
 [node name="Invinsibility" type="AnimationPlayer" parent="."]
-anims/Invinsibility = SubResource( 1 )
+anims/Invinsibility = SubResource( 4 )
 
 [node name="Light2D" type="Light2D" parent="."]
 rotation = 1.5708

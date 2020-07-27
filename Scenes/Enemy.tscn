@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/Enemy.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Sprites/zombie1.png" type="Texture" id=2]
@@ -56,18 +56,6 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 2/shapes = [  ]
 2/z_index = 0
 
-[sub_resource type="ParticlesMaterial" id=4]
-lifetime_randomness = 0.69
-flag_disable_z = true
-spread = 180.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 80.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-damping = 100.0
-scale = 20.0
-color = Color( 0.74902, 0.14902, 0.317647, 1 )
-
 [sub_resource type="CircleShape2D" id=5]
 radius = 500.0
 
@@ -79,6 +67,7 @@ polygon = PoolVector2Array( -32, 0, -24, -24, 0, -28, 24, -24, 24, -12.5, -0.25,
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 rotation = 1.5708
+z_index = 1
 frames = SubResource( 1 )
 animation = "hurt_anim"
 
@@ -100,15 +89,6 @@ stream = ExtResource( 5 )
 
 [node name="Explosion" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 6 )
-
-[node name="Blood" type="Particles2D" parent="."]
-z_index = 1
-emitting = false
-amount = 12
-one_shot = true
-explosiveness = 1.0
-local_coords = false
-process_material = SubResource( 4 )
 
 [node name="PerttiDetectors" type="Node2D" parent="."]
 

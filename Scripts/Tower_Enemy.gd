@@ -17,6 +17,7 @@ signal explosion
 # Bools
 var destroyed = false
 var path_calculated = false
+var in_core = false
 
 # Misc
 var health = Settings.tower_enemy_health
@@ -28,6 +29,7 @@ var blood
 func _ready():
 	connections()
 	thread = Thread.new()
+	yield(get_tree().create_timer(0.1), "timeout")
 	path_calculated = false
 	thread.start(self, "calculate_path", "dummy")
 	thread.wait_to_finish()
@@ -54,8 +56,8 @@ func move_along_path(distance : float):
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
 		if distance <= distance_to_next and distance > 0.0:
-			# Move the enemy
 			look_at(path[0])
+			# Move the enemy
 			#rotation = lerp_angle(rotation, get_angle_to(path[0]), rotation / (rotation - get_angle_to(path[0])))
 			position = start_point.linear_interpolate(path[0], distance / distance_to_next)
 			break
@@ -77,7 +79,7 @@ func _kil():
 	destroyed = true
 	set_process(false)
 	emit_signal("destroyed", true)
-	if position.distance_to(tower.position) < 128:
+	if in_core:
 		emit_signal("exited")
 	$CollisionShape2D.disabled = true
 	yield(get_tree().create_timer(1.5), "timeout")
@@ -107,6 +109,7 @@ func _on_Area2D_body_entered(body):
 
 func _on_Collision_area_entered(area):
 	if area.name == "Core":
+		in_core = true
 		yield(get_tree().create_timer(Settings.core_enemy_explosion_time), "timeout")
 		if !destroyed:
 			emit_signal("explosion")
@@ -114,6 +117,7 @@ func _on_Collision_area_entered(area):
 			$AnimatedSprite.visible = true
 			$AnimatedSprite.play()
 			$Explosion2.play()
+			$AnimationPlayer.play("explosion_anim")
 			$ExplosionRadius/CollisionShape2D.disabled = false
 			$Collision.queue_free()
 			$Sprite.visible = false

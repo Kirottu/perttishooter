@@ -38,25 +38,22 @@ func _ready():
 		tiles.append(tile)
 	
 	rng.randomize()
-	update_path_if_needed(true)
+	update_path()
 
 func _physics_process(delta):
-	update_path_if_needed(false)
-	lastpos = position
 	if enemy_in_sight:
 		look_at(current_target.position)
 		_fire()
 	if path_calculated:
 		move_along_path(delta * Settings.npc_speed)
 	
-func update_path_if_needed(force):
-	if force or lastpos == position:
+func update_path():
 		# Pass a dummy argument, wont work otherwise
 		# TODO this is dumb
-		path_calculated = false
-		thread.start(self, "calculate_path", "boi")
-		thread.wait_to_finish()
-		path_calculated = true
+	path_calculated = false
+	thread.start(self, "calculate_path", "boi")
+	thread.wait_to_finish()
+	path_calculated = true
 
 func calculate_path(dummy):
 	rng.randomize()
@@ -90,6 +87,8 @@ func move_along_path(distance):
 		distance -= distance_to_next
 		start_point = path[0]
 		path.remove(0)
+		if path.size() == 0:
+			update_path()
 		
 func _on_Area2D_body_entered(body):
 	print(body.name)

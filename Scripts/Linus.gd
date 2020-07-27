@@ -41,19 +41,11 @@ func _ready():
 	for i in tiles_map.size():
 		var tile = tilemap.map_to_world(tiles_map[i])
 		tiles.append(tile)
-	
 	rng.randomize()
-	update_path_if_needed(true)
-	
-	add_child(timer)
-	timer.connect("timeout", self, "_place_mine")
-	timer.set_wait_time(Settings.mine_place_interval)
-	timer.set_one_shot(false)
-	timer.start()
+	yield(get_tree().create_timer(0.1), "timeout")
+	update_path()
 
 func _physics_process(delta):
-	update_path_if_needed(false)
-	lastpos = position
 	if !destroyed and path_calculated:
 		move_along_path(Settings.mine_enemy_speed * delta)
 
@@ -66,12 +58,11 @@ func _place_mine():
 func _on_free_time():
 	queue_free()
 
-func update_path_if_needed(force):
-	if force or lastpos == position:
-		path_calculated = false
-		thread.start(self, "calculate_path", "dummy")
-		thread.wait_to_finish()
-		path_calculated = true
+func update_path():
+	path_calculated = false
+	thread.start(self, "calculate_path", "dummy")
+	thread.wait_to_finish()
+	path_calculated = true
 	
 func calculate_path(dummy):
 	rng.randomize()
@@ -93,7 +84,8 @@ func move_along_path(distance):
 		distance -= distance_to_next
 		start_point = path[0]
 		path.remove(0)
-
+		if path.size() == 0:
+			update_path()
 func _kil():
 	health = 0
 	destroyed = true
