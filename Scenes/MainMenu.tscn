@@ -594,7 +594,7 @@ margin_top = 75.0
 margin_right = 410.0
 margin_bottom = 126.0
 custom_fonts/font = SubResource( 10 )
-text = "v0.5-dev"
+text = "v0.5.1-dev"
 
 [node name="Highscore" type="Label" parent="."]
 margin_left = 20.0
