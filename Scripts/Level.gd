@@ -70,7 +70,7 @@ func _ready():
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 
 func spawn_enemies():
-	if !gameover and enemies_spawnable and !round_interval:
+	if !gameover and !round_interval:
 		
 		rng.randomize()
 		
@@ -241,14 +241,7 @@ func _on_Area2D_body_entered(body):
 		enemies_in_tower += 1
 		under_attack_label.visible = true
 		initialization_period()
-		yield(get_tree().create_timer(Settings.core_enemy_explosion_time - 0.1), "timeout")
 		
-		if tower_health <= 0:
-			tower_destroyed = true
-			under_attack_label.text = "Core destroyed"
-			under_attack_label.visible = true
-			emit_signal("core_destroyed")
-
 func _on_Tower_Enemy_exited():
 	enemies_in_tower -= 1
 	if enemies_in_tower <= 0 and !tower_destroyed:
@@ -283,12 +276,12 @@ func _on_RestartButton_pressed():
 func _on_Pertti_respawn():
 	_spawn_pertti()
 	respawn_label.visible = false
-	enemies_spawnable = true
+	spawn_timer.start()
 	$HUD/HUD._change_health(Settings.pertti_health)
 
 func _on_Pertti_gameover():
 	if !tower_destroyed:
-		enemies_spawnable = false
+		spawn_timer.stop()
 		respawn_label.visible = true
 		for i in range(Settings.respawn_delay):
 			respawn_label.text = "Respawning In:" + str(Settings.respawn_delay - i)
@@ -300,6 +293,7 @@ func _on_Pertti_gameover():
 		quit_button.visible = true
 		main_menu_button.visible = true
 		restart_button.visible = true
+		SaveControl.save(Settings.score, Settings.rounds)
 		yield(get_tree().create_timer(1.5), "timeout")
 		get_tree().paused = true
 
@@ -316,7 +310,8 @@ func _on_Area2D_body_exited(body):
 func _on_SkipFreeTime_pressed():
 	round_timer.start()
 	score_timer.start(0.99)
-	tower_enemy_spawn_timer.start()
+	if !tower_destroyed:
+		tower_enemy_spawn_timer.start()
 	round_indicator_thingy = Settings.round_time
 	round_indicator_label.text = "Round starting"
 	Settings.rounds += 1
@@ -328,5 +323,11 @@ func _on_SkipFreeTime_pressed():
 func _on_Core_enemy_explosion():
 	tower_health -= Settings.explosion_damage
 	$HUD/HUD._change_core_health(tower_health)
+	if tower_health <= 0:
+		tower_destroyed = true
+		under_attack_label.text = "Core destroyed"
+		under_attack_label.visible = true
+		emit_signal("core_destroyed")
+		tower_enemy_spawn_timer.stop()
 
 

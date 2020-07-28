@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scripts/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Fonts/font.tres" type="DynamicFont" id=2]
@@ -464,6 +464,12 @@ outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 6 )
 
+[sub_resource type="DynamicFont" id=11]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 6 )
+
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -589,6 +595,14 @@ margin_right = 410.0
 margin_bottom = 126.0
 custom_fonts/font = SubResource( 10 )
 text = "v0.5-dev"
+
+[node name="Highscore" type="Label" parent="."]
+margin_left = 20.0
+margin_top = 425.0
+margin_right = 520.0
+margin_bottom = 476.0
+custom_fonts/font = SubResource( 11 )
+text = "High score:"
 [connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="value_changed" from="MusicLabel/HSlider" to="." method="_on_HSlider_value_changed"]

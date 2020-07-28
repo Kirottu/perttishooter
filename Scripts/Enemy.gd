@@ -102,14 +102,13 @@ func set_pertti_ref(value):
 	# Check if nothing was passed
 	if value == null:
 		print("no data provided")
-		return
+		queue_free()
 	# Debug messages
 	#print(value)
 	#print(position)
 	pertti = value
 	pertti.connect("gameover", self, "_on_Pertti_gameover")
 	# Connect a signal to notify enemy to update path
-	pertti.connect("moved", self, "pertti_moved_listener")
 	calculate_path()
 	# Check if pathfinding was unsuccessful
 	if path.size() == 0:
@@ -147,6 +146,7 @@ func calculate_path():
 	path_calculated = true
 
 func _on_Pertti_gameover():
+	print("pertti died")
 	queue_free()
 
 func _on_free_time():

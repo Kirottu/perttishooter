@@ -69,8 +69,9 @@ func move_along_path(distance : float):
 		#start_point = path[0]
 
 func _on_Level_core_destroyed():
-	emit_signal("exited")
-	queue_free()
+	if !in_core:
+		emit_signal("exited")
+		queue_free()
 
 func _on_free_time():
 	queue_free()

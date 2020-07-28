@@ -117,3 +117,7 @@ func _on_Area2D_body_entered(body):
 
 func _exit_tree():
 	thread.wait_to_finish()
+
+func _on_Area2D_area_entered(area):
+	if "ExplosionRadius" in area.name:
+		_hurt(10)

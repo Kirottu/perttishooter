@@ -1,6 +1,9 @@
 extends Control
 
 func _ready():
+	SaveControl._load()
+	print(SaveControl.save_data)
+	$Highscore.text = "High score: " + str(SaveControl.save_data["score"]) + ", round " + str(SaveControl.save_data["round"])
 	$AudioStreamPlayer.volume_db = Settings.volume
 	$MusicLabel/HSlider.value = Settings.volume
 

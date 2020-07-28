@@ -83,9 +83,6 @@ func _move():
 	
 	movement = movement.normalized() * Settings.pertti_speed
 	
-	if movement != Vector2(0,0):
-		emit_signal("moved")
-	
 	# Move Pertti
 	# Ah yes the floor here is made out of floor :helpmeplz:
 	move_and_slide(movement)
@@ -98,8 +95,9 @@ func _kil():
 	gameover = true
 	emit_signal("gameover")
 	$Area2D.queue_free()
-	yield(get_tree().create_timer(Settings.respawn_delay), "timeout")
-	emit_signal("respawn")
+	if !get_parent().tower_destroyed:
+		yield(get_tree().create_timer(Settings.respawn_delay), "timeout")
+		emit_signal("respawn")
 	queue_free()
 
 func _hurt(damage : int):

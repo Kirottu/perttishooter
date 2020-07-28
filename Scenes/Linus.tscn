@@ -75,4 +75,5 @@ polygon = PoolVector2Array( -20, -28, 0, -28, 20, -24, 24, -20, 28, -8, 28, 8, 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 4 )
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
