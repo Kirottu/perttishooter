@@ -8,7 +8,6 @@
 [ext_resource path="res://Assets/Textures/Sprites/core_destroyer1.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Textures/Sprites/xplosion.png" type="Texture" id=7]
 [ext_resource path="res://Assets/Textures/red_circle.png" type="Texture" id=8]
-[ext_resource path="res://Assets/Textures/spot.png" type="Texture" id=9]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -39,61 +38,54 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 1/shapes = [  ]
 1/z_index = 0
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=4]
 resource_name = "explosion_anim"
 length = 0.8
-tracks/0/type = "bezier"
-tracks/0/path = NodePath("AnimatedSprite/Light2D:texture_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"points": PoolRealArray( 0.5, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1.3, -0.25, 0, 0.25, 0, 1.5, -0.25, 0, 0.25, 0, 1.6, -0.25, 0, 0.25, 0, 1.7, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0.002, 0.1, 0.2, 0.3, 0.4, 0.7, 0.8 )
-}
 
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 7 )
-region = Rect2( 0, 0, 144, 128 )
+[sub_resource type="CanvasItemMaterial" id=16]
+blend_mode = 1
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 7 )
-region = Rect2( 144, 0, 144, 128 )
+region = Rect2( 0, 0, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 7 )
-region = Rect2( 288, 0, 144, 128 )
+region = Rect2( 144, 0, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 7 )
-region = Rect2( 0, 128, 144, 128 )
+region = Rect2( 288, 0, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 7 )
-region = Rect2( 144, 128, 144, 128 )
+region = Rect2( 0, 128, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 7 )
-region = Rect2( 288, 128, 144, 128 )
+region = Rect2( 144, 128, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 7 )
-region = Rect2( 0, 256, 144, 128 )
+region = Rect2( 288, 128, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 7 )
+region = Rect2( 0, 256, 144, 128 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 7 )
 region = Rect2( 144, 256, 144, 128 )
 
-[sub_resource type="SpriteFrames" id=12]
+[sub_resource type="SpriteFrames" id=13]
 animations = [ {
-"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
+"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
 "loop": false,
 "name": "default",
 "speed": 10.0
 } ]
 
-[sub_resource type="CircleShape2D" id=13]
+[sub_resource type="CircleShape2D" id=15]
 radius = 150.0
 
 [node name="TowerEnemy" type="KinematicBody2D"]
@@ -134,16 +126,13 @@ stream = ExtResource( 5 )
 volume_db = 5.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/explosion_anim = SubResource( 14 )
+anims/explosion_anim = SubResource( 4 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 visible = false
+material = SubResource( 16 )
 scale = Vector2( 2, 2 )
-frames = SubResource( 12 )
-
-[node name="Light2D" type="Light2D" parent="AnimatedSprite"]
-texture = ExtResource( 9 )
-texture_scale = 0.01
+frames = SubResource( 13 )
 
 [node name="red_circle" type="Sprite" parent="AnimatedSprite"]
 visible = false
@@ -154,7 +143,7 @@ texture = ExtResource( 8 )
 [node name="ExplosionRadius" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionRadius"]
-shape = SubResource( 13 )
+shape = SubResource( 15 )
 disabled = true
 [connection signal="area_entered" from="Collision" to="." method="_on_Collision_area_entered"]
 [connection signal="body_entered" from="Collision" to="." method="_on_Area2D_body_entered"]

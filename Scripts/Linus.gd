@@ -81,8 +81,6 @@ func move_along_path(distance):
 		elif distance <= 0.0:
 			position = path[0]
 			break
-		distance -= distance_to_next
-		start_point = path[0]
 		path.remove(0)
 		if path.size() == 0:
 			update_path()

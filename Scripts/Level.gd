@@ -98,6 +98,7 @@ func set_visibility():
 func set_default_values():
 	environment = $WorldEnvironment.environment
 	environment.glow_enabled = Settings.glow
+	$HUD/ColorRect.visible = Settings.crt
 	$WorldEnvironment.environment = environment
 	score_label.text = "Score:" + str(Settings.score)
 	coin_label.text = "Coins:" + str(Settings.coins)
@@ -148,6 +149,7 @@ func set_positions():
 	respawn_label.rect_position = Vector2((get_viewport().size.x - respawn_label.get_rect().size.x) / 2, (get_viewport().size.y - respawn_label.get_rect().size.y) / 2)
 	under_attack_label.rect_position = Vector2((get_viewport().size.x - under_attack_label.get_rect().size.x) / 2, get_viewport().size.y - 100)
 	round_indicator_label.rect_position = Vector2((get_viewport().size.x - round_indicator_label.get_rect().size.x) / 2, 50)
+	$HUD/ColorRect.rect_size = Vector2(get_viewport().size.x, get_viewport().size.y)
 
 func _spawn_pertti():
 	pertti = pertti_scene.instance()

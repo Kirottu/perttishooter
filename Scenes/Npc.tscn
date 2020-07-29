@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/Npc.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Audio/hurt.wav" type="AudioStream" id=2]
@@ -34,6 +34,26 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 1/shapes = [  ]
 1/z_index = 0
 
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0, 0.525926, 1 )
+colors = PoolColorArray( 0.74902, 0.14902, 0.317647, 1, 0.841975, 0.289906, 0.348148, 1, 1, 0.529412, 0.4, 1 )
+
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
+
+[sub_resource type="ParticlesMaterial" id=6]
+lifetime_randomness = 0.29
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_disable_z = true
+spread = 84.78
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 51.97
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 15.0
+color_ramp = SubResource( 5 )
+
 [node name="Npc" type="KinematicBody2D"]
 script = ExtResource( 1 )
 
@@ -66,6 +86,15 @@ polygon = PoolVector2Array( 32.0911, -3.8721, 0, -28, -20, -28, -32, -12, -32, 1
 
 [node name="BulletPoint" type="Node2D" parent="."]
 position = Vector2( 50, 0 )
+
+[node name="Particles2D" type="Particles2D" parent="BulletPoint"]
+position = Vector2( -16, 0 )
+emitting = false
+lifetime = 0.3
+one_shot = true
+speed_scale = 3.75
+explosiveness = 1.0
+process_material = SubResource( 6 )
 
 [node name="Fireball" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 6 )

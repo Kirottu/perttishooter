@@ -4,46 +4,48 @@
 [ext_resource path="res://Assets/Textures/Sprites/xplosion.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Mine.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Audio/explosion.wav" type="AudioStream" id=4]
-[ext_resource path="res://Assets/Textures/spot.png" type="Texture" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 25.0
 
-[sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 144, 128 )
+[sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 1
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 2 )
-region = Rect2( 144, 0, 144, 128 )
+region = Rect2( 0, 0, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
-region = Rect2( 288, 0, 144, 128 )
+region = Rect2( 144, 0, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 2 )
-region = Rect2( 0, 128, 144, 128 )
+region = Rect2( 288, 0, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
-region = Rect2( 144, 128, 144, 128 )
+region = Rect2( 0, 128, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 2 )
-region = Rect2( 288, 128, 144, 128 )
+region = Rect2( 144, 128, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 2 )
-region = Rect2( 0, 256, 144, 128 )
+region = Rect2( 288, 128, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 2 )
+region = Rect2( 0, 256, 144, 128 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 2 )
 region = Rect2( 144, 256, 144, 128 )
 
-[sub_resource type="SpriteFrames" id=10]
+[sub_resource type="SpriteFrames" id=11]
 animations = [ {
-"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
 "loop": false,
 "name": "default",
 "speed": 10.0
@@ -62,12 +64,9 @@ region_rect = Rect2( 1, 1, 1, 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 visible = false
+material = SubResource( 2 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 10 )
-
-[node name="Light2D" type="Light2D" parent="AnimatedSprite"]
-texture = ExtResource( 5 )
-texture_scale = 2.0
+frames = SubResource( 11 )
 
 [node name="Explosion2" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )

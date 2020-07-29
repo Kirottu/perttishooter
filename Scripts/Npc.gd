@@ -63,6 +63,7 @@ func calculate_path(dummy):
 func _fire():
 	if can_fire:
 		$Fireball.play()
+		$BulletPoint/Particles2D.emitting = true
 		var new_bullet = bullet.instance()
 		new_bullet.position = $BulletPoint.get_global_position()
 		new_bullet.rotation_degrees = rotation_degrees 

@@ -55,3 +55,4 @@ var coin_multiplier = 1
 # Actual settings
 var volume = -5
 var glow = true
+var crt = true

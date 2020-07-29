@@ -32,6 +32,11 @@ func run_button_checks():
 					button.disabled = false
 				else:
 					button.disabled = true
+			"Coin booster, 90 Coins":
+				if Settings.coins >= 90:
+					button.disabled = false
+				else:
+					button.disabled = true
 
 func _on_Harold_pressed():
 	get_parent().get_parent().get_node("Click").play()

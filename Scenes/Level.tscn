@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Tilemap/new_tileset.tres" type="TileSet" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Assets/Audio/ui/menu_select.wav" type="AudioStream" id=4]
 [ext_resource path="res://Scenes/GameOverMenu.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Assets/crt_material.tres" type="Material" id=7]
 [ext_resource path="res://Scenes/Shop.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Assets/Textures/shadows.png" type="Texture" id=9]
 [ext_resource path="res://Assets/Audio/perttischuut.ogg" type="AudioStream" id=10]
@@ -40,7 +41,7 @@ extents = Vector2( 130, 130 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 170, 192 )
 
-[sub_resource type="Environment" id=4]
+[sub_resource type="Environment" id=12]
 background_mode = 4
 glow_enabled = true
 glow_intensity = 2.02
@@ -80,6 +81,15 @@ tile_data = PoolIntArray( 327694, 10, 0, 327695, 10, 1, 393230, 10, 65536, 39323
 [node name="PauseMenu" parent="HUD" instance=ExtResource( 3 )]
 
 [node name="GameOverMenu" parent="HUD" instance=ExtResource( 5 )]
+
+[node name="ColorRect" type="ColorRect" parent="HUD"]
+material = ExtResource( 7 )
+margin_right = 1920.0
+margin_bottom = 1080.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="SpawnPoints" type="Node2D" parent="."]
 
@@ -222,7 +232,7 @@ volume_db = -5.0
 autoplay = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 4 )
+environment = SubResource( 12 )
 [connection signal="body_entered" from="Tower/Core" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_entered" from="Shop/Area2D" to="." method="_on_Shop_body_entered"]
 [connection signal="body_exited" from="Shop/Area2D" to="." method="_on_Area2D_body_exited"]
