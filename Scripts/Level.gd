@@ -19,8 +19,9 @@ onready var main_menu_button = $HUD/GameOverMenu/MainMenuButton
 onready var restart_button = $HUD/GameOverMenu/RestartButton
 
 # Misc references
-onready var shop = $Shop
-onready var tower = $Tower
+var shop
+var tower
+var tower_light
 onready var respawn_label = $HUD/HUD/RespawnLabel
 onready var under_attack_label = $HUD/HUD/UnderAttackLabel
 onready var tween : Tween = $HUD/HUD/Tween
@@ -61,6 +62,19 @@ var tower_enemy_spawn_timer
 var environment
 
 func _ready():
+	#set_visibility()
+	#set_default_values()
+	#_spawn_pertti()
+	#set_positions()
+	#create_timers()
+	#round_timer_indicator()
+	#get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
+	GameManager.level = self
+
+func load_map(map, randomized : bool):
+	add_child(map)
+	map_variables(map)
+	map_connections(map)
 	set_visibility()
 	set_default_values()
 	_spawn_pertti()
@@ -68,6 +82,20 @@ func _ready():
 	create_timers()
 	round_timer_indicator()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
+
+func map_variables(map):
+	shop = map.get_node("Shop")
+	tower = map.get_node("Tower")
+	tower_light = map.get_node("Tower/Light2D")
+	for i in map.get_node("SpawnPoints").get_children():
+		spawn_points.append(i)
+
+func map_connections(map):
+	var shop_trigger = map.get_node("Shop/Area2D")
+	var tower_trigger = map.get_node("Tower/Core")
+	shop_trigger.connect("body_entered", self, "_on_Shop_body_entered")
+	shop_trigger.connect("body_exited", self, "_on_Area2D_body_exited")
+	tower_trigger.connect("body_entered", self, "_on_Area2D_body_entered")
 
 func spawn_enemies():
 	if !gameover and !round_interval:
@@ -105,8 +133,6 @@ func set_default_values():
 	round_label.text = "Round:" + str(Settings.rounds)
 	tower_health_bar.value = Settings.tower_health
 	$AudioStreamPlayer.volume_db = Settings.volume
-	for i in $SpawnPoints.get_children():
-		spawn_points.append(i)
 
 func create_timers():
 	round_timer = Timer.new()
@@ -231,7 +257,7 @@ func slide_color(color : Color, light_node : Light2D, amplitude : float, tored :
 
 func initialization_period():
 	under_attack_label.text = "Initializing attack..."
-	slide_color(Color8(191, 38, 81), $Tower/Light2D, 0.1, true, false)
+	slide_color(Color8(191, 38, 81), tower_light, 0.1, true, false)
 	while enemies_in_tower > 0:
 		under_attack_label.set("custom_colors/font_color", Color8(191, 38, 81))
 		yield(get_tree().create_timer(Settings.warning_flash_interval), "timeout")
@@ -243,12 +269,12 @@ func _on_Area2D_body_entered(body):
 		enemies_in_tower += 1
 		under_attack_label.visible = true
 		initialization_period()
-		
+
 func _on_Tower_Enemy_exited():
 	enemies_in_tower -= 1
 	if enemies_in_tower <= 0 and !tower_destroyed:
 		under_attack_label.visible = false
-		slide_color(Color(1, 1, 1), $Tower/Light2D, 0.1, false, false)
+		slide_color(Color(1, 1, 1), tower_light, 0.1, false, false)
 
 func _on_Enemy_destroyed(tower_enemy : bool):
 	if !tower_enemy:
@@ -266,14 +292,14 @@ func _on_Shop_body_entered(body):
 
 func _on_MainMenuButton_pressed():
 	get_tree().paused = false
-	get_tree().change_scene("res://Scenes/MainMenu.tscn")
+	GameManager.exit_to_main_menu()
 
 func _on_QuitButton_pressed():
 	get_tree().quit()
 
 func _on_RestartButton_pressed():
 	get_tree().paused = false
-	get_tree().reload_current_scene()
+	GameManager.restart_game()
 
 func _on_Pertti_respawn():
 	_spawn_pertti()
@@ -331,5 +357,3 @@ func _on_Core_enemy_explosion():
 		under_attack_label.visible = true
 		emit_signal("core_destroyed")
 		tower_enemy_spawn_timer.stop()
-
-

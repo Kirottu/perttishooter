@@ -3,7 +3,7 @@ extends Node
 # Global variables
 var bullet_damage = 1
 var mine_damage = 2
-var bullet_speed = 1000
+var bullet_speed = 1500
 
 # Pertti related variables
 var pertti_speed = 500

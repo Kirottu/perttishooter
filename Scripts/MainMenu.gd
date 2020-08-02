@@ -3,10 +3,12 @@ extends Control
 var environment
 
 func _ready():
+	SaveControl._load()
+	Settings.glow = SaveControl.save_data["glow"]
+	Settings.crt = SaveControl.save_data["crt"]
 	$GlowButton/ToolButton.pressed = !Settings.glow
 	$CrtButton/ToolButton.pressed = !Settings.crt
 	get_viewport().connect("size_changed", self, "_on_Viewport_size_changed")
-	SaveControl._load()
 	print(SaveControl.save_data)
 	$Highscore.text = "High score: " + str(SaveControl.save_data["score"]) + ", round " + str(SaveControl.save_data["round"])
 	$AudioStreamPlayer.volume_db = Settings.volume
@@ -24,7 +26,7 @@ func _physics_process(delta):
 
 func _on_PlayButton_pressed():
 	$Click.play()
-	get_tree().change_scene("res://Scenes/Level.tscn")
+	GameManager.infinite()
 
 func _on_QuitButton_pressed():
 	get_tree().quit()
@@ -43,6 +45,7 @@ func _on_ToolButton_toggled(button_pressed):
 		$GlowButton/ToolButton.text = "Disabled"
 	else:
 		$GlowButton/ToolButton.text = "Enabled"
+	SaveControl.save_settings(Settings.glow, Settings.crt)
 
 func _on_CrtButton_toggled(button_pressed):
 	Settings.crt = !button_pressed
@@ -51,3 +54,4 @@ func _on_CrtButton_toggled(button_pressed):
 		$CrtButton/ToolButton.text = "Disabled"
 	else:
 		$CrtButton/ToolButton.text = "Enabled"
+	SaveControl.save_settings(Settings.glow, Settings.crt)

@@ -6,7 +6,7 @@ var blood_scene = preload("res://Scenes/Blood.tscn")
 onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
-onready var tower = get_tree().get_root().get_node("Level/Tower")
+onready var tower = get_parent().tower
 onready var sprite = $Sprite
 
 # Signals

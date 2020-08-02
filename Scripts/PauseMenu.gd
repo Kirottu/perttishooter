@@ -52,7 +52,7 @@ func set_positions():
 
 func _on_MainMenuButton_pressed():
 	get_tree().paused = false
-	get_tree().change_scene("res://Scenes/MainMenu.tscn")
+	GameManager.exit_to_main_menu()
 
 func _on_QuitButton_pressed():
 	get_tree().quit()

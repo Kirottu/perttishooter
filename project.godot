@@ -26,6 +26,7 @@ config/icon="res://Assets/Textures/perttishooter_logo.png"
 
 Settings="*res://Scripts/Settings.gd"
 SaveControl="*res://Scripts/SaveControl.gd"
+GameManager="*res://Scripts/GameManager.gd"
 
 [debug]
 
@@ -36,6 +37,7 @@ shapes/collision/shape_color=Color( 0, 0.6, 0.701961, 0.160784 )
 
 window/size/width=1920
 window/size/height=1080
+window/size/fullscreen=true
 
 [editor]
 
