@@ -39,6 +39,7 @@ var gameover = false
 var tower_destroyed = false
 var enemies_spawnable = true
 var round_interval = false
+var tutorial = false
 
 # Integers/floats
 var tower_health = Settings.tower_health
@@ -81,7 +82,7 @@ func load_map(map, randomized : bool):
 	set_positions()
 	create_timers()
 	round_timer_indicator()
-	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
+	get_viewport().connect("size_changed", self, "set_positions")
 
 func map_variables(map):
 	shop = map.get_node("Shop")
@@ -324,9 +325,6 @@ func _on_Pertti_gameover():
 		SaveControl.save(Settings.score, Settings.rounds)
 		yield(get_tree().create_timer(1.5), "timeout")
 		get_tree().paused = true
-
-func _on_viewport_size_changed():
-	set_positions()
 
 func _on_Area2D_body_exited(body):
 	if "Pertti" in body.name:

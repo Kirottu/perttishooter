@@ -23,6 +23,7 @@ var invinsibility = false
 var gameover = false
 var can_fire = true
 var joy_connected = Input.is_joy_known(0)
+export var tutorial = false
 
 # Others
 var health = Settings.pertti_health
@@ -31,6 +32,8 @@ var joy_axis = Vector2()
 var joy_rotation
 
 func _ready():
+	if tutorial:
+		$Area2D/CollisionPolygon2D.disabled = true
 	connections()
 	initial_invulnerability()
 

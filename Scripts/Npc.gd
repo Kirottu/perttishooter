@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 # Scenes
-var bullet = preload("res://Scenes/Bullet.tscn")
+var bullet = preload("res://Scenes/NpcBullet.tscn")
 
 # Node references
 onready var nav_2d = $Navigation2D
@@ -9,6 +9,7 @@ onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
 onready var sprite = $Sprite
 onready var tilemap = $Navigation2D/TileMap
+onready var tween = $Tween
 
 # Bools
 var can_update = false
@@ -42,7 +43,7 @@ func _ready():
 
 func _physics_process(delta):
 	if enemy_in_sight:
-		look_at(current_target.position)
+		rotation = position.angle_to_point(current_target.position)
 		_fire()
 	if path_calculated:
 		move_along_path(delta * Settings.npc_speed)
@@ -54,7 +55,8 @@ func update_path():
 	thread.start(self, "calculate_path", "boi")
 	thread.wait_to_finish()
 	path_calculated = true
-
+	rotation = lerp_angle(rotation, position.angle_to_point(path[0]), 0.25)
+	
 func calculate_path(dummy):
 	rng.randomize()
 	destination = tiles[rng.randi_range(0, tiles_map.size() - 1)]
@@ -67,7 +69,7 @@ func _fire():
 		var new_bullet = bullet.instance()
 		new_bullet.position = $BulletPoint.get_global_position()
 		new_bullet.rotation_degrees = rotation_degrees 
-		new_bullet.apply_impulse(Vector2(), Vector2(Settings.bullet_speed, 0).rotated(rotation))
+		new_bullet.apply_impulse(Vector2(), Vector2(-Settings.bullet_speed, 0).rotated(rotation))
 		get_tree().get_root().add_child(new_bullet)
 		can_fire = false
 		yield(get_tree().create_timer(Settings.npc_fire_rate), "timeout")
@@ -79,7 +81,7 @@ func move_along_path(distance):
 		var distance_to_next = start_point.distance_to(path[0])
 		if distance <= distance_to_next and distance > 0.0:
 			if !enemy_in_sight:
-				look_at(path[0])
+				rotation = lerp_angle(rotation, position.angle_to_point(path[0]), 0.25)
 			position = start_point.linear_interpolate(path[0], distance / distance_to_next)
 			break
 		elif distance <= 0.0:
@@ -90,7 +92,7 @@ func move_along_path(distance):
 		path.remove(0)
 		if path.size() == 0:
 			update_path()
-		
+			
 func _on_Area2D_body_entered(body):
 	print(body.name)
 	if "Enemy" in body.name:

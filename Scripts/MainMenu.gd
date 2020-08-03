@@ -55,3 +55,6 @@ func _on_CrtButton_toggled(button_pressed):
 	else:
 		$CrtButton/ToolButton.text = "Enabled"
 	SaveControl.save_settings(Settings.glow, Settings.crt)
+
+func _on_PlayButton2_pressed():
+	GameManager.tutorial()

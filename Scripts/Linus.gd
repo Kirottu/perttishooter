@@ -10,6 +10,7 @@ onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
 onready var sprite = $Sprite
 onready var tilemap = $Navigation2D/TileMap
+onready var tween = $Tween
 
 # As you obviously can tell yourself, this loads the mine scene. But comments everywhere except here is ugly :helpmeplz:
 var mine_scene = preload("res://Scenes/Mine.tscn")
@@ -18,6 +19,7 @@ var mine_scene = preload("res://Scenes/Mine.tscn")
 var can_update = false
 var destroyed = false
 var path_calculated = false
+export var tutorial = false
 
 # Signals
 signal destroyed
@@ -36,14 +38,18 @@ var blood
 
 func _ready():
 	thread = Thread.new()
-	get_parent().connect("free_time", self, "_on_free_time")
-	tiles_map = tilemap.get_used_cells()
-	for i in tiles_map.size():
-		var tile = tilemap.map_to_world(tiles_map[i])
-		tiles.append(tile)
-	rng.randomize()
-	yield(get_tree().create_timer(0.1), "timeout")
-	update_path()
+	if !tutorial:
+		get_parent().connect("free_time", self, "_on_free_time")
+		tiles_map = tilemap.get_used_cells()
+		for i in tiles_map.size():
+			var tile = tilemap.map_to_world(tiles_map[i])
+			tiles.append(tile)
+		rng.randomize()
+		yield(get_tree().create_timer(0.1), "timeout")
+		update_path()
+	else:
+		set_physics_process(false)
+		set_process(false)
 
 func _physics_process(delta):
 	if !destroyed and path_calculated:
@@ -63,6 +69,7 @@ func update_path():
 	thread.start(self, "calculate_path", "dummy")
 	thread.wait_to_finish()
 	path_calculated = true
+	rotation = lerp_angle(rotation, position.angle_to_point(path[0]), 0.25)
 	
 func calculate_path(dummy):
 	rng.randomize()
@@ -75,7 +82,7 @@ func move_along_path(distance):
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
 		if distance <= distance_to_next and distance > 0.0:
-			look_at(path[0])
+			rotation = lerp_angle(rotation, position.angle_to_point(path[0]), 0.25)
 			position = start_point.linear_interpolate(path[0], distance / distance_to_next)
 			break
 		elif distance <= 0.0:
@@ -84,6 +91,7 @@ func move_along_path(distance):
 		path.remove(0)
 		if path.size() == 0:
 			update_path()
+			
 func _kil():
 	health = 0
 	destroyed = true

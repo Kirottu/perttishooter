@@ -19,3 +19,6 @@ func restart_game():
 
 func exit_to_main_menu():
 	get_tree().change_scene("res://Scenes/MainMenu.tscn")
+
+func tutorial():
+	get_tree().change_scene("res://Scenes/Levels/Tutorial.tscn")

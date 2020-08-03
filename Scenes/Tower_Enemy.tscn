@@ -42,44 +42,44 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 resource_name = "explosion_anim"
 length = 0.8
 
-[sub_resource type="CanvasItemMaterial" id=16]
+[sub_resource type="CanvasItemMaterial" id=5]
 blend_mode = 1
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 7 )
-region = Rect2( 0, 0, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 7 )
-region = Rect2( 144, 0, 144, 128 )
+region = Rect2( 0, 0, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 7 )
-region = Rect2( 288, 0, 144, 128 )
+region = Rect2( 144, 0, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 7 )
-region = Rect2( 0, 128, 144, 128 )
+region = Rect2( 288, 0, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 7 )
-region = Rect2( 144, 128, 144, 128 )
+region = Rect2( 0, 128, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 7 )
-region = Rect2( 288, 128, 144, 128 )
+region = Rect2( 144, 128, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 7 )
-region = Rect2( 0, 256, 144, 128 )
+region = Rect2( 288, 128, 144, 128 )
 
 [sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 7 )
+region = Rect2( 0, 256, 144, 128 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 7 )
 region = Rect2( 144, 256, 144, 128 )
 
-[sub_resource type="SpriteFrames" id=13]
+[sub_resource type="SpriteFrames" id=14]
 animations = [ {
-"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
 "loop": false,
 "name": "default",
 "speed": 10.0
@@ -92,16 +92,17 @@ radius = 150.0
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
-rotation = 1.5708
+rotation = -1.5708
 polygon = PoolVector2Array( -19.588, -44.6854, -31.8256, -45.3847, -35.4969, -41.7134, -39.8675, 16.8525, -32, 32, -29.0284, 48.146, 29.0131, 48.146, 32, 32, 40, 16, 35.8312, -41.0141, 31.6354, -45.0351, 19.3978, -44.5106, 18.6985, -34.3708, 15.7264, -3.2522, -15.567, -3.42702, -18.3642, -38.7414 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
-rotation = 1.5708
+rotation = -1.5708
 scale = Vector2( 0.8, 0.8 )
 z_index = 1
 frames = SubResource( 1 )
 
 [node name="Collision" type="Area2D" parent="."]
+rotation = 3.14159
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="Collision"]
 rotation = 1.5708
@@ -130,9 +131,9 @@ anims/explosion_anim = SubResource( 4 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 visible = false
-material = SubResource( 16 )
+material = SubResource( 5 )
 scale = Vector2( 2, 2 )
-frames = SubResource( 13 )
+frames = SubResource( 14 )
 
 [node name="red_circle" type="Sprite" parent="AnimatedSprite"]
 visible = false
@@ -145,5 +146,7 @@ texture = ExtResource( 8 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionRadius"]
 shape = SubResource( 15 )
 disabled = true
+
+[node name="Tween" type="Tween" parent="."]
 [connection signal="area_entered" from="Collision" to="." method="_on_Collision_area_entered"]
 [connection signal="body_entered" from="Collision" to="." method="_on_Area2D_body_entered"]

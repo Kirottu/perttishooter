@@ -8,6 +8,7 @@ onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
 onready var sprite = $Sprite
 onready var tilemap = $Navigation2D/TileMap
+onready var tween = $Tween
 #onready var line = Line2D.new()
 
 # Bools
@@ -47,7 +48,7 @@ func _process(delta):
 	# Probably when gentoo is done compiling on the uberpotato (aka not before the end of the year)
 	# I doubt it is ever going to finish
 	if pertti_in_sight:
-		look_at(pertti.position)
+		rotation = position.angle_to_point(pertti.position)
 	
 func _physics_process(delta):
 	# update_path_timer()
@@ -86,7 +87,7 @@ func move_along_path(distance : float):
 		var distance_to_next = start_point.distance_to(path[0])
 		if distance <= distance_to_next and distance > 0.0:
 			# Move the enemy
-			look_at(path[0])
+			rotation = lerp_angle(rotation, position.angle_to_point(path[0]), 0.25)
 			position = start_point.linear_interpolate(path[0], distance / distance_to_next)
 			break
 		elif distance <= 0.0:
@@ -97,6 +98,9 @@ func move_along_path(distance : float):
 		path.remove(0)
 		if path.size() == 0:
 			calculate_path()
+		#else:
+		#	tween.interpolate_property(self, "rotation", rotation, position.angle_to(path[0]), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		#	tween.start()
 
 func set_pertti_ref(value):
 	# Check if nothing was passed
@@ -144,6 +148,8 @@ func calculate_path():
 	thread.start(self, "update_path", "dummy")
 	thread.wait_to_finish()
 	path_calculated = true
+	#tween.interpolate_property(self, "rotation", rotation, position.angle_to(path[0]), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	#tween.start()
 
 func _on_Pertti_gameover():
 	print("pertti died")
@@ -198,11 +204,3 @@ func _on_PerttiDetector_body_exited(body):
 	if "Pertti" in body.name:
 		pertti_in_sight = false
 		calculate_path()
-
-func _on_PerttiDetector2_body_entered(body):
-	print("pertti detected 2")
-	calculate_path()
-
-func _on_PerttiDetector3_body_entered(body):
-	print("pertti detected 3")
-	calculate_path()

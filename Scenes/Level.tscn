@@ -9,7 +9,7 @@
 [ext_resource path="res://Scenes/Shop.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Assets/Audio/perttischuut.ogg" type="AudioStream" id=10]
 
-[sub_resource type="Environment" id=4]
+[sub_resource type="Environment" id=1]
 background_mode = 4
 glow_enabled = true
 glow_intensity = 2.02
@@ -51,4 +51,4 @@ volume_db = -5.0
 autoplay = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 4 )
+environment = SubResource( 1 )

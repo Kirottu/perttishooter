@@ -6,8 +6,8 @@ var blood_scene = preload("res://Scenes/Blood.tscn")
 onready var nav_2d = $Navigation2D
 onready var hurt_sound = $Hurt
 onready var explosion = $Explosion
-onready var tower = get_parent().tower
 onready var sprite = $Sprite
+onready var tween = $Tween
 
 # Signals
 signal exited
@@ -15,6 +15,7 @@ signal destroyed
 signal explosion
 
 # Bools
+export var tutorial = false
 var destroyed = false
 var path_calculated = false
 var in_core = false
@@ -25,15 +26,22 @@ var path
 var pertti
 var thread
 var blood
+var tower
 
 func _ready():
 	connections()
 	thread = Thread.new()
-	yield(get_tree().create_timer(0.1), "timeout")
-	path_calculated = false
-	thread.start(self, "calculate_path", "dummy")
-	thread.wait_to_finish()
-	path_calculated = true
+	if !tutorial:
+		tower = get_parent().tower
+		yield(get_tree().create_timer(0.1), "timeout")
+		path_calculated = false
+		thread.start(self, "calculate_path", "dummy")
+		thread.wait_to_finish()
+		path_calculated = true
+		rotation = lerp_angle(rotation, position.angle_to_point(path[0]), 0.25)
+	else:
+		set_physics_process(false)
+		set_process(false)
 
 func calculate_path(dummy):
 	path = nav_2d.get_simple_path(position, tower.position)
@@ -56,9 +64,8 @@ func move_along_path(distance : float):
 	for i in range(path.size()):
 		var distance_to_next = start_point.distance_to(path[0])
 		if distance <= distance_to_next and distance > 0.0:
-			look_at(path[0])
 			# Move the enemy
-			#rotation = lerp_angle(rotation, get_angle_to(path[0]), rotation / (rotation - get_angle_to(path[0])))
+			rotation = lerp_angle(rotation, position.angle_to_point(path[0]), 0.25)
 			position = start_point.linear_interpolate(path[0], distance / distance_to_next)
 			break
 		elif distance <= 0.0:
@@ -128,4 +135,5 @@ func _on_Collision_area_entered(area):
 			queue_free()
 
 func _exit_tree():
+	
 	thread.wait_to_finish()
